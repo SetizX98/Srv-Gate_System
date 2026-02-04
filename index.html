@@ -67,30 +67,27 @@
       padding: 20px;
     }
     
+    /* LOGO CAMBIADO A CINE */
     .logo {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       margin-bottom: 30px;
-      background: linear-gradient(135deg, #0088cc, #00b2ff);
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       animation: logoGlow 2s infinite alternate;
       box-shadow: 
-        0 0 30px rgba(0, 136, 204, 0.5),
-        inset 0 0 20px rgba(255, 255, 255, 0.2);
+        0 0 40px rgba(255, 107, 107, 0.6),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+      font-size: 48px;
+      color: white;
     }
     
     @keyframes logoGlow {
-      from { box-shadow: 0 0 20px rgba(0, 136, 204, 0.5); }
-      to { box-shadow: 0 0 40px rgba(0, 136, 204, 0.8); }
-    }
-    
-    .logo svg {
-      width: 40px;
-      height: 40px;
-      fill: white;
+      from { box-shadow: 0 0 30px rgba(255, 107, 107, 0.5); }
+      to { box-shadow: 0 0 50px rgba(255, 107, 107, 0.8); }
     }
     
     .message {
@@ -110,6 +107,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
+    /* BOTÓN CAMBIADO: Ahora visible desde el inicio (opacity: 1) */
     .telegram-btn {
       width: 90%;
       min-width: 280px;
@@ -130,7 +128,7 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       touch-action: manipulation;
       animation: fadeInUp 0.8s ease forwards 0.6s;
-      opacity: 0;
+      opacity: 1; /* CAMBIO: Ahora es visible desde el inicio */
       position: relative;
       overflow: hidden;
       transform-style: preserve-3d;
@@ -229,11 +227,11 @@
     /* Animaciones */
     @keyframes fadeInUp {
       from { 
-        opacity: 0; 
+        opacity: 1; /* CAMBIO: Ahora empieza visible */
         transform: translateY(30px) rotateX(10deg); 
       }
       to { 
-        opacity: 1; 
+        opacity: 1; /* CAMBIO: Permanece visible */
         transform: translateY(0) rotateX(0); 
       }
     }
@@ -278,9 +276,10 @@
         margin-bottom: 25px;
       }
       .logo {
-        width: 70px;
-        height: 70px;
+        width: 80px;
+        height: 80px;
         margin-bottom: 20px;
+        font-size: 40px;
       }
     }
     
@@ -296,9 +295,10 @@
         padding: 15px;
       }
       .logo {
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
         margin-bottom: 15px;
+        font-size: 36px;
       }
     }
     
@@ -349,11 +349,9 @@
   <div class="corner-decoration corner-bottom-right"></div>
   
   <div class="container">
-    <!-- Logo animado -->
+    <!-- LOGO CAMBIADO: Ahora es un logo de cine -->
     <div class="logo" id="logo">
-      <svg viewBox="0 0 24 24">
-        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.06-.2-.07-.06-.17-.04-.24-.02-.1.02-1.79 1.12-5.06 3.26-.48.33-.91.49-1.3.48-.43-.01-1.25-.24-1.86-.44-.75-.24-1.35-.37-1.29-.78.03-.2.32-.41.89-.62 3.47-1.49 5.79-2.47 6.98-2.97 3.33-1.32 4.03-1.55 4.48-1.56.1 0 .33.02.48.14.12.09.15.21.16.31.01.1.01.31.01.5z"/>
-      </svg>
+      🎬
     </div>
     
     <div class="message" id="statusMessage">
@@ -382,7 +380,8 @@
       
       // Crear partículas decorativas
       function createParticles() {
-        const colors = ['rgba(0, 136, 255, 0.2)', 'rgba(255, 255, 255, 0.1)', 'rgba(0, 200, 255, 0.15)'];
+        // Cambié los colores para que combinen con el nuevo logo rojo/naranja
+        const colors = ['rgba(255, 107, 107, 0.2)', 'rgba(255, 255, 255, 0.1)', 'rgba(255, 142, 83, 0.15)'];
         for (let i = 0; i < 15; i++) {
           const particle = document.createElement('div');
           particle.className = 'particle';
