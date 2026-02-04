@@ -46,7 +46,7 @@
       position: absolute;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      animation: float 8s infinite linear; /* CAMBIO: 8s en lugar de 15s */
+      animation: float 8s infinite linear;
     }
     
     @keyframes float {
@@ -107,7 +107,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
-    /* BOTÓN CAMBIADO: Ahora visible desde el inicio (opacity: 1) */
+    /* BOTÓN CORREGIDO: Sin animación de fadeInUp en la clase base */
     .telegram-btn {
       width: 90%;
       min-width: 280px;
@@ -127,15 +127,14 @@
       text-align: center;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       touch-action: manipulation;
-      animation: fadeInUp 0.8s ease forwards 0.6s;
-      opacity: 1; /* CAMBIO: Ahora es visible desde el inicio */
+      opacity: 1;
       position: relative;
       overflow: hidden;
       transform-style: preserve-3d;
       transform: translateZ(0);
     }
     
-    /* Efecto de brillo en hover - CORREGIDO */
+    /* Efecto de brillo en hover */
     .telegram-btn::before {
       content: '';
       position: absolute;
@@ -156,14 +155,14 @@
       left: 100%;
     }
     
-    /* Botón AZUL (PRIMER PASO) - PULSACIÓN RESTAURADA */
+    /* Botón AZUL (PRIMER PASO) - CORREGIDO: Solo animación de pulsación */
     .telegram-btn.blue-btn {
       background: linear-gradient(145deg, #0088ff, #0066cc, #004499);
       box-shadow: 
         0 15px 0 #003377,
         0 20px 40px rgba(0, 102, 204, 0.4),
         inset 0 4px 12px rgba(255, 255, 255, 0.4);
-      animation: pulseBlue 2s infinite, fadeInUp 0.8s ease forwards 0.6s !important;
+      animation: pulseBlue 2s infinite !important;
     }
     
     @keyframes pulseBlue {
@@ -192,7 +191,7 @@
       transition: all 0.1s ease !important;
     }
     
-    /* Botón ROJO (SEGUNDO PASO) - PULSACIÓN RESTAURADA */
+    /* Botón ROJO (SEGUNDO PASO) */
     .telegram-btn.red-btn {
       background: linear-gradient(145deg, #ff4444, #cc0000, #990000);
       box-shadow: 
@@ -253,11 +252,11 @@
     /* Animaciones */
     @keyframes fadeInUp {
       from { 
-        opacity: 1; /* CAMBIO: Ahora empieza visible */
+        opacity: 0;
         transform: translateY(30px) rotateX(10deg); 
       }
       to { 
-        opacity: 1; /* CAMBIO: Permanece visible */
+        opacity: 1;
         transform: translateY(0) rotateX(0); 
       }
     }
@@ -340,7 +339,7 @@
       }
     }
     
-    /* MENSAJE DE ÉXITO - CAMBIADO A EMOJI ✅ */
+    /* MENSAJE DE ÉXITO */
     .success-checkmark {
       width: 120px;
       height: 120px;
@@ -405,7 +404,7 @@
       🎬
     </div>
     
-    <!-- CHECKMARK DE ÉXITO - CAMBIADO A EMOJI ✅ -->
+    <!-- CHECKMARK DE ÉXITO -->
     <div class="success-checkmark" id="successCheckmark">
       ✅
     </div>
@@ -430,20 +429,18 @@
       const particlesContainer = document.getElementById('particles');
       let hasClickedFirstButton = false;
       
-      // Crear partículas decorativas - MÁS RÁPIDAS
+      // Crear partículas decorativas
       function createParticles() {
-        // Cambié los colores para que combinen con el nuevo logo rojo/naranja
         const colors = ['rgba(255, 107, 107, 0.2)', 'rgba(255, 255, 255, 0.1)', 'rgba(255, 142, 83, 0.15)'];
-        for (let i = 0; i < 20; i++) { // Aumenté a 20 partículas
+        for (let i = 0; i < 20; i++) {
           const particle = document.createElement('div');
           particle.className = 'particle';
-          const size = Math.random() * 15 + 3; // Partículas más pequeñas
+          const size = Math.random() * 15 + 3;
           particle.style.width = `${size}px`;
           particle.style.height = `${size}px`;
           particle.style.left = `${Math.random() * 100}%`;
           particle.style.top = `${Math.random() * 100}%`;
           particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-          // Partículas más rápidas: entre 3 y 10 segundos
           particle.style.animationDuration = `${Math.random() * 7 + 3}s`;
           particle.style.animationDelay = `${Math.random() * 2}s`;
           particlesContainer.appendChild(particle);
@@ -457,9 +454,7 @@
       if (isTelegramWebApp) {
         Telegram.WebApp.ready();
         console.log('✅ Mini App de Telegram inicializada');
-        // Expandir la Mini App para mejor experiencia
         Telegram.WebApp.expand();
-        // Cambiar color de fondo de Telegram
         Telegram.WebApp.setBackgroundColor('#0f0c29');
       }
       
@@ -471,13 +466,16 @@
         button.disabled = false;
         logo.style.display = 'flex';
         successCheckmark.style.display = 'none';
-        container.classList.remove('second-step-layout'); // Remover clase del segundo paso
+        container.classList.remove('second-step-layout');
         
-        // Reiniciar animaciones y opacidades
-        message.style.opacity = '1';
+        // Reiniciar animaciones
+        message.style.opacity = '0';
         message.style.animation = 'fadeInUp 0.8s ease forwards 0.3s';
+        
+        // IMPORTANTE: Configurar el botón correctamente
         button.style.opacity = '1';
-        button.style.animation = 'pulseBlue 2s infinite, fadeInUp 0.8s ease forwards 0.6s';
+        button.style.transform = 'translateY(0) rotateX(0)';
+        button.style.animation = 'pulseBlue 2s infinite';
         
         // Configurar evento para abrir Telegram
         button.onclick = openTelegramLink;
@@ -500,29 +498,23 @@
         
         setTimeout(() => {
           if (isTelegramWebApp && Telegram.WebApp.openLink) {
-            // Este método abre Telegram y cierra automáticamente la ventana después
             Telegram.WebApp.openLink(telegramLink);
           } else {
-            // Para navegadores normales (pruebas)
             window.open(telegramLink, '_blank');
           }
           
-          // IMPORTANTE: Cuando el usuario regrese (ventana de Telegram cerrada),
-          // detectaremos que volvió a la Mini App
+          // Detectar cuando el usuario regrese
           setupReturnDetection();
         }, 800);
       }
       
       // 3. Detectar cuando el usuario REGRESA a la Mini App
       function setupReturnDetection() {
-        // Limpiar eventos anteriores para evitar duplicados
         window.removeEventListener('focus', handleUserReturn);
         document.removeEventListener('visibilitychange', handleVisibilityChange);
         
-        // Método 1: Usar event listener para detectar cuando la app gana foco
         window.addEventListener('focus', handleUserReturn);
         
-        // Método 2: También usar visibilitychange por si acaso
         function handleVisibilityChange() {
           if (!document.hidden && hasClickedFirstButton) {
             handleUserReturn();
@@ -531,7 +523,6 @@
         
         document.addEventListener('visibilitychange', handleVisibilityChange);
         
-        // Método 3: Timeout de respaldo por si los eventos no funcionan
         setTimeout(function() {
           if (hasClickedFirstButton && !button.classList.contains('red-btn')) {
             handleUserReturn();
@@ -541,18 +532,12 @@
       
       // 4. Cuando el usuario REGRESA después de enviar solicitud
       function handleUserReturn() {
-        // Solo ejecutar si aún no hemos cambiado al segundo paso
         if (button.classList.contains('red-btn')) return;
         
-        // Efecto visual de transición
         logo.style.animation = 'fadeOut 0.5s ease forwards';
         setTimeout(() => {
           logo.style.display = 'none';
-          
-          // Aplicar diseño del segundo paso
           container.classList.add('second-step-layout');
-          
-          // Cambiar al SEGUNDO PASO
           setupSecondStep();
         }, 500);
       }
@@ -564,21 +549,17 @@
         buttonText.innerHTML = "Clic aquí para salir";
         button.disabled = false;
         
-        // Mostrar el checkmark y aplicar animación
         successCheckmark.style.display = 'flex';
         
-        // Aplicar animación de pulsación después de que termine la animación de entrada
         setTimeout(() => {
           button.style.animation = 'pulseRed 2s infinite';
-        }, 1500); // 0.7s (delay) + 0.8s (duración)
+        }, 1500);
         
-        // Configurar evento para cerrar la Mini App
         button.onclick = closeMiniApp;
       }
       
       // 6. Función para CERRAR la Mini App
       function closeMiniApp() {
-        // Efecto visual antes de cerrar
         buttonText.innerHTML = "¡Hasta pronto! 👋";
         button.disabled = true;
         
@@ -586,7 +567,6 @@
           if (isTelegramWebApp && Telegram.WebApp.close) {
             Telegram.WebApp.close();
           } else {
-            // Si no estamos en Telegram, simular cierre
             message.textContent = "Si estuvieras en Telegram, la Mini App se cerraría.";
             button.style.display = 'none';
           }
@@ -608,7 +588,7 @@
       adjustButtonSize();
       window.addEventListener('resize', adjustButtonSize);
       
-      // Si la app se carga y ya hemos hecho clic antes (por si se recarga)
+      // Si la app se carga y ya hemos hecho clic antes
       if (sessionStorage.getItem('hasClickedFirstButton') === 'true') {
         logo.style.display = 'none';
         container.classList.add('second-step-layout');
