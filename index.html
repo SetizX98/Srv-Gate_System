@@ -33,7 +33,7 @@
       perspective: 1000px;
     }
     
-    /* Partículas decorativas - MÁS RÁPIDAS Y MÁS NUMEROSAS */
+    /* Partículas decorativas - SISTEMA MEJORADO */
     .particles {
       position: absolute;
       width: 100%;
@@ -46,12 +46,7 @@
       position: absolute;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      animation: float 6s infinite linear; /* MÁS RÁPIDO: 6s en lugar de 8s */
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-40px) rotate(180deg); } /* MÁS MOVIMIENTO: -40px en lugar de -20px */
+      will-change: transform;
     }
     
     .container {
@@ -410,7 +405,7 @@
     </div>
     
     <div class="message" id="statusMessage">
-      Bienvenido, tu accceso comienza aquí ✨.
+      Bienvenido, tu acceso comienza aquí ✨.
     </div>
     
     <button class="telegram-btn blue-btn" id="mainButton">
@@ -429,9 +424,10 @@
       const particlesContainer = document.getElementById('particles');
       let hasClickedFirstButton = false;
       
-      // Crear partículas decorativas - MÁS RÁPIDAS Y NUMEROSAS
+      // SISTEMA DE PARTÍCULAS MEJORADO - Movimiento libre con rebotes
       function createParticles() {
-        // Más colores para variedad
+        // Array para almacenar todas las partículas
+        const particles = [];
         const colors = [
           'rgba(255, 107, 107, 0.3)', 
           'rgba(255, 255, 255, 0.2)', 
@@ -441,33 +437,115 @@
           'rgba(138, 43, 226, 0.2)'
         ];
         
-        // AUMENTÉ A 50 PARTÍCULAS (en lugar de 20)
+        // Obtener dimensiones del contenedor
+        const containerWidth = particlesContainer.clientWidth;
+        const containerHeight = particlesContainer.clientHeight;
+        
+        // Crear 50 partículas
         for (let i = 0; i < 50; i++) {
           const particle = document.createElement('div');
           particle.className = 'particle';
           
-          // Tamaños más variados
-          const size = Math.random() * 20 + 2; // De 2 a 22px
+          // Tamaño aleatorio
+          const size = Math.random() * 20 + 2;
           particle.style.width = `${size}px`;
           particle.style.height = `${size}px`;
-          
-          // Posiciones aleatorias
-          particle.style.left = `${Math.random() * 100}%`;
-          particle.style.top = `${Math.random() * 100}%`;
           
           // Color aleatorio
           particle.style.background = colors[Math.floor(Math.random() * colors.length)];
           
-          // ANIMACIONES MÁS RÁPIDAS: entre 2 y 6 segundos (en lugar de 3-10)
-          const duration = Math.random() * 4 + 2; // 2-6 segundos
-          particle.style.animationDuration = `${duration}s`;
-          particle.style.animationDelay = `${Math.random() * 3}s`;
+          // Posición inicial aleatoria
+          const initialX = Math.random() * (containerWidth - size);
+          const initialY = Math.random() * (containerHeight - size);
           
-          // Añadir algo de movimiento horizontal también
-          particle.style.animation = `float ${duration}s infinite linear alternate`;
+          particle.style.left = `${initialX}px`;
+          particle.style.top = `${initialY}px`;
+          
+          // Propiedades de movimiento
+          const speed = Math.random() * 0.8 + 0.3; // Velocidad (0.3 - 1.1)
+          const angle = Math.random() * Math.PI * 2; // Dirección aleatoria en radianes (0-360°)
+          
+          // Velocidad en X e Y
+          const velocityX = Math.cos(angle) * speed;
+          const velocityY = Math.sin(angle) * speed;
+          
+          // Rotación
+          const rotationSpeed = (Math.random() - 0.5) * 2; // -1 a 1
+          let rotation = 0;
           
           particlesContainer.appendChild(particle);
+          
+          // Almacenar datos de la partícula
+          particles.push({
+            element: particle,
+            x: initialX,
+            y: initialY,
+            size: size,
+            velocityX: velocityX,
+            velocityY: velocityY,
+            rotation: rotation,
+            rotationSpeed: rotationSpeed
+          });
         }
+        
+        // Función de animación
+        function animateParticles() {
+          const currentWidth = particlesContainer.clientWidth;
+          const currentHeight = particlesContainer.clientHeight;
+          
+          for (const p of particles) {
+            // Actualizar posición
+            p.x += p.velocityX;
+            p.y += p.velocityY;
+            
+            // Actualizar rotación
+            p.rotation += p.rotationSpeed;
+            
+            // Verificar colisiones con los bordes
+            if (p.x <= 0) {
+              p.x = 0;
+              p.velocityX = Math.abs(p.velocityX); // Rebote a la derecha
+            } else if (p.x >= currentWidth - p.size) {
+              p.x = currentWidth - p.size;
+              p.velocityX = -Math.abs(p.velocityX); // Rebote a la izquierda
+            }
+            
+            if (p.y <= 0) {
+              p.y = 0;
+              p.velocityY = Math.abs(p.velocityY); // Rebote hacia abajo
+            } else if (p.y >= currentHeight - p.size) {
+              p.y = currentHeight - p.size;
+              p.velocityY = -Math.abs(p.velocityY); // Rebote hacia arriba
+            }
+            
+            // Aplicar transformación
+            p.element.style.left = `${p.x}px`;
+            p.element.style.top = `${p.y}px`;
+            p.element.style.transform = `rotate(${p.rotation}deg)`;
+          }
+          
+          // Continuar la animación
+          requestAnimationFrame(animateParticles);
+        }
+        
+        // Iniciar animación
+        animateParticles();
+        
+        // Redimensionar partículas si cambia el tamaño de la ventana
+        window.addEventListener('resize', function() {
+          // Ajustar posiciones si las partículas se salen de los nuevos límites
+          const newWidth = particlesContainer.clientWidth;
+          const newHeight = particlesContainer.clientHeight;
+          
+          for (const p of particles) {
+            if (p.x > newWidth - p.size) {
+              p.x = newWidth - p.size;
+            }
+            if (p.y > newHeight - p.size) {
+              p.y = newHeight - p.size;
+            }
+          }
+        });
       }
       
       // Verificar si estamos en Telegram WebApp
