@@ -33,7 +33,7 @@
       perspective: 1000px;
     }
     
-    /* Partículas decorativas - MÁS RÁPIDAS */
+    /* Partículas decorativas - MÁS RÁPIDAS Y MÁS NUMEROSAS */
     .particles {
       position: absolute;
       width: 100%;
@@ -46,12 +46,12 @@
       position: absolute;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      animation: float 8s infinite linear;
+      animation: float 6s infinite linear; /* MÁS RÁPIDO: 6s en lugar de 8s */
     }
     
     @keyframes float {
       0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(180deg); }
+      50% { transform: translateY(-40px) rotate(180deg); } /* MÁS MOVIMIENTO: -40px en lugar de -20px */
     }
     
     .container {
@@ -429,20 +429,43 @@
       const particlesContainer = document.getElementById('particles');
       let hasClickedFirstButton = false;
       
-      // Crear partículas decorativas
+      // Crear partículas decorativas - MÁS RÁPIDAS Y NUMEROSAS
       function createParticles() {
-        const colors = ['rgba(255, 107, 107, 0.2)', 'rgba(255, 255, 255, 0.1)', 'rgba(255, 142, 83, 0.15)'];
-        for (let i = 0; i < 20; i++) {
+        // Más colores para variedad
+        const colors = [
+          'rgba(255, 107, 107, 0.3)', 
+          'rgba(255, 255, 255, 0.2)', 
+          'rgba(255, 142, 83, 0.25)',
+          'rgba(0, 136, 255, 0.2)',
+          'rgba(255, 215, 0, 0.2)',
+          'rgba(138, 43, 226, 0.2)'
+        ];
+        
+        // AUMENTÉ A 50 PARTÍCULAS (en lugar de 20)
+        for (let i = 0; i < 50; i++) {
           const particle = document.createElement('div');
           particle.className = 'particle';
-          const size = Math.random() * 15 + 3;
+          
+          // Tamaños más variados
+          const size = Math.random() * 20 + 2; // De 2 a 22px
           particle.style.width = `${size}px`;
           particle.style.height = `${size}px`;
+          
+          // Posiciones aleatorias
           particle.style.left = `${Math.random() * 100}%`;
           particle.style.top = `${Math.random() * 100}%`;
+          
+          // Color aleatorio
           particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-          particle.style.animationDuration = `${Math.random() * 7 + 3}s`;
-          particle.style.animationDelay = `${Math.random() * 2}s`;
+          
+          // ANIMACIONES MÁS RÁPIDAS: entre 2 y 6 segundos (en lugar de 3-10)
+          const duration = Math.random() * 4 + 2; // 2-6 segundos
+          particle.style.animationDuration = `${duration}s`;
+          particle.style.animationDelay = `${Math.random() * 3}s`;
+          
+          // Añadir algo de movimiento horizontal también
+          particle.style.animation = `float ${duration}s infinite linear alternate`;
+          
           particlesContainer.appendChild(particle);
         }
       }
