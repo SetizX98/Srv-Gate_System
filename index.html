@@ -281,6 +281,9 @@
         margin-bottom: 20px;
         font-size: 40px;
       }
+      .success-checkmark {
+        margin-bottom: 20px !important;
+      }
     }
     
     @media (max-width: 360px) {
@@ -300,43 +303,65 @@
         margin-bottom: 15px;
         font-size: 36px;
       }
+      .success-checkmark {
+        margin-bottom: 20px !important;
+      }
     }
     
-    /* Mensaje de éxito */
+    /* Mensaje de éxito - MODIFICADO: Mejor posicionamiento */
     .success-checkmark {
-      width: 80px;
-      height: 80px;
-      margin: 0 auto 30px;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 40px; /* Más margen abajo para separación */
       position: relative;
+      display: none; /* Oculto por defecto */
+      order: 1; /* Para que aparezca primero en el flexbox */
     }
     
     .check-icon {
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       position: relative;
       border-radius: 50%;
       box-sizing: content-box;
       border: 4px solid #4CAF50;
       opacity: 0;
       animation: checkmark 0.5s ease-in-out forwards;
+      background-color: rgba(76, 175, 80, 0.1);
     }
     
     .check-icon::before {
       content: '';
       position: absolute;
-      width: 20px;
-      height: 40px;
+      width: 30px;
+      height: 60px;
       border-top: 4px solid #4CAF50;
       border-right: 4px solid #4CAF50;
       transform: scaleX(-1) rotate(135deg);
       transform-origin: left top;
-      top: 40px;
-      left: 22px;
+      top: 30px;
+      left: 32px;
     }
     
     @keyframes checkmark {
-      0% { opacity: 0; transform: scale(0); }
-      100% { opacity: 1; transform: scale(1); }
+      0% { opacity: 0; transform: scale(0) rotate(180deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0deg); }
+    }
+    
+    /* Estilos para el segundo paso - ORGANIZACIÓN DEL FLEXBOX */
+    .second-step-layout .success-checkmark {
+      display: block;
+      animation: fadeInUp 0.8s ease forwards;
+      opacity: 0;
+    }
+    
+    .second-step-layout .message {
+      order: 2; /* Mensaje va segundo */
+      margin-bottom: 40px;
+    }
+    
+    .second-step-layout .telegram-btn {
+      order: 3; /* Botón va tercero */
     }
   </style>
 </head>
@@ -348,10 +373,15 @@
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
-  <div class="container">
+  <div class="container" id="container">
     <!-- LOGO CAMBIADO: Ahora es un logo de cine -->
     <div class="logo" id="logo">
       🎬
+    </div>
+    
+    <!-- Checkmark de éxito (oculto inicialmente) - MOVIDO ARRIBA DEL MENSAJE -->
+    <div class="success-checkmark" id="successCheckmark">
+      <div class="check-icon"></div>
     </div>
     
     <div class="message" id="statusMessage">
@@ -361,11 +391,6 @@
     <button class="telegram-btn blue-btn" id="mainButton">
       <span class="btn-text">Clic aquí para continuar 🚀</span>
     </button>
-    
-    <!-- Checkmark de éxito (oculto inicialmente) -->
-    <div class="success-checkmark" id="successCheckmark" style="display: none;">
-      <div class="check-icon"></div>
-    </div>
   </div>
   
   <script>
@@ -375,6 +400,7 @@
       const message = document.getElementById('statusMessage');
       const logo = document.getElementById('logo');
       const successCheckmark = document.getElementById('successCheckmark');
+      const container = document.getElementById('container');
       const particlesContainer = document.getElementById('particles');
       let hasClickedFirstButton = false;
       
@@ -418,6 +444,7 @@
         button.disabled = false;
         logo.style.display = 'flex';
         successCheckmark.style.display = 'none';
+        container.classList.remove('second-step-layout'); // Remover clase del segundo paso
         
         // Configurar evento para abrir Telegram
         button.onclick = openTelegramLink;
@@ -488,7 +515,9 @@
         logo.style.animation = 'fadeOut 0.5s ease forwards';
         setTimeout(() => {
           logo.style.display = 'none';
-          successCheckmark.style.display = 'block';
+          
+          // Aplicar diseño del segundo paso
+          container.classList.add('second-step-layout');
           
           // Cambiar al SEGUNDO PASO
           setupSecondStep();
@@ -540,9 +569,10 @@
       
       // Si la app se carga y ya hemos hecho clic antes (por si se recarga)
       if (sessionStorage.getItem('hasClickedFirstButton') === 'true') {
+        container.classList.add('second-step-layout');
         setupSecondStep();
       }
     });
   </script>
 </body>
-</html>
+</html> 
