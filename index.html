@@ -33,7 +33,7 @@
       perspective: 1000px;
     }
     
-    /* Partículas decorativas */
+    /* Partículas decorativas - MÁS RÁPIDAS */
     .particles {
       position: absolute;
       width: 100%;
@@ -46,7 +46,7 @@
       position: absolute;
       background: rgba(255, 255, 255, 0.1);
       border-radius: 50%;
-      animation: float 15s infinite linear;
+      animation: float 8s infinite linear; /* CAMBIO: 8s en lugar de 15s */
     }
     
     @keyframes float {
@@ -135,7 +135,7 @@
       transform: translateZ(0);
     }
     
-    /* Efecto de brillo en hover */
+    /* Efecto de brillo en hover - CORREGIDO */
     .telegram-btn::before {
       content: '';
       position: absolute;
@@ -146,7 +146,7 @@
       background: linear-gradient(
         90deg,
         transparent,
-        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.3),
         transparent
       );
       transition: left 0.7s ease;
@@ -156,50 +156,76 @@
       left: 100%;
     }
     
-    /* Botón AZUL (PRIMER PASO) */
+    /* Botón AZUL (PRIMER PASO) - PULSACIÓN RESTAURADA */
     .telegram-btn.blue-btn {
       background: linear-gradient(145deg, #0088ff, #0066cc, #004499);
       box-shadow: 
         0 15px 0 #003377,
         0 20px 40px rgba(0, 102, 204, 0.4),
         inset 0 4px 12px rgba(255, 255, 255, 0.4);
-      animation: pulseBlue 2s infinite;
+      animation: pulseBlue 2s infinite, fadeInUp 0.8s ease forwards 0.6s !important;
     }
     
     @keyframes pulseBlue {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-5px) scale(1.02); }
+      0%, 100% { 
+        transform: translateY(0) scale(1); 
+        box-shadow: 
+          0 15px 0 #003377,
+          0 20px 40px rgba(0, 102, 204, 0.4),
+          inset 0 4px 12px rgba(255, 255, 255, 0.4);
+      }
+      50% { 
+        transform: translateY(-5px) scale(1.02); 
+        box-shadow: 
+          0 18px 0 #003377,
+          0 25px 50px rgba(0, 102, 204, 0.5),
+          inset 0 4px 12px rgba(255, 255, 255, 0.5);
+      }
     }
     
     .telegram-btn.blue-btn:active {
-      transform: translateY(12px) scale(0.98);
+      transform: translateY(12px) scale(0.98) !important;
       box-shadow: 
         0 3px 0 #003377,
-        0 5px 20px rgba(0, 102, 204, 0.4);
-      animation: none;
+        0 8px 25px rgba(0, 102, 204, 0.4) !important;
+      animation: none !important;
+      transition: all 0.1s ease !important;
     }
     
-    /* Botón ROJO (SEGUNDO PASO) */
+    /* Botón ROJO (SEGUNDO PASO) - PULSACIÓN RESTAURADA */
     .telegram-btn.red-btn {
       background: linear-gradient(145deg, #ff4444, #cc0000, #990000);
       box-shadow: 
         0 15px 0 #770000,
         0 20px 40px rgba(204, 0, 0, 0.4),
         inset 0 4px 12px rgba(255, 255, 255, 0.4);
-      animation: pulseRed 2s infinite;
+      animation: pulseRed 2s infinite !important;
     }
     
     @keyframes pulseRed {
-      0%, 100% { transform: translateY(0) scale(1); }
-      50% { transform: translateY(-5px) scale(1.02); }
+      0%, 100% { 
+        transform: translateY(0) scale(1); 
+        box-shadow: 
+          0 15px 0 #770000,
+          0 20px 40px rgba(204, 0, 0, 0.4),
+          inset 0 4px 12px rgba(255, 255, 255, 0.4);
+      }
+      50% { 
+        transform: translateY(-5px) scale(1.02); 
+        box-shadow: 
+          0 18px 0 #770000,
+          0 25px 50px rgba(204, 0, 0, 0.5),
+          inset 0 4px 12px rgba(255, 255, 255, 0.5);
+      }
     }
     
     .telegram-btn.red-btn:active {
-      transform: translateY(12px) scale(0.98);
+      transform: translateY(12px) scale(0.98) !important;
       box-shadow: 
         0 3px 0 #770000,
-        0 5px 20px rgba(204, 0, 0, 0.4);
-      animation: none;
+        0 8px 25px rgba(204, 0, 0, 0.4) !important;
+      animation: none !important;
+      transition: all 0.1s ease !important;
     }
     
     /* Indicador de carga */
@@ -282,7 +308,10 @@
         font-size: 40px;
       }
       .success-checkmark {
+        width: 90px !important;
+        height: 90px !important;
         margin-bottom: 20px !important;
+        font-size: 40px !important;
       }
     }
     
@@ -304,41 +333,35 @@
         font-size: 36px;
       }
       .success-checkmark {
+        width: 80px !important;
+        height: 80px !important;
         margin-bottom: 20px !important;
+        font-size: 36px !important;
       }
     }
     
-    /* Mensaje de éxito - MODIFICADO: Mejor posicionamiento */
+    /* MENSAJE DE ÉXITO - CAMBIADO A EMOJI ✅ */
     .success-checkmark {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto 40px; /* Más margen abajo para separación */
-      position: relative;
-      display: none; /* Oculto por defecto */
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 40px;
+      display: none;
       opacity: 0;
-    }
-    
-    .check-icon {
-      width: 100px;
-      height: 100px;
-      position: relative;
+      background: linear-gradient(135deg, #4CAF50, #2E7D32);
       border-radius: 50%;
-      box-sizing: content-box;
-      border: 4px solid #4CAF50;
-      background-color: rgba(76, 175, 80, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      box-shadow: 
+        0 0 40px rgba(76, 175, 80, 0.6),
+        inset 0 0 20px rgba(255, 255, 255, 0.3);
+      animation: logoGlowGreen 2s infinite alternate;
     }
     
-    .check-icon::before {
-      content: '';
-      position: absolute;
-      width: 30px;
-      height: 60px;
-      border-top: 4px solid #4CAF50;
-      border-right: 4px solid #4CAF50;
-      transform: scaleX(-1) rotate(135deg);
-      transform-origin: left top;
-      top: 30px;
-      left: 32px;
+    @keyframes logoGlowGreen {
+      from { box-shadow: 0 0 30px rgba(76, 175, 80, 0.5); }
+      to { box-shadow: 0 0 50px rgba(76, 175, 80, 0.8); }
     }
     
     @keyframes checkmark {
@@ -346,9 +369,9 @@
       100% { opacity: 1; transform: scale(1) rotate(0deg); }
     }
     
-    /* Estilos para el segundo paso - ORGANIZACIÓN DEL FLEXBOX */
+    /* Estilos para el segundo paso */
     .second-step-layout .success-checkmark {
-      display: block;
+      display: flex;
       animation: checkmark 0.8s ease forwards 0.3s;
     }
     
@@ -358,8 +381,13 @@
     }
     
     .second-step-layout .telegram-btn {
-      animation: fadeInUp 0.8s ease forwards 0.7s;
+      animation: fadeInUp 0.8s ease forwards 0.7s !important;
       opacity: 0;
+    }
+    
+    /* Cuando termina la animación de entrada, aplicar la pulsación */
+    .second-step-layout .telegram-btn.red-btn {
+      animation: fadeInUp 0.8s ease forwards 0.7s, pulseRed 2s infinite 1.5s !important;
     }
   </style>
 </head>
@@ -377,9 +405,9 @@
       🎬
     </div>
     
-    <!-- Checkmark de éxito (oculto inicialmente) - MOVIDO ARRIBA DEL MENSAJE -->
+    <!-- CHECKMARK DE ÉXITO - CAMBIADO A EMOJI ✅ -->
     <div class="success-checkmark" id="successCheckmark">
-      <div class="check-icon"></div>
+      ✅
     </div>
     
     <div class="message" id="statusMessage">
@@ -402,21 +430,22 @@
       const particlesContainer = document.getElementById('particles');
       let hasClickedFirstButton = false;
       
-      // Crear partículas decorativas
+      // Crear partículas decorativas - MÁS RÁPIDAS
       function createParticles() {
         // Cambié los colores para que combinen con el nuevo logo rojo/naranja
         const colors = ['rgba(255, 107, 107, 0.2)', 'rgba(255, 255, 255, 0.1)', 'rgba(255, 142, 83, 0.15)'];
-        for (let i = 0; i < 15; i++) {
+        for (let i = 0; i < 20; i++) { // Aumenté a 20 partículas
           const particle = document.createElement('div');
           particle.className = 'particle';
-          const size = Math.random() * 20 + 5;
+          const size = Math.random() * 15 + 3; // Partículas más pequeñas
           particle.style.width = `${size}px`;
           particle.style.height = `${size}px`;
           particle.style.left = `${Math.random() * 100}%`;
           particle.style.top = `${Math.random() * 100}%`;
           particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-          particle.style.animationDuration = `${Math.random() * 20 + 10}s`;
-          particle.style.animationDelay = `${Math.random() * 5}s`;
+          // Partículas más rápidas: entre 3 y 10 segundos
+          particle.style.animationDuration = `${Math.random() * 7 + 3}s`;
+          particle.style.animationDelay = `${Math.random() * 2}s`;
           particlesContainer.appendChild(particle);
         }
       }
@@ -536,7 +565,12 @@
         button.disabled = false;
         
         // Mostrar el checkmark y aplicar animación
-        successCheckmark.style.display = 'block';
+        successCheckmark.style.display = 'flex';
+        
+        // Aplicar animación de pulsación después de que termine la animación de entrada
+        setTimeout(() => {
+          button.style.animation = 'pulseRed 2s infinite';
+        }, 1500); // 0.7s (delay) + 0.8s (duración)
         
         // Configurar evento para cerrar la Mini App
         button.onclick = closeMiniApp;
