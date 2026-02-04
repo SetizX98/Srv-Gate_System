@@ -315,7 +315,7 @@
       margin: 0 auto 40px; /* Más margen abajo para separación */
       position: relative;
       display: none; /* Oculto por defecto */
-      order: 1; /* Para que aparezca primero en el flexbox */
+      opacity: 0;
     }
     
     .check-icon {
@@ -325,8 +325,6 @@
       border-radius: 50%;
       box-sizing: content-box;
       border: 4px solid #4CAF50;
-      opacity: 0;
-      animation: checkmark 0.5s ease-in-out forwards;
       background-color: rgba(76, 175, 80, 0.1);
     }
     
@@ -351,17 +349,17 @@
     /* Estilos para el segundo paso - ORGANIZACIÓN DEL FLEXBOX */
     .second-step-layout .success-checkmark {
       display: block;
-      animation: fadeInUp 0.8s ease forwards;
-      opacity: 0;
+      animation: checkmark 0.8s ease forwards 0.3s;
     }
     
     .second-step-layout .message {
-      order: 2; /* Mensaje va segundo */
-      margin-bottom: 40px;
+      animation: fadeInUp 0.8s ease forwards 0.5s;
+      opacity: 0;
     }
     
     .second-step-layout .telegram-btn {
-      order: 3; /* Botón va tercero */
+      animation: fadeInUp 0.8s ease forwards 0.7s;
+      opacity: 0;
     }
   </style>
 </head>
@@ -445,6 +443,12 @@
         logo.style.display = 'flex';
         successCheckmark.style.display = 'none';
         container.classList.remove('second-step-layout'); // Remover clase del segundo paso
+        
+        // Reiniciar animaciones y opacidades
+        message.style.opacity = '1';
+        message.style.animation = 'fadeInUp 0.8s ease forwards 0.3s';
+        button.style.opacity = '1';
+        button.style.animation = 'pulseBlue 2s infinite, fadeInUp 0.8s ease forwards 0.6s';
         
         // Configurar evento para abrir Telegram
         button.onclick = openTelegramLink;
@@ -531,6 +535,9 @@
         buttonText.innerHTML = "Clic aquí para salir";
         button.disabled = false;
         
+        // Mostrar el checkmark y aplicar animación
+        successCheckmark.style.display = 'block';
+        
         // Configurar evento para cerrar la Mini App
         button.onclick = closeMiniApp;
       }
@@ -569,10 +576,11 @@
       
       // Si la app se carga y ya hemos hecho clic antes (por si se recarga)
       if (sessionStorage.getItem('hasClickedFirstButton') === 'true') {
+        logo.style.display = 'none';
         container.classList.add('second-step-layout');
         setupSecondStep();
       }
     });
   </script>
 </body>
-</html> 
+</html>
