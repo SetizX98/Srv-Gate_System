@@ -15,6 +15,17 @@
       -webkit-tap-highlight-color: transparent;
     }
     
+    :root {
+      --scale-factor: 1;
+      --button-height: calc(55px * var(--scale-factor));
+      --font-size-expression: calc(34px * var(--scale-factor));
+      --font-size-result: calc(18px * var(--scale-factor));
+      --font-size-button: calc(20px * var(--scale-factor));
+      --screen-min-height: calc(120px * var(--scale-factor));
+      --calculator-padding: calc(20px * var(--scale-factor));
+      --gap-size: calc(15px * var(--scale-factor));
+    }
+    
     body {
       background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
       width: 100vw;
@@ -73,8 +84,8 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      position: absolute;  /* ← AGREGA ESTA LÍNEA */
-  right: 10px;         /* ← AGREGA ESTA LÍNEA */
+      position: absolute;
+      right: 10px;
     }
     
     .logo {
@@ -95,7 +106,7 @@
     
     /* Botón para expandir/contraer funciones */
     .toggle-functions {
-      height: 55px;
+      height: var(--button-height);
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
       border: none;
       border-radius: 12px;
@@ -126,7 +137,7 @@
       to { box-shadow: 0 0 20px rgba(0, 136, 255, 0.8); }
     }
     
-    /* CALCULADORA - AJUSTADA Y MÁS ALARGADA */
+    /* CALCULADORA */
     .calculator {
       width: 100%;
       max-width: 460px;
@@ -137,15 +148,14 @@
       box-shadow: 
         0 20px 40px rgba(0, 0, 0, 0.5),
         inset 0 0 30px rgba(255, 255, 255, 0.05);
-      padding: 20px;
+      padding: var(--calculator-padding);
       z-index: 2;
       display: flex;
       flex-direction: column;
-      gap: 15px;
-      min-height: 650px;
+      gap: var(--gap-size);
     }
     
-    /* PANTALLA DE LA CALCULADORA - MÁS GRANDE */
+    /* PANTALLA DE LA CALCULADORA */
     .screen {
       background: rgba(10, 20, 30, 0.9);
       border-radius: 15px;
@@ -153,60 +163,72 @@
       text-align: right;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
-      min-height: 120px;
+      min-height: var(--screen-min-height);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: flex-end;
       overflow: hidden;
       flex: 1;
     }
     
+    /* ECUACIÓN */
     .expression {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 18px;
-      min-height: 25px;
+      color: rgba(255, 255, 255, 0.9);
+      font-size: var(--font-size-expression);
+      font-weight: 600;
+      min-height: calc(45px * var(--scale-factor));
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
       white-space: nowrap;
+      margin-bottom: 5px;
     }
     
+    /* RESULTADO */
     .result {
-      color: white;
-      font-size: 36px;
-      font-weight: 600;
-      text-shadow: 0 0 10px rgba(0, 200, 255, 0.7);
-      min-height: 42px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: var(--font-size-result);
+      font-weight: 400;
+      text-shadow: 0 0 5px rgba(0, 200, 255, 0.3);
+      min-height: calc(25px * var(--scale-factor));
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
+      font-style: italic;
     }
     
-    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS - CORREGIDO */
+    /* Indicador de previsualización */
+    .preview-indicator {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.4);
+      font-style: normal;
+    }
+    
+    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS */
     .scientific-functions {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: calc(10px * var(--scale-factor));
+      margin-bottom: calc(10px * var(--scale-factor));
     }
     
-    /* Fila superior - AHORA 5 BOTONES DEL MISMO TAMAÑO */
+    /* Fila superior */
     .scientific-row-top {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      gap: calc(10px * var(--scale-factor));
       opacity: 1;
-      height: 55px;
+      height: var(--button-height);
     }
     
     /* Fila inferior (expandible) */
     .scientific-row-bottom {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      gap: calc(10px * var(--scale-factor));
       transition: all 0.3s ease;
       overflow: hidden;
-      max-height: 55px;
+      max-height: var(--button-height);
       opacity: 1;
     }
     
@@ -221,15 +243,15 @@
     .basic-keyboard {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      gap: calc(10px * var(--scale-factor));
     }
     
-    /* BOTONES GENERALES - MÁS GRANDES */
+    /* BOTONES GENERALES */
     .btn {
-      height: 55px;
+      height: var(--button-height);
       border: none;
       border-radius: 12px;
-      font-size: 20px;
+      font-size: var(--font-size-button);
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -261,8 +283,8 @@
     
     .btn-function {
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
-      font-size: 16px;
-      height: 55px;
+      font-size: calc(16px * var(--scale-factor));
+      height: var(--button-height);
     }
     
     .btn-clear {
@@ -280,230 +302,207 @@
     /* BOTÓN DE PARÉNTESIS */
     .btn-parenthesis {
       background: linear-gradient(145deg, #FF9800, #F57C00);
-      font-size: 20px;
+      font-size: calc(20px * var(--scale-factor));
     }
     
     /* BOTÓN DE CERRAR APP */
     .btn-close {
       background: linear-gradient(145deg, #FF5722, #E64A19);
-      font-size: 16px;
+      font-size: calc(16px * var(--scale-factor));
     }
     
     /* =============================================== */
-    /* ELEMENTOS DECORATIVOS DE ESQUINA - MODIFICADOS */
+    /* ELEMENTOS DECORATIVOS DE ESQUINA */
     /* =============================================== */
     .corner-decoration {
       position: absolute;
-      width: 60px;          /* TAMAÑO ORIGINAL */
-      height: 60px;         /* TAMAÑO ORIGINAL */
+      width: 60px;
+      height: 60px;
       z-index: 1;
     }
     
     .corner-top-left {
-      top: 10px;            /* POSICIÓN ORIGINAL */
-      left: 10px;           /* POSICIÓN ORIGINAL */
-      border-top: 3px solid rgba(100, 200, 255, 0.8);    /* AZUL CELESTE + MÁS GRUESO */
-      border-left: 3px solid rgba(100, 200, 255, 0.8);   /* AZUL CELESTE + MÁS GRUESO */
-      border-radius: 12px 0 0 0;  /* BORDER-RADIUS ORIGINAL */
+      top: 10px;
+      left: 10px;
+      border-top: 3px solid rgba(100, 200, 255, 0.8);
+      border-left: 3px solid rgba(100, 200, 255, 0.8);
+      border-radius: 12px 0 0 0;
     }
     
     .corner-bottom-right {
-      bottom: 10px;         /* POSICIÓN ORIGINAL */
-      right: 10px;          /* POSICIÓN ORIGINAL */
-      border-bottom: 3px solid rgba(100, 200, 255, 0.8); /* AZUL CELESTE + MÁS GRUESO */
-      border-right: 3px solid rgba(100, 200, 255, 0.8);  /* AZUL CELESTE + MÁS GRUESO */
-      border-radius: 0 0 12px 0;  /* BORDER-RADIUS ORIGINAL */
+      bottom: 10px;
+      right: 10px;
+      border-bottom: 3px solid rgba(100, 200, 255, 0.8);
+      border-right: 3px solid rgba(100, 200, 255, 0.8);
+      border-radius: 0 0 12px 0;
     }
     
-    /* Responsive para pantallas más pequeñas */
+    /* =============================================== */
+    /* MEDIA QUERIES MÁS ESPECÍFICAS PARA ADAPTACIÓN */
+    /* =============================================== */
+    
+    /* Para pantallas muy grandes */
+    @media (min-height: 900px) {
+      :root {
+        --scale-factor: 1.1;
+      }
+      .calculator {
+        max-width: 500px;
+      }
+      .title {
+        font-size: 24px;
+      }
+      .logo {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+      }
+    }
+    
+    /* Para pantallas medianas (altura estándar) */
+    @media (max-height: 800px) {
+      :root {
+        --scale-factor: 1;
+      }
+    }
+    
+    /* Para pantallas más pequeñas */
     @media (max-height: 700px) {
+      :root {
+        --scale-factor: 0.9;
+      }
       body {
         padding: 10px;
         justify-content: flex-start;
       }
-      
       .calculator {
-        min-height: 580px;
         max-width: 420px;
-        padding: 15px;
-        gap: 12px;
       }
-      
-      .screen {
-        padding: 15px;
-        min-height: 100px;
-      }
-      
-      .expression {
-        font-size: 16px;
-      }
-      
-      .result {
-        font-size: 32px;
-      }
-      
-      .btn, .toggle-functions, .btn-function {
-        height: 50px;
-      }
-      
-      .btn {
+      .title {
         font-size: 18px;
       }
-      
-      .btn-function {
-        font-size: 15px;
-      }
-      
-      .scientific-row-top,
-      .scientific-row-bottom {
-        height: 50px;
-        gap: 8px;
-      }
-      
-      .basic-keyboard {
-        gap: 8px;
-      }
-      
       .logo {
         width: 40px;
         height: 40px;
         font-size: 20px;
       }
-      
-      .title {
-        font-size: 18px;
-      }
     }
     
     @media (max-height: 600px) {
+      :root {
+        --scale-factor: 0.8;
+      }
       .calculator {
-        min-height: 520px;
         max-width: 380px;
       }
-      
-      .btn, .toggle-functions, .btn-function {
-        height: 48px;
-      }
-      
-      .btn {
-        font-size: 17px;
-      }
-      
-      .btn-function {
-        font-size: 14px;
-      }
-      
-      .screen {
-        padding: 12px;
-        min-height: 90px;
-      }
-      
-      .result {
-        font-size: 28px;
-      }
-    }
-    
-    @media (max-width: 400px) {
-      body {
-        padding: 8px;
-      }
-      
-      .calculator {
-        max-width: 100%;
-        min-height: 500px;
-        padding: 12px;
-        gap: 10px;
-      }
-      
-      .header {
-        padding: 0 5px;
-        margin-bottom: 10px;
-      }
-      
       .title {
         font-size: 16px;
       }
-      
-      .btn, .toggle-functions, .btn-function {
-        height: 46px;
+    }
+    
+    /* Para pantallas muy pequeñas */
+    @media (max-height: 500px) {
+      :root {
+        --scale-factor: 0.7;
       }
-      
-      .btn {
-        font-size: 16px;
+      body {
+        padding: 5px;
       }
-      
-      .btn-function {
-        font-size: 13px;
+      .calculator {
+        max-width: 350px;
+        padding: calc(15px * var(--scale-factor));
       }
-      
-      .screen {
-        padding: 10px;
-        min-height: 85px;
+      .title {
+        font-size: 14px;
       }
-      
-      .expression {
-        font-size: 15px;
-      }
-      
-      .result {
-        font-size: 26px;
-      }
-      
-      .scientific-row-top,
-      .scientific-row-bottom {
-        height: 46px;
-        gap: 6px;
-      }
-      
-      .basic-keyboard {
-        gap: 6px;
-      }
-      
       .logo {
         width: 35px;
         height: 35px;
         font-size: 18px;
       }
+    }
+    
+    /* Para anchos pequeños */
+    @media (max-width: 400px) {
+      :root {
+        --scale-factor: 0.85;
+      }
+      body {
+        padding: 8px;
+      }
+      .calculator {
+        max-width: 100%;
+      }
+      .header {
+        padding: 0 5px;
+        margin-bottom: 10px;
+      }
+      .title {
+        font-size: 16px;
+      }
       
-      /* =============================================== */
-      /* BORDES AZULES EN MÓVILES - TAMAÑO ORIGINAL */
-      /* =============================================== */
+      /* Elementos decorativos de esquina */
       .corner-decoration {
-        width: 40px;          /* TAMAÑO ORIGINAL PARA MÓVILES */
-        height: 40px;         /* TAMAÑO ORIGINAL PARA MÓVILES */
+        width: 40px;
+        height: 40px;
       }
       
       .corner-top-left {
-        top: 5px;             /* POSICIÓN ORIGINAL PARA MÓVILES */
-        left: 5px;            /* POSICIÓN ORIGINAL PARA MÓVILES */
-        border-top: 3px solid rgba(100, 200, 255, 0.8);    /* MANTIENE AZUL CELESTE */
-        border-left: 3px solid rgba(100, 200, 255, 0.8);   /* MANTIENE AZUL CELESTE */
+        top: 5px;
+        left: 5px;
+        border-top: 3px solid rgba(100, 200, 255, 0.8);
+        border-left: 3px solid rgba(100, 200, 255, 0.8);
       }
       
       .corner-bottom-right {
-        bottom: 5px;          /* POSICIÓN ORIGINAL PARA MÓVILES */
-        right: 5px;           /* POSICIÓN ORIGINAL PARA MÓVILES */
-        border-bottom: 3px solid rgba(100, 200, 255, 0.8); /* MANTIENE AZUL CELESTE */
-        border-right: 3px solid rgba(100, 200, 255, 0.8);  /* MANTIENE AZUL CELESTE */
+        bottom: 5px;
+        right: 5px;
+        border-bottom: 3px solid rgba(100, 200, 255, 0.8);
+        border-right: 3px solid rgba(100, 200, 255, 0.8);
       }
     }
     
-    @media (max-width: 350px) {
-      .btn, .toggle-functions, .btn-function {
-        height: 44px;
+    @media (max-width: 350px) and (max-height: 600px) {
+      :root {
+        --scale-factor: 0.75;
       }
-      
-      .btn {
-        font-size: 15px;
-      }
-      
-      .btn-function {
-        font-size: 12px;
-      }
-      
       .calculator {
-        padding: 10px;
-        gap: 8px;
+        padding: calc(12px * var(--scale-factor));
+      }
+    }
+    
+    /* Para dispositivos muy pequeños en ambas dimensiones */
+    @media (max-width: 350px) and (max-height: 500px) {
+      :root {
+        --scale-factor: 0.65;
+      }
+      .calculator {
+        max-width: 95%;
+      }
+    }
+    
+    /* Para orientación horizontal */
+    @media (orientation: landscape) and (max-height: 500px) {
+      body {
+        justify-content: center;
+      }
+      .calculator {
+        max-width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      .basic-keyboard {
+        grid-template-columns: repeat(6, 1fr);
+      }
+      .btn-zero {
+        grid-column: span 3;
+      }
+    }
+    
+    /* Soporte para Safari en iOS */
+    @supports (-webkit-touch-callout: none) {
+      body {
+        height: -webkit-fill-available;
       }
     }
   </style>
@@ -524,15 +523,15 @@
     </div>
   </div>
   
-  <!-- CALCULADORA - MÁS ALARGADA Y CENTRADA -->
+  <!-- CALCULADORA -->
   <div class="calculator">
-    <!-- PANTALLA MÁS GRANDE -->
+    <!-- PANTALLA -->
     <div class="screen">
       <div class="expression" id="expression"></div>
-      <div class="result" id="result">0</div>
+      <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
     </div>
     
-    <!-- FUNCIONES CIENTÍFICAS - CORREGIDAS -->
+    <!-- FUNCIONES CIENTÍFICAS -->
     <div class="scientific-functions" id="scientificFunctions">
       <!-- Fila superior: 5 BOTONES DEL MISMO TAMAÑO -->
       <div class="scientific-row-top">
@@ -596,6 +595,7 @@
       // Elementos de la calculadora
       const expressionElement = document.getElementById('expression');
       const resultElement = document.getElementById('result');
+      const previewValueElement = document.getElementById('previewValue');
       const scientificFunctions = document.getElementById('scientificFunctions');
       const basicKeyboard = document.getElementById('basicKeyboard');
       const particlesContainer = document.getElementById('particles');
@@ -604,10 +604,82 @@
       
       // Estado de la calculadora
       let currentExpression = '';
-      let currentResult = '0';
+      let currentPreview = '0';
       let isScientificExpanded = true;
       let parenthesisOpen = false;
       let lastSqrtIndex = -1;
+      let previewTimeout = null;
+      
+      // ================================================
+      // FUNCIÓN DE AJUSTE AUTOMÁTICO DE TAMAÑO
+      // ================================================
+      function calculateScaleFactor() {
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+        
+        // Factor base basado en la altura
+        let scale = 1;
+        
+        if (viewportHeight >= 900) {
+          scale = 1.1;
+        } else if (viewportHeight >= 800) {
+          scale = 1;
+        } else if (viewportHeight >= 700) {
+          scale = 0.9;
+        } else if (viewportHeight >= 600) {
+          scale = 0.85;
+        } else if (viewportHeight >= 500) {
+          scale = 0.75;
+        } else {
+          scale = 0.65;
+        }
+        
+        // Ajustar adicionalmente para anchos pequeños
+        if (viewportWidth < 400) {
+          scale = Math.min(scale, 0.85);
+        }
+        
+        if (viewportWidth < 350) {
+          scale = Math.min(scale, 0.75);
+        }
+        
+        // Para orientación horizontal
+        if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
+          scale = 0.7;
+        }
+        
+        // Asegurar que no sea demasiado pequeño
+        scale = Math.max(scale, 0.6);
+        
+        return scale;
+      }
+      
+      function updateScale() {
+        const scale = calculateScaleFactor();
+        document.documentElement.style.setProperty('--scale-factor', scale);
+        
+        // También actualizar algunos elementos específicos
+        const calculator = document.querySelector('.calculator');
+        if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
+          calculator.style.maxHeight = '90vh';
+          calculator.style.overflowY = 'auto';
+        } else {
+          calculator.style.maxHeight = 'none';
+          calculator.style.overflowY = 'visible';
+        }
+        
+        // Forzar reflow para aplicar cambios
+        calculator.style.display = 'none';
+        calculator.offsetHeight; // Trigger reflow
+        calculator.style.display = 'flex';
+      }
+      
+      // Inicializar y actualizar en cambios de tamaño
+      updateScale();
+      window.addEventListener('resize', updateScale);
+      window.addEventListener('orientationchange', function() {
+        setTimeout(updateScale, 100);
+      });
       
       // SISTEMA DE PARTÍCULAS
       function createParticles() {
@@ -703,25 +775,35 @@
       // ACTUALIZAR LA PANTALLA DE LA CALCULADORA
       function updateScreen() {
         expressionElement.textContent = currentExpression || '';
-        resultElement.textContent = currentResult;
+        previewValueElement.textContent = currentPreview;
+        
+        // Mostrar/ocultar indicador de preview
+        if (currentPreview === '0' || currentPreview === '') {
+          resultElement.querySelector('.preview-indicator').style.display = 'none';
+        } else {
+          resultElement.querySelector('.preview-indicator').style.display = 'inline';
+        }
       }
       
       // AGREGAR VALOR A LA EXPRESIÓN
       function addToExpression(value) {
-        if (currentResult !== '0' && currentExpression === '') {
-          currentResult = '0';
-        }
-        
         currentExpression += value;
         updateScreen();
+        updatePreview();
       }
       
       // LIMPIAR TODO
       function clearAll() {
         currentExpression = '';
-        currentResult = '0';
+        currentPreview = '0';
         parenthesisOpen = false;
         lastSqrtIndex = -1;
+        
+        if (previewTimeout) {
+          clearTimeout(previewTimeout);
+          previewTimeout = null;
+        }
+        
         updateScreen();
       }
       
@@ -739,6 +821,7 @@
         
         currentExpression = currentExpression.slice(0, -1);
         updateScreen();
+        updatePreview();
       }
       
       // MANEJAR PARÉNTESIS
@@ -757,7 +840,6 @@
         let openCount = (expression.match(/\(/g) || []).length;
         let closeCount = (expression.match(/\)/g) || []).length;
         
-        // Agregar paréntesis de cierre faltantes
         for (let i = 0; i < (openCount - closeCount); i++) {
           expression += ')';
         }
@@ -767,9 +849,7 @@
       
       // FUNCIÓN ESPECIAL PARA RAÍZ CUADRADA
       function handleSquareRoot() {
-        // Si ya hay una raíz cuadrada sin cerrar, cerramos primero
         if (lastSqrtIndex !== -1) {
-          // Buscar si ya hay un paréntesis de cierre después de la raíz
           const afterSqrt = currentExpression.substring(lastSqrtIndex);
           if (!afterSqrt.includes(')')) {
             addToExpression(')');
@@ -777,23 +857,76 @@
           }
         }
         
-        // Agregar nueva raíz cuadrada
         addToExpression('√(');
-        lastSqrtIndex = currentExpression.length - 2; // Índice del carácter '√'
+        lastSqrtIndex = currentExpression.length - 2;
         parenthesisOpen = true;
       }
       
-      // CALCULAR RESULTADO
+      // ACTUALIZAR PREVISUALIZACIÓN EN TIEMPO REAL
+      function updatePreview() {
+        if (previewTimeout) {
+          clearTimeout(previewTimeout);
+        }
+        
+        if (!currentExpression.trim()) {
+          currentPreview = '0';
+          updateScreen();
+          return;
+        }
+        
+        previewTimeout = setTimeout(() => {
+          try {
+            let expressionToEval = currentExpression;
+            
+            expressionToEval = balanceParentheses(expressionToEval);
+            
+            expressionToEval = expressionToEval
+              .replace(/×/g, '*')
+              .replace(/÷/g, '/')
+              .replace(/π/g, 'pi')
+              .replace(/√/g, 'sqrt')
+              .replace(/\^/g, '^')
+              .replace(/sin/g, 'sin')
+              .replace(/cos/g, 'cos')
+              .replace(/tan/g, 'tan')
+              .replace(/log/g, 'log10')
+              .replace(/ln/g, 'log');
+            
+            expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
+              return `factorial(${num})`;
+            });
+            
+            expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
+              return `(${num}/100)`;
+            });
+            
+            const result = math.evaluate(expressionToEval);
+            
+            let formattedResult = result.toString();
+            
+            if (formattedResult.length > 12 && !isNaN(result)) {
+              formattedResult = Number(result).toPrecision(10);
+            }
+            
+            currentPreview = formattedResult;
+            updateScreen();
+            
+          } catch (error) {
+            currentPreview = '...';
+            updateScreen();
+          }
+        }, 200);
+      }
+      
+      // CALCULAR RESULTADO FINAL
       function calculateResult() {
         if (!currentExpression) return;
         
         try {
           let expressionToEval = currentExpression;
           
-          // Balancear paréntesis antes de evaluar
           expressionToEval = balanceParentheses(expressionToEval);
           
-          // Reemplazar símbolos para math.js
           expressionToEval = expressionToEval
             .replace(/×/g, '*')
             .replace(/÷/g, '/')
@@ -806,12 +939,10 @@
             .replace(/log/g, 'log10')
             .replace(/ln/g, 'log');
           
-          // Manejar factorial (!)
           expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
             return `factorial(${num})`;
           });
           
-          // Manejar porcentaje (%)
           expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
             return `(${num}/100)`;
           });
@@ -820,13 +951,12 @@
           
           let formattedResult = result.toString();
           
-          // Formatear resultado si es muy largo
           if (formattedResult.length > 12 && !isNaN(result)) {
             formattedResult = Number(result).toPrecision(10);
           }
           
-          currentResult = formattedResult;
           currentExpression = formattedResult;
+          currentPreview = '0';
           parenthesisOpen = false;
           lastSqrtIndex = -1;
           
@@ -834,11 +964,11 @@
           
         } catch (error) {
           console.error('Error en cálculo:', error);
-          currentResult = 'Error';
+          currentPreview = 'Error';
           updateScreen();
           
           setTimeout(() => {
-            currentResult = '0';
+            currentPreview = '0';
             currentExpression = '';
             parenthesisOpen = false;
             lastSqrtIndex = -1;
@@ -902,7 +1032,7 @@
         }
       }
       
-      // TOGGLE FUNCIONES CIENTÍFICAS (solo la segunda fila)
+      // TOGGLE FUNCIONES CIENTÍFICAS
       function toggleScientificFunctions() {
         isScientificExpanded = !isScientificExpanded;
         expandableFunctions.classList.toggle('collapsed', !isScientificExpanded);
@@ -914,7 +1044,6 @@
         const button = event.target.closest('.btn, .toggle-functions');
         if (!button) return;
         
-        // Efecto de clic
         button.style.transform = 'translateY(4px) scale(0.98)';
         setTimeout(() => {
           button.style.transform = '';
@@ -1026,11 +1155,19 @@
       expandableFunctions.classList.remove('collapsed');
       isScientificExpanded = true;
       
-      // Ajustar tamaño inicial para móviles
-      setTimeout(() => {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
-      }, 100);
+      // Ajustar para dispositivos iOS
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+        document.body.style.height = 'calc(var(--vh, 1vh) * 100)';
+        
+        const setVH = () => {
+          const vh = window.innerHeight * 0.01;
+          document.documentElement.style.setProperty('--vh', `${vh}px`);
+        };
+        
+        setVH();
+        window.addEventListener('resize', setVH);
+        window.addEventListener('orientationchange', setVH);
+      }
     });
   </script>
 </body>
