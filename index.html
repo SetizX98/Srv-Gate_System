@@ -287,29 +287,30 @@
       font-size: 16px;
     }
     
-    /* Elementos decorativos de esquina - BORDES AZULES */
+    /* =============================================== */
+    /* ELEMENTOS DECORATIVOS DE ESQUINA - MODIFICADOS */
+    /* =============================================== */
     .corner-decoration {
       position: absolute;
-      width: 70px;
-      height: 70px;
+      width: 60px;          /* TAMAÑO ORIGINAL */
+      height: 60px;         /* TAMAÑO ORIGINAL */
       z-index: 1;
-      border: 2px solid rgba(0, 136, 255, 0.4);
     }
     
     .corner-top-left {
-      top: 15px;
-      left: 15px;
-      border-top: 2px solid rgba(0, 136, 255, 0.4);
-      border-left: 2px solid rgba(0, 136, 255, 0.4);
-      border-radius: 15px 0 0 0;
+      top: 10px;            /* POSICIÓN ORIGINAL */
+      left: 10px;           /* POSICIÓN ORIGINAL */
+      border-top: 3px solid rgba(100, 200, 255, 0.8);    /* AZUL CELESTE + MÁS GRUESO */
+      border-left: 3px solid rgba(100, 200, 255, 0.8);   /* AZUL CELESTE + MÁS GRUESO */
+      border-radius: 12px 0 0 0;  /* BORDER-RADIUS ORIGINAL */
     }
     
     .corner-bottom-right {
-      bottom: 15px;
-      right: 15px;
-      border-bottom: 2px solid rgba(0, 136, 255, 0.4);
-      border-right: 2px solid rgba(0, 136, 255, 0.4);
-      border-radius: 0 0 15px 0;
+      bottom: 10px;         /* POSICIÓN ORIGINAL */
+      right: 10px;          /* POSICIÓN ORIGINAL */
+      border-bottom: 3px solid rgba(100, 200, 255, 0.8); /* AZUL CELESTE + MÁS GRUESO */
+      border-right: 3px solid rgba(100, 200, 255, 0.8);  /* AZUL CELESTE + MÁS GRUESO */
+      border-radius: 0 0 12px 0;  /* BORDER-RADIUS ORIGINAL */
     }
     
     /* Responsive para pantallas más pequeñas */
@@ -462,19 +463,26 @@
         font-size: 18px;
       }
       
+      /* =============================================== */
+      /* BORDES AZULES EN MÓVILES - TAMAÑO ORIGINAL */
+      /* =============================================== */
       .corner-decoration {
-        width: 50px;
-        height: 50px;
+        width: 40px;          /* TAMAÑO ORIGINAL PARA MÓVILES */
+        height: 40px;         /* TAMAÑO ORIGINAL PARA MÓVILES */
       }
       
       .corner-top-left {
-        top: 8px;
-        left: 8px;
+        top: 5px;             /* POSICIÓN ORIGINAL PARA MÓVILES */
+        left: 5px;            /* POSICIÓN ORIGINAL PARA MÓVILES */
+        border-top: 3px solid rgba(100, 200, 255, 0.8);    /* MANTIENE AZUL CELESTE */
+        border-left: 3px solid rgba(100, 200, 255, 0.8);   /* MANTIENE AZUL CELESTE */
       }
       
       .corner-bottom-right {
-        bottom: 8px;
-        right: 8px;
+        bottom: 5px;          /* POSICIÓN ORIGINAL PARA MÓVILES */
+        right: 5px;           /* POSICIÓN ORIGINAL PARA MÓVILES */
+        border-bottom: 3px solid rgba(100, 200, 255, 0.8); /* MANTIENE AZUL CELESTE */
+        border-right: 3px solid rgba(100, 200, 255, 0.8);  /* MANTIENE AZUL CELESTE */
       }
     }
     
@@ -502,7 +510,7 @@
   <!-- Partículas decorativas -->
   <div class="particles" id="particles"></div>
   
-  <!-- Elementos decorativos de esquina - BORDES AZULES -->
+  <!-- Elementos decorativos de esquina - CON AZUL CELESTE -->
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
