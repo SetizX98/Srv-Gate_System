@@ -30,7 +30,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 8px;
+      padding: 10px;
     }
     
     /* Partículas decorativas */
@@ -52,7 +52,7 @@
     /* CABECERA CON TÍTULO */
     .header {
       width: 100%;
-      max-width: 450px;
+      max-width: 420px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -91,7 +91,7 @@
       color: white;
     }
     
-    /* Botón para expandir/contraer funciones */
+    /* Botón para expandir/contraer funciones - AHORA EN FUNCIONES CIENTÍFICAS */
     .toggle-functions {
       height: 45px;
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
@@ -123,10 +123,10 @@
       to { box-shadow: 0 0 20px rgba(0, 136, 255, 0.8); }
     }
     
-    /* CALCULADORA - MÁS COMPACTA */
+    /* CALCULADORA - AJUSTADA */
     .calculator {
       width: 100%;
-      max-width: 450px;
+      max-width: 420px;
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(12px);
       border-radius: 16px;
@@ -134,7 +134,7 @@
       box-shadow: 
         0 15px 35px rgba(0, 0, 0, 0.4),
         inset 0 0 30px rgba(255, 255, 255, 0.05);
-      padding: 12px;
+      padding: 15px;
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -145,11 +145,11 @@
     .screen {
       background: rgba(10, 20, 30, 0.9);
       border-radius: 12px;
-      padding: 12px;
+      padding: 15px;
       text-align: right;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
-      min-height: 85px;
+      min-height: 95px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -158,7 +158,7 @@
     
     .expression {
       color: rgba(255, 255, 255, 0.7);
-      font-size: 14px;
+      font-size: 15px;
       min-height: 22px;
       word-break: break-all;
       text-align: right;
@@ -168,47 +168,63 @@
     
     .result {
       color: white;
-      font-size: 28px;
+      font-size: 30px;
       font-weight: 600;
       text-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
-      min-height: 34px;
+      min-height: 36px;
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
     }
     
-    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS */
+    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS - NUEVA ESTRUCTURA */
     .scientific-functions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    
+    /* Fila superior (siempre visible) */
+    .scientific-row-top {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      opacity: 1;
+      max-height: 50px;
+    }
+    
+    /* Fila inferior (expandible) */
+    .scientific-row-bottom {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
-      margin-bottom: 8px;
+      gap: 8px;
       transition: all 0.3s ease;
       overflow: hidden;
-      max-height: 110px;
+      max-height: 50px;
       opacity: 1;
     }
     
-    .scientific-functions.collapsed {
+    .scientific-row-bottom.collapsed {
       max-height: 0;
       opacity: 0;
-      margin-bottom: 0;
       gap: 0;
+      margin-bottom: 0;
     }
     
     /* TECLADO BÁSICO */
     .basic-keyboard {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 6px;
+      gap: 8px;
     }
     
     /* BOTONES GENERALES */
     .btn {
-      height: 45px;
+      height: 50px;
       border: none;
       border-radius: 10px;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -240,7 +256,7 @@
     
     .btn-function {
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
-      font-size: 13px;
+      font-size: 14px;
     }
     
     .btn-clear {
@@ -258,13 +274,13 @@
     /* BOTÓN DE PARÉNTESIS */
     .btn-parenthesis {
       background: linear-gradient(145deg, #FF9800, #F57C00);
-      font-size: 16px;
+      font-size: 17px;
     }
     
     /* BOTÓN DE CERRAR APP */
     .btn-close {
       background: linear-gradient(145deg, #FF5722, #E64A19);
-      font-size: 13px;
+      font-size: 14px;
     }
     
     /* Elementos decorativos de esquina */
@@ -276,16 +292,16 @@
     }
     
     .corner-top-left {
-      top: 8px;
-      left: 8px;
+      top: 10px;
+      left: 10px;
       border-top: 2px solid rgba(0, 136, 255, 0.3);
       border-left: 2px solid rgba(0, 136, 255, 0.3);
       border-radius: 12px 0 0 0;
     }
     
     .corner-bottom-right {
-      bottom: 8px;
-      right: 8px;
+      bottom: 10px;
+      right: 10px;
       border-bottom: 2px solid rgba(0, 136, 255, 0.3);
       border-right: 2px solid rgba(0, 136, 255, 0.3);
       border-radius: 0 0 12px 0;
@@ -303,40 +319,41 @@
       }
       
       .calculator {
-        padding: 10px;
+        padding: 12px;
         gap: 10px;
         max-width: 400px;
       }
       
       .screen {
-        padding: 10px;
-        min-height: 75px;
+        padding: 12px;
+        min-height: 85px;
       }
       
       .expression {
-        font-size: 13px;
-      }
-      
-      .result {
-        font-size: 24px;
-      }
-      
-      .btn, .toggle-functions {
-        height: 40px;
         font-size: 14px;
       }
       
-      .btn-function {
-        font-size: 12px;
+      .result {
+        font-size: 26px;
       }
       
-      .scientific-functions {
-        max-height: 95px;
-        gap: 5px;
+      .btn, .toggle-functions {
+        height: 45px;
+        font-size: 15px;
+      }
+      
+      .btn-function {
+        font-size: 13px;
+      }
+      
+      .scientific-row-top,
+      .scientific-row-bottom {
+        max-height: 45px;
+        gap: 6px;
       }
       
       .basic-keyboard {
-        gap: 5px;
+        gap: 6px;
       }
       
       .logo {
@@ -348,44 +365,45 @@
     
     @media (max-width: 350px) {
       body {
-        padding: 6px;
+        padding: 8px;
       }
       
       .calculator {
-        padding: 8px;
+        padding: 10px;
         gap: 8px;
         max-width: 340px;
       }
       
       .btn, .toggle-functions {
-        height: 38px;
-        font-size: 14px;
+        height: 42px;
+        font-size: 15px;
       }
       
       .btn-function {
-        font-size: 11px;
-      }
-      
-      .screen {
-        padding: 8px;
-        min-height: 70px;
-      }
-      
-      .expression {
         font-size: 12px;
       }
       
-      .result {
-        font-size: 22px;
+      .screen {
+        padding: 10px;
+        min-height: 80px;
       }
       
-      .scientific-functions {
-        max-height: 85px;
-        gap: 4px;
+      .expression {
+        font-size: 13px;
+      }
+      
+      .result {
+        font-size: 24px;
+      }
+      
+      .scientific-row-top,
+      .scientific-row-bottom {
+        max-height: 42px;
+        gap: 5px;
       }
       
       .basic-keyboard {
-        gap: 4px;
+        gap: 5px;
       }
       
       .logo {
@@ -420,22 +438,25 @@
       <div class="result" id="result">0</div>
     </div>
     
-    <!-- FUNCIONES CIENTÍFICAS -->
+    <!-- FUNCIONES CIENTÍFICAS - NUEVA ESTRUCTURA -->
     <div class="scientific-functions" id="scientificFunctions">
-      <!-- Fila 1: Xi π ^ ! e -->
-      <button class="btn btn-function" data-action="xi">Xi</button>
-      <button class="btn btn-function" data-action="pi">π</button>
-      <button class="btn btn-function" data-action="pow">^</button>
-      <button class="btn btn-function" data-action="factorial">!</button>
-      <button class="btn btn-function" data-action="e">e</button>
+      <!-- Fila superior (siempre visible): ◀▶ π ^ ! e -->
+      <div class="scientific-row-top">
+        <button class="toggle-functions" id="toggleFunctions">◀▶</button>
+        <button class="btn btn-function" data-action="pi">π</button>
+        <button class="btn btn-function" data-action="pow">^</button>
+        <button class="btn btn-function" data-action="factorial">!</button>
+        <button class="btn btn-function" data-action="e">e</button>
+      </div>
       
-      <!-- Fila 2: sin cos tan log ln x -->
-      <button class="btn btn-function" data-action="sin">sin</button>
-      <button class="btn btn-function" data-action="cos">cos</button>
-      <button class="btn btn-function" data-action="tan">tan</button>
-      <button class="btn btn-function" data-action="log">log</button>
-      <button class="btn btn-function" data-action="ln">ln</button>
-      <button class="btn btn-function" data-action="multiply">x</button>
+      <!-- Fila inferior (expandible): sin cos tan log ln -->
+      <div class="scientific-row-bottom" id="expandableFunctions">
+        <button class="btn btn-function" data-action="sin">sin</button>
+        <button class="btn btn-function" data-action="cos">cos</button>
+        <button class="btn btn-function" data-action="tan">tan</button>
+        <button class="btn btn-function" data-action="log">log</button>
+        <button class="btn btn-function" data-action="ln">ln</button>
+      </div>
     </div>
     
     <!-- TECLADO BÁSICO -->
@@ -454,12 +475,12 @@
       <button class="btn btn-operator" data-action="multiply">×</button>
       <button class="btn btn-parenthesis" data-action="parenthesis">( )</button>
       
-      <!-- Fila 3: 4 5 6 - ◀▶ -->
+      <!-- Fila 3: 4 5 6 - × -->
       <button class="btn btn-number" data-value="4">4</button>
       <button class="btn btn-number" data-value="5">5</button>
       <button class="btn btn-number" data-value="6">6</button>
       <button class="btn btn-operator" data-action="subtract">-</button>
-      <button class="toggle-functions" id="toggleFunctions">◀▶</button>
+      <button class="btn btn-operator" data-action="multiply">×</button>
       
       <!-- Fila 4: 1 2 3 + CLOSE -->
       <button class="btn btn-number" data-value="1">1</button>
@@ -485,11 +506,12 @@
       const basicKeyboard = document.getElementById('basicKeyboard');
       const particlesContainer = document.getElementById('particles');
       const toggleFunctionsBtn = document.getElementById('toggleFunctions');
+      const expandableFunctions = document.getElementById('expandableFunctions');
       
       // Estado de la calculadora
       let currentExpression = '';
       let currentResult = '0';
-      let isScientificCollapsed = false;
+      let isScientificExpanded = true; // Ahora la segunda fila comienza expandida
       let parenthesisOpen = false;
       
       // SISTEMA DE PARTÍCULAS
@@ -707,9 +729,6 @@
             addToExpression('√(');
             parenthesisOpen = true;
             break;
-          case 'xi':
-            addToExpression('x');
-            break;
           case 'pi':
             addToExpression('π');
             break;
@@ -728,11 +747,11 @@
         }
       }
       
-      // TOGGLE FUNCIONES CIENTÍFICAS
+      // TOGGLE FUNCIONES CIENTÍFICAS (solo la segunda fila)
       function toggleScientificFunctions() {
-        isScientificCollapsed = !isScientificCollapsed;
-        scientificFunctions.classList.toggle('collapsed', isScientificCollapsed);
-        toggleFunctionsBtn.textContent = isScientificCollapsed ? '◀▶' : '◀▶';
+        isScientificExpanded = !isScientificExpanded;
+        expandableFunctions.classList.toggle('collapsed', !isScientificExpanded);
+        toggleFunctionsBtn.textContent = isScientificExpanded ? '◀▶' : '◀▶';
       }
       
       // MANEJAR CLICS EN BOTONES
@@ -826,8 +845,6 @@
             addToExpression('%');
           } else if (key === 'c' || key === 'C') {
             closeMiniApp();
-          } else if (key === 'x' || key === 'X') {
-            addToExpression('x');
           }
         });
       }
@@ -848,6 +865,10 @@
       createParticles();
       initializeKeyboards();
       updateScreen();
+      
+      // Inicializar con la segunda fila expandida
+      expandableFunctions.classList.remove('collapsed');
+      isScientificExpanded = true;
     });
   </script>
 </body>
