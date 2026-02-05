@@ -30,7 +30,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px;
+      justify-content: center;
+      padding: 15px;
     }
     
     /* Partículas decorativas */
@@ -52,19 +53,18 @@
     /* CABECERA CON TÍTULO */
     .header {
       width: 100%;
-      max-width: 420px;
+      max-width: 460px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
-      padding: 0 8px;
+      margin-bottom: 15px;
+      padding: 0 10px;
       z-index: 2;
-      margin-top: 5px;
     }
     
     .title {
       color: white;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 700;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
@@ -72,12 +72,12 @@
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
     
     .logo {
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       background: linear-gradient(135deg, #0088ff, #0066cc);
       border-radius: 50%;
       display: flex;
@@ -87,18 +87,18 @@
       box-shadow: 
         0 0 15px rgba(0, 136, 255, 0.6),
         inset 0 0 8px rgba(255, 255, 255, 0.3);
-      font-size: 20px;
+      font-size: 22px;
       color: white;
     }
     
-    /* Botón para expandir/contraer funciones - AHORA EN FUNCIONES CIENTÍFICAS */
+    /* Botón para expandir/contraer funciones */
     .toggle-functions {
-      height: 45px;
+      height: 55px;
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       color: white;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: bold;
       cursor: pointer;
       display: flex;
@@ -109,6 +109,7 @@
         inset 0 1px 3px rgba(255, 255, 255, 0.1);
       transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
       touch-action: manipulation;
+      flex: 1;
     }
     
     .toggle-functions:active {
@@ -123,43 +124,45 @@
       to { box-shadow: 0 0 20px rgba(0, 136, 255, 0.8); }
     }
     
-    /* CALCULADORA - AJUSTADA */
+    /* CALCULADORA - AJUSTADA Y MÁS ALARGADA */
     .calculator {
       width: 100%;
-      max-width: 420px;
+      max-width: 460px;
       background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(12px);
-      border-radius: 16px;
+      border-radius: 20px;
       border: 2px solid rgba(255, 255, 255, 0.15);
       box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.4),
+        0 20px 40px rgba(0, 0, 0, 0.5),
         inset 0 0 30px rgba(255, 255, 255, 0.05);
-      padding: 15px;
+      padding: 20px;
       z-index: 2;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
+      min-height: 650px;
     }
     
-    /* PANTALLA DE LA CALCULADORA */
+    /* PANTALLA DE LA CALCULADORA - MÁS GRANDE */
     .screen {
       background: rgba(10, 20, 30, 0.9);
-      border-radius: 12px;
-      padding: 15px;
+      border-radius: 15px;
+      padding: 20px;
       text-align: right;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
-      min-height: 95px;
+      min-height: 120px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       overflow: hidden;
+      flex: 1;
     }
     
     .expression {
       color: rgba(255, 255, 255, 0.7);
-      font-size: 15px;
-      min-height: 22px;
+      font-size: 18px;
+      min-height: 25px;
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
@@ -168,40 +171,40 @@
     
     .result {
       color: white;
-      font-size: 30px;
+      font-size: 36px;
       font-weight: 600;
-      text-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
-      min-height: 36px;
+      text-shadow: 0 0 10px rgba(0, 200, 255, 0.7);
+      min-height: 42px;
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
     }
     
-    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS - NUEVA ESTRUCTURA */
+    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS - CORREGIDO */
     .scientific-functions {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 10px;
+      margin-bottom: 10px;
     }
     
-    /* Fila superior (siempre visible) */
+    /* Fila superior - AHORA 5 BOTONES DEL MISMO TAMAÑO */
     .scientific-row-top {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
       opacity: 1;
-      max-height: 50px;
+      height: 55px;
     }
     
     /* Fila inferior (expandible) */
     .scientific-row-bottom {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+      gap: 10px;
       transition: all 0.3s ease;
       overflow: hidden;
-      max-height: 50px;
+      max-height: 55px;
       opacity: 1;
     }
     
@@ -216,15 +219,15 @@
     .basic-keyboard {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+      gap: 10px;
     }
     
-    /* BOTONES GENERALES */
+    /* BOTONES GENERALES - MÁS GRANDES */
     .btn {
-      height: 50px;
+      height: 55px;
       border: none;
-      border-radius: 10px;
-      font-size: 17px;
+      border-radius: 12px;
+      font-size: 20px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -256,7 +259,8 @@
     
     .btn-function {
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
-      font-size: 14px;
+      font-size: 16px;
+      height: 55px;
     }
     
     .btn-clear {
@@ -274,81 +278,177 @@
     /* BOTÓN DE PARÉNTESIS */
     .btn-parenthesis {
       background: linear-gradient(145deg, #FF9800, #F57C00);
-      font-size: 17px;
+      font-size: 20px;
     }
     
     /* BOTÓN DE CERRAR APP */
     .btn-close {
       background: linear-gradient(145deg, #FF5722, #E64A19);
-      font-size: 14px;
+      font-size: 16px;
     }
     
-    /* Elementos decorativos de esquina */
+    /* Elementos decorativos de esquina - BORDES AZULES */
     .corner-decoration {
       position: absolute;
-      width: 60px;
-      height: 60px;
+      width: 70px;
+      height: 70px;
       z-index: 1;
+      border: 2px solid rgba(0, 136, 255, 0.4);
     }
     
     .corner-top-left {
-      top: 10px;
-      left: 10px;
-      border-top: 2px solid rgba(0, 136, 255, 0.3);
-      border-left: 2px solid rgba(0, 136, 255, 0.3);
-      border-radius: 12px 0 0 0;
+      top: 15px;
+      left: 15px;
+      border-top: 2px solid rgba(0, 136, 255, 0.4);
+      border-left: 2px solid rgba(0, 136, 255, 0.4);
+      border-radius: 15px 0 0 0;
     }
     
     .corner-bottom-right {
-      bottom: 10px;
-      right: 10px;
-      border-bottom: 2px solid rgba(0, 136, 255, 0.3);
-      border-right: 2px solid rgba(0, 136, 255, 0.3);
-      border-radius: 0 0 12px 0;
+      bottom: 15px;
+      right: 15px;
+      border-bottom: 2px solid rgba(0, 136, 255, 0.4);
+      border-right: 2px solid rgba(0, 136, 255, 0.4);
+      border-radius: 0 0 15px 0;
     }
     
-    /* Responsive adicional para pantallas muy pequeñas */
-    @media (max-height: 650px) {
+    /* Responsive para pantallas más pequeñas */
+    @media (max-height: 700px) {
+      body {
+        padding: 10px;
+        justify-content: flex-start;
+      }
+      
+      .calculator {
+        min-height: 580px;
+        max-width: 420px;
+        padding: 15px;
+        gap: 12px;
+      }
+      
+      .screen {
+        padding: 15px;
+        min-height: 100px;
+      }
+      
+      .expression {
+        font-size: 16px;
+      }
+      
+      .result {
+        font-size: 32px;
+      }
+      
+      .btn, .toggle-functions, .btn-function {
+        height: 50px;
+      }
+      
+      .btn {
+        font-size: 18px;
+      }
+      
+      .btn-function {
+        font-size: 15px;
+      }
+      
+      .scientific-row-top,
+      .scientific-row-bottom {
+        height: 50px;
+        gap: 8px;
+      }
+      
+      .basic-keyboard {
+        gap: 8px;
+      }
+      
+      .logo {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+      
+      .title {
+        font-size: 18px;
+      }
+    }
+    
+    @media (max-height: 600px) {
+      .calculator {
+        min-height: 520px;
+        max-width: 380px;
+      }
+      
+      .btn, .toggle-functions, .btn-function {
+        height: 48px;
+      }
+      
+      .btn {
+        font-size: 17px;
+      }
+      
+      .btn-function {
+        font-size: 14px;
+      }
+      
+      .screen {
+        padding: 12px;
+        min-height: 90px;
+      }
+      
+      .result {
+        font-size: 28px;
+      }
+    }
+    
+    @media (max-width: 400px) {
+      body {
+        padding: 8px;
+      }
+      
+      .calculator {
+        max-width: 100%;
+        min-height: 500px;
+        padding: 12px;
+        gap: 10px;
+      }
+      
       .header {
-        margin-bottom: 8px;
-        margin-top: 3px;
+        padding: 0 5px;
+        margin-bottom: 10px;
       }
       
       .title {
         font-size: 16px;
       }
       
-      .calculator {
-        padding: 12px;
-        gap: 10px;
-        max-width: 400px;
+      .btn, .toggle-functions, .btn-function {
+        height: 46px;
       }
       
-      .screen {
-        padding: 12px;
-        min-height: 85px;
-      }
-      
-      .expression {
-        font-size: 14px;
-      }
-      
-      .result {
-        font-size: 26px;
-      }
-      
-      .btn, .toggle-functions {
-        height: 45px;
-        font-size: 15px;
+      .btn {
+        font-size: 16px;
       }
       
       .btn-function {
         font-size: 13px;
       }
       
+      .screen {
+        padding: 10px;
+        min-height: 85px;
+      }
+      
+      .expression {
+        font-size: 15px;
+      }
+      
+      .result {
+        font-size: 26px;
+      }
+      
       .scientific-row-top,
       .scientific-row-bottom {
-        max-height: 45px;
+        height: 46px;
         gap: 6px;
       }
       
@@ -361,21 +461,29 @@
         height: 35px;
         font-size: 18px;
       }
+      
+      .corner-decoration {
+        width: 50px;
+        height: 50px;
+      }
+      
+      .corner-top-left {
+        top: 8px;
+        left: 8px;
+      }
+      
+      .corner-bottom-right {
+        bottom: 8px;
+        right: 8px;
+      }
     }
     
     @media (max-width: 350px) {
-      body {
-        padding: 8px;
+      .btn, .toggle-functions, .btn-function {
+        height: 44px;
       }
       
-      .calculator {
-        padding: 10px;
-        gap: 8px;
-        max-width: 340px;
-      }
-      
-      .btn, .toggle-functions {
-        height: 42px;
+      .btn {
         font-size: 15px;
       }
       
@@ -383,33 +491,9 @@
         font-size: 12px;
       }
       
-      .screen {
+      .calculator {
         padding: 10px;
-        min-height: 80px;
-      }
-      
-      .expression {
-        font-size: 13px;
-      }
-      
-      .result {
-        font-size: 24px;
-      }
-      
-      .scientific-row-top,
-      .scientific-row-bottom {
-        max-height: 42px;
-        gap: 5px;
-      }
-      
-      .basic-keyboard {
-        gap: 5px;
-      }
-      
-      .logo {
-        width: 32px;
-        height: 32px;
-        font-size: 16px;
+        gap: 8px;
       }
     }
   </style>
@@ -418,7 +502,7 @@
   <!-- Partículas decorativas -->
   <div class="particles" id="particles"></div>
   
-  <!-- Elementos decorativos de esquina -->
+  <!-- Elementos decorativos de esquina - BORDES AZULES -->
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
@@ -430,17 +514,17 @@
     </div>
   </div>
   
-  <!-- CALCULADORA -->
+  <!-- CALCULADORA - MÁS ALARGADA Y CENTRADA -->
   <div class="calculator">
-    <!-- PANTALLA -->
+    <!-- PANTALLA MÁS GRANDE -->
     <div class="screen">
       <div class="expression" id="expression"></div>
       <div class="result" id="result">0</div>
     </div>
     
-    <!-- FUNCIONES CIENTÍFICAS - NUEVA ESTRUCTURA -->
+    <!-- FUNCIONES CIENTÍFICAS - CORREGIDAS -->
     <div class="scientific-functions" id="scientificFunctions">
-      <!-- Fila superior (siempre visible): ◀▶ π ^ ! e -->
+      <!-- Fila superior: 5 BOTONES DEL MISMO TAMAÑO -->
       <div class="scientific-row-top">
         <button class="toggle-functions" id="toggleFunctions">◀▶</button>
         <button class="btn btn-function" data-action="pi">π</button>
@@ -511,8 +595,9 @@
       // Estado de la calculadora
       let currentExpression = '';
       let currentResult = '0';
-      let isScientificExpanded = true; // Ahora la segunda fila comienza expandida
+      let isScientificExpanded = true;
       let parenthesisOpen = false;
+      let lastSqrtIndex = -1;
       
       // SISTEMA DE PARTÍCULAS
       function createParticles() {
@@ -626,11 +711,16 @@
         currentExpression = '';
         currentResult = '0';
         parenthesisOpen = false;
+        lastSqrtIndex = -1;
         updateScreen();
       }
       
       // BORRAR ÚLTIMO CARÁCTER
       function backspace() {
+        if (currentExpression.slice(-2) === '√(') {
+          lastSqrtIndex = -1;
+        }
+        
         if (currentExpression.slice(-1) === '(') {
           parenthesisOpen = false;
         } else if (currentExpression.slice(-1) === ')') {
@@ -652,22 +742,75 @@
         }
       }
       
+      // FUNCIÓN PARA CERRAR PARÉNTESIS AUTOMÁTICAMENTE
+      function balanceParentheses(expression) {
+        let openCount = (expression.match(/\(/g) || []).length;
+        let closeCount = (expression.match(/\)/g) || []).length;
+        
+        // Agregar paréntesis de cierre faltantes
+        for (let i = 0; i < (openCount - closeCount); i++) {
+          expression += ')';
+        }
+        
+        return expression;
+      }
+      
+      // FUNCIÓN ESPECIAL PARA RAÍZ CUADRADA
+      function handleSquareRoot() {
+        // Si ya hay una raíz cuadrada sin cerrar, cerramos primero
+        if (lastSqrtIndex !== -1) {
+          // Buscar si ya hay un paréntesis de cierre después de la raíz
+          const afterSqrt = currentExpression.substring(lastSqrtIndex);
+          if (!afterSqrt.includes(')')) {
+            addToExpression(')');
+            lastSqrtIndex = -1;
+          }
+        }
+        
+        // Agregar nueva raíz cuadrada
+        addToExpression('√(');
+        lastSqrtIndex = currentExpression.length - 2; // Índice del carácter '√'
+        parenthesisOpen = true;
+      }
+      
       // CALCULAR RESULTADO
       function calculateResult() {
         if (!currentExpression) return;
         
         try {
-          let expressionToEval = currentExpression
+          let expressionToEval = currentExpression;
+          
+          // Balancear paréntesis antes de evaluar
+          expressionToEval = balanceParentheses(expressionToEval);
+          
+          // Reemplazar símbolos para math.js
+          expressionToEval = expressionToEval
             .replace(/×/g, '*')
             .replace(/÷/g, '/')
             .replace(/π/g, 'pi')
             .replace(/√/g, 'sqrt')
-            .replace(/\^/g, '^');
+            .replace(/\^/g, '^')
+            .replace(/sin/g, 'sin')
+            .replace(/cos/g, 'cos')
+            .replace(/tan/g, 'tan')
+            .replace(/log/g, 'log10')
+            .replace(/ln/g, 'log');
+          
+          // Manejar factorial (!)
+          expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
+            return `factorial(${num})`;
+          });
+          
+          // Manejar porcentaje (%)
+          expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
+            return `(${num}/100)`;
+          });
           
           const result = math.evaluate(expressionToEval);
           
           let formattedResult = result.toString();
           
+          // Formatear resultado si es muy largo
           if (formattedResult.length > 12 && !isNaN(result)) {
             formattedResult = Number(result).toPrecision(10);
           }
@@ -675,10 +818,12 @@
           currentResult = formattedResult;
           currentExpression = formattedResult;
           parenthesisOpen = false;
+          lastSqrtIndex = -1;
           
           updateScreen();
           
         } catch (error) {
+          console.error('Error en cálculo:', error);
           currentResult = 'Error';
           updateScreen();
           
@@ -686,6 +831,7 @@
             currentResult = '0';
             currentExpression = '';
             parenthesisOpen = false;
+            lastSqrtIndex = -1;
             updateScreen();
           }, 1500);
         }
@@ -726,8 +872,7 @@
             parenthesisOpen = true;
             break;
           case 'sqrt':
-            addToExpression('√(');
-            parenthesisOpen = true;
+            handleSquareRoot();
             break;
           case 'pi':
             addToExpression('π');
@@ -759,6 +904,7 @@
         const button = event.target.closest('.btn, .toggle-functions');
         if (!button) return;
         
+        // Efecto de clic
         button.style.transform = 'translateY(4px) scale(0.98)';
         setTimeout(() => {
           button.style.transform = '';
@@ -869,6 +1015,12 @@
       // Inicializar con la segunda fila expandida
       expandableFunctions.classList.remove('collapsed');
       isScientificExpanded = true;
+      
+      // Ajustar tamaño inicial para móviles
+      setTimeout(() => {
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      }, 100);
     });
   </script>
 </body>
