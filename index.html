@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <title>Calculadora Científica - Telegram Mini App</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <!-- Librería math.js para evaluación segura de expresiones -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.7.0/math.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
@@ -31,7 +30,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 10px;
+      padding: 8px;
     }
     
     /* Partículas decorativas */
@@ -50,47 +49,22 @@
       will-change: transform;
     }
     
-    /* DISPLAY DE FECHA */
-    .date-display {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      z-index: 3;
-      color: rgba(255, 255, 255, 0.85);
-      font-size: 14px;
-      font-weight: 600;
-      padding: 8px 15px;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(10px);
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 
-        0 5px 15px rgba(0, 0, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
-      text-align: center;
-      line-height: 1.3;
-      min-width: 160px;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease forwards 0.2s;
-      text-transform: capitalize;
-    }
-    
     /* CABECERA CON TÍTULO */
     .header {
       width: 100%;
-      max-width: 500px;
+      max-width: 450px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
-      padding: 0 10px;
+      margin-bottom: 10px;
+      padding: 0 8px;
       z-index: 2;
-      margin-top: 10px;
+      margin-top: 5px;
     }
     
     .title {
       color: white;
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 700;
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
@@ -98,12 +72,12 @@
     .header-controls {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
     
     .logo {
-      width: 50px;
-      height: 50px;
+      width: 40px;
+      height: 40px;
       background: linear-gradient(135deg, #0088ff, #0066cc);
       border-radius: 50%;
       display: flex;
@@ -111,71 +85,71 @@
       justify-content: center;
       animation: logoGlow 2s infinite alternate;
       box-shadow: 
-        0 0 20px rgba(0, 136, 255, 0.6),
-        inset 0 0 10px rgba(255, 255, 255, 0.3);
-      font-size: 24px;
+        0 0 15px rgba(0, 136, 255, 0.6),
+        inset 0 0 8px rgba(255, 255, 255, 0.3);
+      font-size: 20px;
       color: white;
     }
     
-    /* Botón para expandir/contraer funciones - AHORA EN EL TECLADO */
+    /* Botón para expandir/contraer funciones */
     .toggle-functions {
-      height: 60px;
+      height: 45px;
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       color: white;
-      font-size: 20px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       box-shadow: 
-        0 5px 0 rgba(0, 0, 0, 0.3),
-        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+        0 4px 0 rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgba(255, 255, 255, 0.1);
       transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
       touch-action: manipulation;
     }
     
     .toggle-functions:active {
-      transform: translateY(5px) scale(0.98);
+      transform: translateY(4px) scale(0.98);
       box-shadow: 
         0 0 0 rgba(0, 0, 0, 0.3),
-        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+        inset 0 1px 3px rgba(255, 255, 255, 0.1);
     }
     
     @keyframes logoGlow {
-      from { box-shadow: 0 0 15px rgba(0, 136, 255, 0.5); }
-      to { box-shadow: 0 0 25px rgba(0, 136, 255, 0.8); }
+      from { box-shadow: 0 0 12px rgba(0, 136, 255, 0.5); }
+      to { box-shadow: 0 0 20px rgba(0, 136, 255, 0.8); }
     }
     
-    /* CALCULADORA */
+    /* CALCULADORA - MÁS COMPACTA */
     .calculator {
       width: 100%;
-      max-width: 500px;
+      max-width: 450px;
       background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      border-radius: 16px;
       border: 2px solid rgba(255, 255, 255, 0.15);
       box-shadow: 
-        0 20px 50px rgba(0, 0, 0, 0.4),
-        inset 0 0 40px rgba(255, 255, 255, 0.05);
-      padding: 20px;
+        0 15px 35px rgba(0, 0, 0, 0.4),
+        inset 0 0 30px rgba(255, 255, 255, 0.05);
+      padding: 12px;
       z-index: 2;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 12px;
     }
     
     /* PANTALLA DE LA CALCULADORA */
     .screen {
       background: rgba(10, 20, 30, 0.9);
-      border-radius: 15px;
-      padding: 20px;
+      border-radius: 12px;
+      padding: 12px;
       text-align: right;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
-      min-height: 120px;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+      min-height: 85px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -184,8 +158,8 @@
     
     .expression {
       color: rgba(255, 255, 255, 0.7);
-      font-size: 18px;
-      min-height: 27px;
+      font-size: 14px;
+      min-height: 22px;
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
@@ -194,24 +168,24 @@
     
     .result {
       color: white;
-      font-size: 36px;
+      font-size: 28px;
       font-weight: 600;
-      text-shadow: 0 0 10px rgba(0, 200, 255, 0.7);
-      min-height: 42px;
+      text-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
+      min-height: 34px;
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
     }
     
-    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS (COLAPSABLE) */
+    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS */
     .scientific-functions {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      margin-bottom: 10px;
+      gap: 6px;
+      margin-bottom: 8px;
       transition: all 0.3s ease;
       overflow: hidden;
-      max-height: 140px;
+      max-height: 110px;
       opacity: 1;
     }
     
@@ -222,19 +196,19 @@
       gap: 0;
     }
     
-    /* TECLADO BÁSICO - ORGANIZADO COMO EN LA IMAGEN */
+    /* TECLADO BÁSICO */
     .basic-keyboard {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      gap: 6px;
     }
     
     /* BOTONES GENERALES */
     .btn {
-      height: 60px;
+      height: 45px;
       border: none;
-      border-radius: 12px;
-      font-size: 18px;
+      border-radius: 10px;
+      font-size: 16px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
@@ -244,15 +218,15 @@
       touch-action: manipulation;
       color: white;
       box-shadow: 
-        0 5px 0 rgba(0, 0, 0, 0.3),
-        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+        0 4px 0 rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgba(255, 255, 255, 0.1);
     }
     
     .btn:active {
-      transform: translateY(5px) scale(0.98);
+      transform: translateY(4px) scale(0.98);
       box-shadow: 
         0 0 0 rgba(0, 0, 0, 0.3),
-        inset 0 2px 5px rgba(255, 255, 255, 0.1);
+        inset 0 1px 3px rgba(255, 255, 255, 0.1);
     }
     
     /* TIPOS DE BOTONES */
@@ -266,7 +240,7 @@
     
     .btn-function {
       background: linear-gradient(145deg, #9c27b0, #7b1fa2);
-      font-size: 16px;
+      font-size: 13px;
     }
     
     .btn-clear {
@@ -284,167 +258,147 @@
     /* BOTÓN DE PARÉNTESIS */
     .btn-parenthesis {
       background: linear-gradient(145deg, #FF9800, #F57C00);
-      font-size: 18px;
+      font-size: 16px;
     }
     
-    /* BOTÓN DE RETROCEDER */
-    .btn-backspace {
+    /* BOTÓN DE CERRAR APP */
+    .btn-close {
       background: linear-gradient(145deg, #FF5722, #E64A19);
-      font-size: 18px;
-    }
-    
-    /* Animaciones */
-    @keyframes fadeInUp {
-      from { 
-        opacity: 0;
-        transform: translateY(30px); 
-      }
-      to { 
-        opacity: 1;
-        transform: translateY(0); 
-      }
-    }
-    
-    /* Responsive */
-    @media (max-height: 700px) {
-      .date-display {
-        top: 10px;
-        right: 10px;
-        font-size: 13px;
-        padding: 6px 12px;
-        min-width: 140px;
-      }
-      
-      .header {
-        margin-bottom: 10px;
-        margin-top: 5px;
-      }
-      
-      .title {
-        font-size: 20px;
-      }
-      
-      .calculator {
-        padding: 15px;
-        gap: 15px;
-      }
-      
-      .screen {
-        padding: 15px;
-        min-height: 100px;
-      }
-      
-      .expression {
-        font-size: 16px;
-      }
-      
-      .result {
-        font-size: 30px;
-      }
-      
-      .btn, .toggle-functions {
-        height: 50px;
-        font-size: 16px;
-      }
-      
-      .btn-function {
-        font-size: 14px;
-      }
-      
-      .scientific-functions {
-        max-height: 120px;
-      }
-      
-      .logo {
-        width: 45px;
-        height: 45px;
-        font-size: 22px;
-      }
-    }
-    
-    @media (max-width: 380px) {
-      .date-display {
-        top: 8px;
-        right: 8px;
-        font-size: 12px;
-        padding: 5px 10px;
-        min-width: 130px;
-      }
-      
-      .calculator {
-        padding: 12px;
-        gap: 12px;
-      }
-      
-      .btn, .toggle-functions {
-        height: 45px;
-        font-size: 15px;
-      }
-      
-      .btn-function {
-        font-size: 13px;
-      }
-      
-      .screen {
-        padding: 12px;
-        min-height: 90px;
-      }
-      
-      .expression {
-        font-size: 15px;
-      }
-      
-      .result {
-        font-size: 28px;
-      }
-      
-      .scientific-functions {
-        max-height: 100px;
-        gap: 8px;
-      }
-      
-      .basic-keyboard {
-        gap: 8px;
-      }
-      
-      .logo {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-      }
+      font-size: 13px;
     }
     
     /* Elementos decorativos de esquina */
     .corner-decoration {
       position: absolute;
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       z-index: 1;
     }
     
     .corner-top-left {
-      top: 10px;
-      left: 10px;
-      border-top: 3px solid rgba(0, 136, 255, 0.3);
-      border-left: 3px solid rgba(0, 136, 255, 0.3);
-      border-radius: 15px 0 0 0;
+      top: 8px;
+      left: 8px;
+      border-top: 2px solid rgba(0, 136, 255, 0.3);
+      border-left: 2px solid rgba(0, 136, 255, 0.3);
+      border-radius: 12px 0 0 0;
     }
     
     .corner-bottom-right {
-      bottom: 10px;
-      right: 10px;
-      border-bottom: 3px solid rgba(0, 136, 255, 0.3);
-      border-right: 3px solid rgba(0, 136, 255, 0.3);
-      border-radius: 0 0 15px 0;
+      bottom: 8px;
+      right: 8px;
+      border-bottom: 2px solid rgba(0, 136, 255, 0.3);
+      border-right: 2px solid rgba(0, 136, 255, 0.3);
+      border-radius: 0 0 12px 0;
+    }
+    
+    /* Responsive adicional para pantallas muy pequeñas */
+    @media (max-height: 650px) {
+      .header {
+        margin-bottom: 8px;
+        margin-top: 3px;
+      }
+      
+      .title {
+        font-size: 16px;
+      }
+      
+      .calculator {
+        padding: 10px;
+        gap: 10px;
+        max-width: 400px;
+      }
+      
+      .screen {
+        padding: 10px;
+        min-height: 75px;
+      }
+      
+      .expression {
+        font-size: 13px;
+      }
+      
+      .result {
+        font-size: 24px;
+      }
+      
+      .btn, .toggle-functions {
+        height: 40px;
+        font-size: 14px;
+      }
+      
+      .btn-function {
+        font-size: 12px;
+      }
+      
+      .scientific-functions {
+        max-height: 95px;
+        gap: 5px;
+      }
+      
+      .basic-keyboard {
+        gap: 5px;
+      }
+      
+      .logo {
+        width: 35px;
+        height: 35px;
+        font-size: 18px;
+      }
+    }
+    
+    @media (max-width: 350px) {
+      body {
+        padding: 6px;
+      }
+      
+      .calculator {
+        padding: 8px;
+        gap: 8px;
+        max-width: 340px;
+      }
+      
+      .btn, .toggle-functions {
+        height: 38px;
+        font-size: 14px;
+      }
+      
+      .btn-function {
+        font-size: 11px;
+      }
+      
+      .screen {
+        padding: 8px;
+        min-height: 70px;
+      }
+      
+      .expression {
+        font-size: 12px;
+      }
+      
+      .result {
+        font-size: 22px;
+      }
+      
+      .scientific-functions {
+        max-height: 85px;
+        gap: 4px;
+      }
+      
+      .basic-keyboard {
+        gap: 4px;
+      }
+      
+      .logo {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+      }
     }
   </style>
 </head>
 <body>
   <!-- Partículas decorativas -->
   <div class="particles" id="particles"></div>
-  
-  <!-- DISPLAY DE FECHA -->
-  <div class="date-display" id="dateDisplay"></div>
   
   <!-- Elementos decorativos de esquina -->
   <div class="corner-decoration corner-top-left"></div>
@@ -466,10 +420,10 @@
       <div class="result" id="result">0</div>
     </div>
     
-    <!-- FUNCIONES CIENTÍFICAS (COLAPSABLES) - ORGANIZADAS COMO EN LA IMAGEN -->
+    <!-- FUNCIONES CIENTÍFICAS -->
     <div class="scientific-functions" id="scientificFunctions">
-      <!-- Fila 1: √ π ^ ! e -->
-      <button class="btn btn-function" data-action="sqrt">√</button>
+      <!-- Fila 1: Xi π ^ ! e -->
+      <button class="btn btn-function" data-action="xi">Xi</button>
       <button class="btn btn-function" data-action="pi">π</button>
       <button class="btn btn-function" data-action="pow">^</button>
       <button class="btn btn-function" data-action="factorial">!</button>
@@ -484,21 +438,21 @@
       <button class="btn btn-function" data-action="multiply">x</button>
     </div>
     
-    <!-- TECLADO BÁSICO ORGANIZADO COMO EN LA IMAGEN -->
+    <!-- TECLADO BÁSICO -->
     <div class="basic-keyboard" id="basicKeyboard">
-      <!-- Fila 1: AC () % ÷ -->
+      <!-- Fila 1: AC ⌫ √ % ÷ -->
       <button class="btn btn-clear" data-action="clear">AC</button>
-      <button class="btn btn-parenthesis" data-value="(">(</button>
-      <button class="btn btn-parenthesis" data-value=")">)</button>
+      <button class="btn btn-clear" data-action="backspace">⌫</button>
+      <button class="btn btn-function" data-action="sqrt">√</button>
       <button class="btn btn-operator" data-action="percentage">%</button>
       <button class="btn btn-operator" data-action="divide">÷</button>
       
-      <!-- Fila 2: 7 8 9 × ⌫ -->
+      <!-- Fila 2: 7 8 9 × ( ) -->
       <button class="btn btn-number" data-value="7">7</button>
       <button class="btn btn-number" data-value="8">8</button>
       <button class="btn btn-number" data-value="9">9</button>
       <button class="btn btn-operator" data-action="multiply">×</button>
-      <button class="btn btn-backspace" data-action="backspace">⌫</button>
+      <button class="btn btn-parenthesis" data-action="parenthesis">( )</button>
       
       <!-- Fila 3: 4 5 6 - ◀▶ -->
       <button class="btn btn-number" data-value="4">4</button>
@@ -507,12 +461,12 @@
       <button class="btn btn-operator" data-action="subtract">-</button>
       <button class="toggle-functions" id="toggleFunctions">◀▶</button>
       
-      <!-- Fila 4: 1 2 3 + . -->
+      <!-- Fila 4: 1 2 3 + CLOSE -->
       <button class="btn btn-number" data-value="1">1</button>
       <button class="btn btn-number" data-value="2">2</button>
       <button class="btn btn-number" data-value="3">3</button>
       <button class="btn btn-operator" data-action="add">+</button>
-      <button class="btn btn-number" data-value=".">.</button>
+      <button class="btn btn-close" data-action="close">CLOSE</button>
       
       <!-- Fila 5: 0 . × = -->
       <button class="btn btn-number btn-zero" data-value="0">0</button>
@@ -529,7 +483,6 @@
       const resultElement = document.getElementById('result');
       const scientificFunctions = document.getElementById('scientificFunctions');
       const basicKeyboard = document.getElementById('basicKeyboard');
-      const dateDisplay = document.getElementById('dateDisplay');
       const particlesContainer = document.getElementById('particles');
       const toggleFunctionsBtn = document.getElementById('toggleFunctions');
       
@@ -537,25 +490,7 @@
       let currentExpression = '';
       let currentResult = '0';
       let isScientificCollapsed = false;
-      
-      // FUNCIÓN PARA FORMATEAR LA FECHA EN ESPAÑOL
-      function formatDate() {
-        const now = new Date();
-        const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-        const months = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
-                       'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-        
-        const dayOfWeek = days[now.getDay()];
-        const dayOfMonth = now.getDate();
-        const month = months[now.getMonth()];
-        
-        return `${dayOfWeek}, ${dayOfMonth} de ${month}`;
-      }
-      
-      // ACTUALIZAR LA FECHA EN LA PANTALLA
-      function updateDate() {
-        dateDisplay.textContent = formatDate();
-      }
+      let parenthesisOpen = false;
       
       // SISTEMA DE PARTÍCULAS
       function createParticles() {
@@ -572,11 +507,11 @@
         const containerWidth = particlesContainer.clientWidth;
         const containerHeight = particlesContainer.clientHeight;
         
-        for (let i = 0; i < 25; i++) {
+        for (let i = 0; i < 20; i++) {
           const particle = document.createElement('div');
           particle.className = 'particle';
           
-          const size = Math.random() * 15 + 2;
+          const size = Math.random() * 12 + 2;
           particle.style.width = `${size}px`;
           particle.style.height = `${size}px`;
           
@@ -588,13 +523,13 @@
           particle.style.left = `${initialX}px`;
           particle.style.top = `${initialY}px`;
           
-          const speed = Math.random() * 0.6 + 0.2;
+          const speed = Math.random() * 0.5 + 0.1;
           const angle = Math.random() * Math.PI * 2;
           
           const velocityX = Math.cos(angle) * speed;
           const velocityY = Math.sin(angle) * speed;
           
-          const rotationSpeed = (Math.random() - 0.5) * 1.5;
+          const rotationSpeed = (Math.random() - 0.5) * 1.2;
           let rotation = 0;
           
           particlesContainer.appendChild(particle);
@@ -656,7 +591,6 @@
       
       // AGREGAR VALOR A LA EXPRESIÓN
       function addToExpression(value) {
-        // Si el resultado actual no es '0' y la expresión está vacía, limpiar el resultado
         if (currentResult !== '0' && currentExpression === '') {
           currentResult = '0';
         }
@@ -669,13 +603,31 @@
       function clearAll() {
         currentExpression = '';
         currentResult = '0';
+        parenthesisOpen = false;
         updateScreen();
       }
       
       // BORRAR ÚLTIMO CARÁCTER
       function backspace() {
+        if (currentExpression.slice(-1) === '(') {
+          parenthesisOpen = false;
+        } else if (currentExpression.slice(-1) === ')') {
+          parenthesisOpen = true;
+        }
+        
         currentExpression = currentExpression.slice(0, -1);
         updateScreen();
+      }
+      
+      // MANEJAR PARÉNTESIS
+      function handleParenthesis() {
+        if (parenthesisOpen) {
+          addToExpression(')');
+          parenthesisOpen = false;
+        } else {
+          addToExpression('(');
+          parenthesisOpen = true;
+        }
       }
       
       // CALCULAR RESULTADO
@@ -683,7 +635,6 @@
         if (!currentExpression) return;
         
         try {
-          // Reemplazar símbolos para math.js
           let expressionToEval = currentExpression
             .replace(/×/g, '*')
             .replace(/÷/g, '/')
@@ -691,19 +642,17 @@
             .replace(/√/g, 'sqrt')
             .replace(/\^/g, '^');
           
-          // Evaluar usando math.js de forma segura
           const result = math.evaluate(expressionToEval);
           
-          // Formatear resultado
           let formattedResult = result.toString();
           
-          // Redondear si es un número muy largo
           if (formattedResult.length > 12 && !isNaN(result)) {
             formattedResult = Number(result).toPrecision(10);
           }
           
           currentResult = formattedResult;
           currentExpression = formattedResult;
+          parenthesisOpen = false;
           
           updateScreen();
           
@@ -711,12 +660,23 @@
           currentResult = 'Error';
           updateScreen();
           
-          // Restaurar después de 1.5 segundos
           setTimeout(() => {
             currentResult = '0';
             currentExpression = '';
+            parenthesisOpen = false;
             updateScreen();
           }, 1500);
+        }
+      }
+      
+      // CERRAR LA MINI APP
+      function closeMiniApp() {
+        const isTelegramWebApp = window.Telegram && window.Telegram.WebApp;
+        
+        if (isTelegramWebApp && Telegram.WebApp.close) {
+          Telegram.WebApp.close();
+        } else {
+          alert('Si estuvieras en Telegram, la Mini App se cerraría.');
         }
       }
       
@@ -725,21 +685,30 @@
         switch(action) {
           case 'sin':
             addToExpression('sin(');
+            parenthesisOpen = true;
             break;
           case 'cos':
             addToExpression('cos(');
+            parenthesisOpen = true;
             break;
           case 'tan':
             addToExpression('tan(');
+            parenthesisOpen = true;
             break;
           case 'log':
             addToExpression('log(');
+            parenthesisOpen = true;
             break;
           case 'ln':
             addToExpression('ln(');
+            parenthesisOpen = true;
             break;
           case 'sqrt':
             addToExpression('√(');
+            parenthesisOpen = true;
+            break;
+          case 'xi':
+            addToExpression('x');
             break;
           case 'pi':
             addToExpression('π');
@@ -766,58 +735,14 @@
         toggleFunctionsBtn.textContent = isScientificCollapsed ? '◀▶' : '◀▶';
       }
       
-      // INICIALIZAR TECLADOS
-      function initializeKeyboards() {
-        scientificFunctions.addEventListener('click', handleButtonClick);
-        basicKeyboard.addEventListener('click', handleButtonClick);
-        toggleFunctionsBtn.addEventListener('click', toggleScientificFunctions);
-        
-        // También soporte para teclado físico
-        document.addEventListener('keydown', function(event) {
-          const key = event.key;
-          
-          // Prevenir comportamiento por defecto para teclas de operación
-          if (['+', '-', '*', '/', 'Enter', 'Escape'].includes(key)) {
-            event.preventDefault();
-          }
-          
-          // Mapear teclas
-          if (key >= '0' && key <= '9') {
-            addToExpression(key);
-          } else if (key === '.') {
-            addToExpression('.');
-          } else if (key === '+') {
-            addToExpression('+');
-          } else if (key === '-') {
-            addToExpression('-');
-          } else if (key === '*') {
-            addToExpression('×');
-          } else if (key === '/') {
-            addToExpression('÷');
-          } else if (key === 'Enter' || key === '=') {
-            calculateResult();
-          } else if (key === 'Escape' || key === 'Delete') {
-            clearAll();
-          } else if (key === 'Backspace') {
-            backspace();
-          } else if (key === '(' || key === ')') {
-            addToExpression(key);
-          } else if (key === '%') {
-            addToExpression('%');
-          }
-        });
-      }
-      
       // MANEJAR CLICS EN BOTONES
       function handleButtonClick(event) {
         const button = event.target.closest('.btn, .toggle-functions');
         if (!button) return;
         
-        // Efecto visual de clic
-        const originalTransform = button.style.transform;
-        button.style.transform = 'translateY(5px) scale(0.98)';
+        button.style.transform = 'translateY(4px) scale(0.98)';
         setTimeout(() => {
-          button.style.transform = originalTransform;
+          button.style.transform = '';
         }, 150);
         
         const value = button.getAttribute('data-value');
@@ -848,13 +773,63 @@
             case 'subtract':
               addToExpression('-');
               break;
+            case 'parenthesis':
+              handleParenthesis();
+              break;
             case 'percentage':
               addToExpression('%');
+              break;
+            case 'close':
+              closeMiniApp();
               break;
             default:
               handleSpecialFunction(action);
           }
         }
+      }
+      
+      // INICIALIZAR TECLADOS
+      function initializeKeyboards() {
+        scientificFunctions.addEventListener('click', handleButtonClick);
+        basicKeyboard.addEventListener('click', handleButtonClick);
+        toggleFunctionsBtn.addEventListener('click', toggleScientificFunctions);
+        
+        // Soporte para teclado físico
+        document.addEventListener('keydown', function(event) {
+          const key = event.key;
+          
+          if (['+', '-', '*', '/', 'Enter', 'Escape'].includes(key)) {
+            event.preventDefault();
+          }
+          
+          if (key >= '0' && key <= '9') {
+            addToExpression(key);
+          } else if (key === '.') {
+            addToExpression('.');
+          } else if (key === '+') {
+            addToExpression('+');
+          } else if (key === '-') {
+            addToExpression('-');
+          } else if (key === '*') {
+            addToExpression('×');
+          } else if (key === '/') {
+            addToExpression('÷');
+          } else if (key === 'Enter' || key === '=') {
+            calculateResult();
+          } else if (key === 'Escape' || key === 'Delete') {
+            clearAll();
+          } else if (key === 'Backspace') {
+            backspace();
+          } else if (key === '(' || key === ')') {
+            handleParenthesis();
+          } else if (key === '%') {
+            addToExpression('%');
+          } else if (key === 'c' || key === 'C') {
+            closeMiniApp();
+          } else if (key === 'x' || key === 'X') {
+            addToExpression('x');
+          }
+        });
       }
       
       // Verificar si estamos en Telegram WebApp
@@ -871,27 +846,8 @@
       
       // INICIALIZAR TODO
       createParticles();
-      updateDate();
       initializeKeyboards();
       updateScreen();
-      
-      // Actualizar la fecha cada minuto
-      setInterval(updateDate, 60000);
-      
-      // Programar actualización de fecha a medianoche
-      function scheduleMidnightUpdate() {
-        const now = new Date();
-        const midnight = new Date();
-        midnight.setHours(24, 0, 0, 0);
-        const timeUntilMidnight = midnight.getTime() - now.getTime();
-        
-        setTimeout(function() {
-          updateDate();
-          scheduleMidnightUpdate();
-        }, timeUntilMidnight);
-      }
-      
-      scheduleMidnightUpdate();
     });
   </script>
 </body>
