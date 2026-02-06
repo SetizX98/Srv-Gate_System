@@ -25,6 +25,7 @@
       --calculator-padding: calc(20px * var(--scale-factor));
       --gap-size: calc(15px * var(--scale-factor));
       --screen-expanded-height: calc(180px * var(--scale-factor));
+      --corner-size: clamp(40px, calc(60px * var(--scale-factor)), 70px);
     }
     
     body {
@@ -42,7 +43,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: max(10px, calc(15px * var(--scale-factor)));
+      /* Ajustado para respetar las corner-decorations */
+      padding: var(--corner-size) max(10px, calc(15px * var(--scale-factor)));
     }
     
     /* Partículas decorativas */
@@ -142,12 +144,13 @@
       to { box-shadow: 0 0 20px rgba(0, 136, 255, 0.8); }
     }
     
-    /* CALCULADORA */
+    /* CALCULADORA - CONTENEDOR PRINCIPAL TRANSPARENTE */
     .calculator {
       width: 100%;
       max-width: 460px;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(12px);
+      /* FONDO TRANSPARENTE PARA VER LAS PARTÍCULAS */
+      background: transparent;
+      backdrop-filter: none;
       border-radius: 20px;
       border: 2px solid rgba(255, 255, 255, 0.15);
       box-shadow: 
@@ -160,6 +163,9 @@
       gap: var(--gap-size);
       flex: 1;
       min-height: 0;
+      /* Asegurar que no rebase los límites */
+      max-height: calc(100vh - (var(--corner-size) * 2));
+      overflow: hidden;
     }
     
     /* PANTALLA DE LA CALCULADORA - CON CRECIMIENTO DINÁMICO */
@@ -178,6 +184,8 @@
       transition: all 0.3s ease;
       flex: 1;
       max-height: var(--screen-expanded-height);
+      /* La pantalla mantiene su opacidad */
+      backdrop-filter: blur(10px);
     }
     
     .screen.expanded {
@@ -220,13 +228,15 @@
       font-style: normal;
     }
     
-    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS */
+    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS - TRANSPARENTE */
     .scientific-functions {
       display: flex;
       flex-direction: column;
       gap: calc(10px * var(--scale-factor));
       margin-bottom: calc(10px * var(--scale-factor));
       flex-shrink: 0;
+      /* Fondo transparente */
+      background: transparent;
     }
     
     /* Fila superior */
@@ -236,6 +246,8 @@
       gap: calc(10px * var(--scale-factor));
       opacity: 1;
       height: var(--button-height);
+      /* Fondo transparente para los botones individuales */
+      background: transparent;
     }
     
     /* Fila inferior (expandible) */
@@ -247,6 +259,8 @@
       overflow: hidden;
       max-height: var(--button-height);
       opacity: 1;
+      /* Fondo transparente */
+      background: transparent;
     }
     
     .scientific-row-bottom.collapsed {
@@ -256,15 +270,17 @@
       margin-bottom: 0;
     }
     
-    /* TECLADO BÁSICO */
+    /* TECLADO BÁSICO - TRANSPARENTE */
     .basic-keyboard {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       gap: calc(10px * var(--scale-factor));
       flex-shrink: 0;
+      /* Fondo transparente */
+      background: transparent;
     }
     
-    /* BOTONES GENERALES */
+    /* BOTONES GENERALES - CON TRANSPARENCIA EN SUS FONDOS */
     .btn {
       height: var(--button-height);
       border: none;
@@ -281,6 +297,8 @@
       box-shadow: 
         0 4px 0 rgba(0, 0, 0, 0.3),
         inset 0 1px 3px rgba(255, 255, 255, 0.1);
+      /* Añadir un pequeño desenfoque para mejor visibilidad sobre partículas */
+      backdrop-filter: blur(5px);
     }
     
     .btn:active {
@@ -290,27 +308,27 @@
         inset 0 1px 3px rgba(255, 255, 255, 0.1);
     }
     
-    /* TIPOS DE BOTONES */
+    /* TIPOS DE BOTONES - CON MAYOR TRANSPARENCIA */
     .btn-number {
-      background: linear-gradient(145deg, #3a3a5d, #2a2a4a);
+      background: linear-gradient(145deg, rgba(58, 58, 93, 0.85), rgba(42, 42, 74, 0.85));
     }
     
     .btn-operator {
-      background: linear-gradient(145deg, #0088ff, #0066cc);
+      background: linear-gradient(145deg, rgba(0, 136, 255, 0.85), rgba(0, 102, 204, 0.85));
     }
     
     .btn-function {
-      background: linear-gradient(145deg, #9c27b0, #7b1fa2);
+      background: linear-gradient(145deg, rgba(156, 39, 176, 0.85), rgba(123, 31, 162, 0.85));
       font-size: calc(16px * var(--scale-factor));
       height: var(--button-height);
     }
     
     .btn-clear {
-      background: linear-gradient(145deg, #ff4444, #cc0000);
+      background: linear-gradient(145deg, rgba(255, 68, 68, 0.85), rgba(204, 0, 0, 0.85));
     }
     
     .btn-equals {
-      background: linear-gradient(145deg, #4CAF50, #2E7D32);
+      background: linear-gradient(145deg, rgba(76, 175, 80, 0.85), rgba(46, 125, 50, 0.85));
     }
     
     .btn-zero {
@@ -319,13 +337,13 @@
     
     /* BOTÓN DE PARÉNTESIS */
     .btn-parenthesis {
-      background: linear-gradient(145deg, #FF9800, #F57C00);
+      background: linear-gradient(145deg, rgba(255, 152, 0, 0.85), rgba(245, 124, 0, 0.85));
       font-size: calc(20px * var(--scale-factor));
     }
     
     /* BOTÓN DE CERRAR APP */
     .btn-close {
-      background: linear-gradient(145deg, #FF5722, #E64A19);
+      background: linear-gradient(145deg, rgba(255, 87, 34, 0.85), rgba(230, 74, 25, 0.85));
       font-size: calc(16px * var(--scale-factor));
     }
     
@@ -334,8 +352,8 @@
     /* =============================================== */
     .corner-decoration {
       position: absolute;
-      width: clamp(40px, calc(60px * var(--scale-factor)), 70px);
-      height: clamp(40px, calc(60px * var(--scale-factor)), 70px);
+      width: var(--corner-size);
+      height: var(--corner-size);
       z-index: 1;
     }
     
@@ -356,7 +374,7 @@
     }
     
     /* =============================================== */
-    /* MEDIA QUERIES MEJORADAS */
+    /* MEDIA QUERIES MEJORADAS - AJUSTADAS PARA LOS NUEVOS CAMBIOS */
     /* =============================================== */
     
     /* Para pantallas muy grandes */
@@ -375,7 +393,7 @@
         --scale-factor: 0.95;
       }
       body {
-        padding: 8px;
+        padding: calc(var(--corner-size) * 0.8) max(8px, calc(10px * var(--scale-factor)));
       }
       .calculator {
         max-width: 440px;
@@ -392,6 +410,9 @@
       .screen.expanded {
         flex: 1.8;
       }
+      body {
+        padding: calc(var(--corner-size) * 0.7) max(6px, calc(8px * var(--scale-factor)));
+      }
     }
     
     /* Para pantallas muy pequeñas */
@@ -400,7 +421,7 @@
         --scale-factor: 0.75;
       }
       body {
-        padding: 5px;
+        padding: calc(var(--corner-size) * 0.6) max(4px, calc(6px * var(--scale-factor)));
       }
       .calculator {
         max-width: 380px;
@@ -416,7 +437,7 @@
         --scale-factor: 0.9;
       }
       body {
-        padding: 6px;
+        padding: var(--corner-size) max(6px, calc(8px * var(--scale-factor)));
       }
       .calculator {
         max-width: 100%;
@@ -429,6 +450,9 @@
     @media (max-width: 350px) and (max-height: 600px) {
       :root {
         --scale-factor: 0.8;
+      }
+      body {
+        padding: calc(var(--corner-size) * 0.6) max(4px, calc(6px * var(--scale-factor)));
       }
     }
     
@@ -443,12 +467,15 @@
       .screen.expanded {
         flex: 2.2;
       }
+      body {
+        padding: calc(var(--corner-size) * 0.5) max(3px, calc(5px * var(--scale-factor)));
+      }
     }
     
     /* Para orientación horizontal */
     @media (orientation: landscape) and (max-height: 500px) {
       body {
-        padding: 5px;
+        padding: calc(var(--corner-size) * 0.5) max(3px, calc(5px * var(--scale-factor)));
         justify-content: center;
       }
       .calculator {
@@ -490,7 +517,7 @@
     </div>
   </div>
   
-  <!-- CALCULADORA -->
+  <!-- CALCULADORA - AHORA CON CONTENEDOR TRANSPARENTE -->
   <div class="calculator">
     <!-- PANTALLA CON CRECIMIENTO DINÁMICO -->
     <div class="screen" id="screen">
@@ -498,7 +525,7 @@
       <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
     </div>
     
-    <!-- FUNCIONES CIENTÍFICAS -->
+    <!-- FUNCIONES CIENTÍFICAS - CONTENEDOR TRANSPARENTE -->
     <div class="scientific-functions" id="scientificFunctions">
       <!-- Fila superior: 5 BOTONES DEL MISMO TAMAÑO -->
       <div class="scientific-row-top">
@@ -519,7 +546,7 @@
       </div>
     </div>
     
-    <!-- TECLADO BÁSICO -->
+    <!-- TECLADO BÁSICO - CONTENEDOR TRANSPARENTE -->
     <div class="basic-keyboard" id="basicKeyboard">
       <!-- Fila 1: AC ⌫ √ % ÷ -->
       <button class="btn btn-clear" data-action="clear">AC</button>
@@ -628,14 +655,18 @@
         const scale = calculateScaleFactor();
         document.documentElement.style.setProperty('--scale-factor', scale);
         
+        // Actualizar también el tamaño de las corner-decorations
+        document.documentElement.style.setProperty('--corner-size', 
+          `clamp(40px, calc(60px * ${scale}), 70px)`);
+        
         // Ajustar la calculadora para orientación horizontal
         const calculator = document.querySelector('.calculator');
         if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
           calculator.style.maxHeight = '90vh';
           calculator.style.overflowY = 'auto';
         } else {
-          calculator.style.maxHeight = 'none';
-          calculator.style.overflowY = 'visible';
+          calculator.style.maxHeight = 'calc(100vh - (var(--corner-size) * 2))';
+          calculator.style.overflowY = 'hidden';
         }
         
         // Forzar reflow para aplicar cambios
