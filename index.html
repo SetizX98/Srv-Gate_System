@@ -26,7 +26,7 @@
       --gap-size: calc(15px * var(--scale-factor));
       --screen-expanded-height: calc(180px * var(--scale-factor));
       --corner-size: clamp(40px, calc(60px * var(--scale-factor)), 70px);
-      --header-height: clamp(50px, calc(70px * var(--scale-factor)), 80px);
+      --header-height: clamp(40px, calc(50px * var(--scale-factor)), 60px);
     }
     
     body {
@@ -64,7 +64,7 @@
       will-change: transform;
     }
     
-    /* CABECERA CON TÍTULO - MEJORADA Y POSICIONADA ARRIBA */
+    /* CABECERA CON TÍTULO - MEJORADA Y POSICIONADA ARRIBA SIN FONDO */
     .header-container {
       position: absolute;
       top: max(5px, calc(10px * var(--scale-factor)));
@@ -82,13 +82,12 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: max(8px, calc(12px * var(--scale-factor))) max(15px, calc(20px * var(--scale-factor)));
-      background: rgba(15, 12, 41, 0.7);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      border: 1px solid rgba(100, 200, 255, 0.2);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-      margin-bottom: max(10px, calc(15px * var(--scale-factor)));
+      padding: max(5px, calc(8px * var(--scale-factor))) 0;
+      /* FONDO ELIMINADO - TRANSPARENTE */
+      background: transparent;
+      backdrop-filter: none;
+      border: none;
+      box-shadow: none;
       /* Posicionamiento para alinear con corner-decorations */
       position: relative;
       min-height: var(--header-height);
@@ -112,8 +111,8 @@
     }
     
     .logo {
-      width: clamp(40px, calc(50px * var(--scale-factor)), 55px);
-      height: clamp(40px, calc(50px * var(--scale-factor)), 55px);
+      width: clamp(35px, calc(45px * var(--scale-factor)), 50px);
+      height: clamp(35px, calc(45px * var(--scale-factor)), 50px);
       background: linear-gradient(135deg, #0088ff, #0066cc);
       border-radius: 50%;
       display: flex;
@@ -123,9 +122,10 @@
       box-shadow: 
         0 0 15px rgba(0, 136, 255, 0.6),
         inset 0 0 8px rgba(255, 255, 255, 0.3);
-      font-size: clamp(20px, calc(24px * var(--scale-factor)), 28px);
+      font-size: clamp(18px, calc(22px * var(--scale-factor)), 26px);
       color: white;
       margin-left: max(10px, calc(15px * var(--scale-factor)));
+      margin-right: max(10px, calc(15px * var(--scale-factor)));
     }
     
     /* Botón para expandir/contraer funciones */
@@ -180,11 +180,11 @@
       gap: var(--gap-size);
       flex: 1;
       min-height: 0;
-      /* Asegurar que no rebase los límites */
-      max-height: calc(100vh - (var(--corner-size) * 2));
+      /* Asegurar que no rebase los límites - AJUSTADO PARA MEJOR DISTRIBUCIÓN */
+      max-height: calc(100vh - (var(--corner-size) * 1.5));
       overflow: hidden;
-      /* Espacio para la cabecera */
-      margin-top: calc(var(--header-height) + max(10px, calc(15px * var(--scale-factor))));
+      /* Espacio reducido para la cabecera - AJUSTADO */
+      margin-top: calc(var(--header-height) + max(5px, calc(8px * var(--scale-factor))));
     }
     
     /* PANTALLA DE LA CALCULADORA - CON CRECIMIENTO DINÁMICO */
@@ -419,7 +419,7 @@
       }
       .calculator {
         max-width: 440px;
-        margin-top: calc(var(--header-height) + max(8px, calc(12px * var(--scale-factor))));
+        margin-top: calc(var(--header-height) + max(4px, calc(6px * var(--scale-factor))));
       }
       .header {
         max-width: 440px;
@@ -432,11 +432,22 @@
       }
       .calculator {
         max-width: 400px;
-        margin-top: calc(var(--header-height) + max(6px, calc(10px * var(--scale-factor))));
+        margin-top: calc(var(--header-height) + max(3px, calc(5px * var(--scale-factor))));
       }
       .header {
         max-width: 400px;
-        padding: max(6px, calc(10px * var(--scale-factor))) max(12px, calc(16px * var(--scale-factor)));
+        padding: max(3px, calc(5px * var(--scale-factor))) 0;
+      }
+      .title {
+        font-size: clamp(16px, calc(20px * var(--scale-factor)), 24px);
+        padding-left: max(8px, calc(12px * var(--scale-factor)));
+      }
+      .logo {
+        width: clamp(30px, calc(40px * var(--scale-factor)), 45px);
+        height: clamp(30px, calc(40px * var(--scale-factor)), 45px);
+        font-size: clamp(16px, calc(20px * var(--scale-factor)), 24px);
+        margin-left: max(8px, calc(12px * var(--scale-factor)));
+        margin-right: max(8px, calc(12px * var(--scale-factor)));
       }
       .screen.expanded {
         flex: 1.8;
@@ -456,21 +467,23 @@
       }
       .calculator {
         max-width: 380px;
-        margin-top: calc(var(--header-height) + max(4px, calc(8px * var(--scale-factor))));
+        margin-top: calc(var(--header-height) + max(2px, calc(4px * var(--scale-factor))));
       }
       .header {
         max-width: 380px;
-        padding: max(5px, calc(8px * var(--scale-factor))) max(10px, calc(14px * var(--scale-factor)));
+        padding: max(2px, calc(4px * var(--scale-factor))) 0;
         min-height: calc(var(--header-height) * 0.9);
       }
       .title {
-        font-size: clamp(16px, calc(20px * var(--scale-factor)), 24px);
-        padding-left: max(8px, calc(12px * var(--scale-factor)));
+        font-size: clamp(14px, calc(18px * var(--scale-factor)), 22px);
+        padding-left: max(6px, calc(10px * var(--scale-factor)));
       }
       .logo {
-        width: clamp(35px, calc(45px * var(--scale-factor)), 50px);
-        height: clamp(35px, calc(45px * var(--scale-factor)), 50px);
-        font-size: clamp(18px, calc(22px * var(--scale-factor)), 26px);
+        width: clamp(25px, calc(35px * var(--scale-factor)), 40px);
+        height: clamp(25px, calc(35px * var(--scale-factor)), 40px);
+        font-size: clamp(14px, calc(18px * var(--scale-factor)), 22px);
+        margin-left: max(6px, calc(10px * var(--scale-factor)));
+        margin-right: max(6px, calc(10px * var(--scale-factor)));
       }
       .screen.expanded {
         flex: 2;
@@ -487,11 +500,11 @@
       }
       .calculator {
         max-width: 100%;
-        margin-top: calc(var(--header-height) + max(6px, calc(10px * var(--scale-factor))));
+        margin-top: calc(var(--header-height) + max(3px, calc(5px * var(--scale-factor))));
       }
       .header {
         max-width: 100%;
-        padding: max(6px, calc(10px * var(--scale-factor))) max(10px, calc(15px * var(--scale-factor)));
+        padding: max(3px, calc(5px * var(--scale-factor))) 0;
       }
     }
     
@@ -503,10 +516,10 @@
         padding: calc(var(--corner-size) * 0.6) max(4px, calc(6px * var(--scale-factor)));
       }
       .calculator {
-        margin-top: calc(var(--header-height) + max(4px, calc(6px * var(--scale-factor))));
+        margin-top: calc(var(--header-height) + max(2px, calc(4px * var(--scale-factor))));
       }
       .header {
-        padding: max(5px, calc(8px * var(--scale-factor))) max(8px, calc(12px * var(--scale-factor)));
+        padding: max(2px, calc(4px * var(--scale-factor))) 0;
       }
     }
     
@@ -517,22 +530,23 @@
       }
       .calculator {
         max-width: 95%;
-        margin-top: calc(var(--header-height) + max(3px, calc(5px * var(--scale-factor))));
+        margin-top: calc(var(--header-height) + max(1px, calc(3px * var(--scale-factor))));
       }
       .header {
         max-width: 95%;
-        padding: max(4px, calc(6px * var(--scale-factor))) max(6px, calc(10px * var(--scale-factor)));
+        padding: max(1px, calc(3px * var(--scale-factor))) 0;
         min-height: calc(var(--header-height) * 0.85);
       }
       .title {
-        font-size: clamp(14px, calc(18px * var(--scale-factor)), 22px);
-        padding-left: max(6px, calc(10px * var(--scale-factor)));
+        font-size: clamp(12px, calc(16px * var(--scale-factor)), 20px);
+        padding-left: max(4px, calc(8px * var(--scale-factor)));
       }
       .logo {
-        width: clamp(30px, calc(40px * var(--scale-factor)), 45px);
-        height: clamp(30px, calc(40px * var(--scale-factor)), 45px);
-        font-size: clamp(16px, calc(20px * var(--scale-factor)), 24px);
-        margin-left: max(6px, calc(10px * var(--scale-factor)));
+        width: clamp(20px, calc(30px * var(--scale-factor)), 35px);
+        height: clamp(20px, calc(30px * var(--scale-factor)), 35px);
+        font-size: clamp(12px, calc(16px * var(--scale-factor)), 20px);
+        margin-left: max(4px, calc(8px * var(--scale-factor)));
+        margin-right: max(4px, calc(8px * var(--scale-factor)));
       }
       .screen.expanded {
         flex: 2.2;
@@ -547,7 +561,7 @@
       .header-container {
         position: relative;
         top: 0;
-        margin-bottom: max(5px, calc(8px * var(--scale-factor)));
+        margin-bottom: max(3px, calc(5px * var(--scale-factor)));
       }
       .header {
         max-width: 90%;
@@ -589,7 +603,7 @@
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
-  <!-- CABECERA - MEJORADA Y POSICIONADA ARRIBA -->
+  <!-- CABECERA - MEJORADA Y POSICIONADA ARRIBA SIN FONDO -->
   <div class="header-container">
     <div class="header">
       <div class="title">Calculadora Científica</div>
@@ -599,7 +613,7 @@
     </div>
   </div>
   
-  <!-- CALCULADORA - AHORA CON CONTENEDOR TRANSPARENTE -->
+  <!-- CALCULADORA - AHORA CON CONTENEDOR TRANSPARENTE Y MEJOR POSICIONADA -->
   <div class="calculator">
     <!-- PANTALLA CON CRECIMIENTO DINÁMICO -->
     <div class="screen" id="screen">
@@ -747,7 +761,7 @@
           calculator.style.maxHeight = 'calc(90vh - var(--header-height))';
           calculator.style.overflowY = 'auto';
         } else {
-          calculator.style.maxHeight = 'calc(100vh - (var(--corner-size) * 2) - var(--header-height))';
+          calculator.style.maxHeight = 'calc(100vh - (var(--corner-size) * 1.5) - var(--header-height))';
           calculator.style.overflowY = 'hidden';
         }
         
