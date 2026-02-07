@@ -27,6 +27,10 @@
       --screen-expanded-height: calc(180px * var(--scale-factor));
       --corner-size: clamp(40px, calc(60px * var(--scale-factor)), 70px);
       --header-height: clamp(40px, calc(50px * var(--scale-factor)), 60px);
+      --light-blue: rgba(64, 156, 255, 0.85);
+      --dark-blue: rgba(42, 42, 74, 0.85);
+      --blue-gradient: linear-gradient(145deg, var(--light-blue), rgba(0, 102, 204, 0.85));
+      --dark-gradient: linear-gradient(145deg, var(--dark-blue), rgba(32, 32, 64, 0.85));
     }
     
     body {
@@ -44,7 +48,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* Ajustado para respetar las corner-decorations */
       padding: var(--corner-size) max(10px, calc(15px * var(--scale-factor)));
     }
     
@@ -64,7 +67,7 @@
       will-change: transform;
     }
     
-    /* CABECERA CON TÍTULO - MEJORADA Y POSICIONADA ARRIBA SIN FONDO */
+    /* CABECERA */
     .header-container {
       position: absolute;
       top: max(5px, calc(10px * var(--scale-factor)));
@@ -83,12 +86,10 @@
       align-items: center;
       justify-content: space-between;
       padding: max(5px, calc(8px * var(--scale-factor))) 0;
-      /* FONDO ELIMINADO - TRANSPARENTE */
       background: transparent;
       backdrop-filter: none;
       border: none;
       box-shadow: none;
-      /* Posicionamiento para alinear con corner-decorations */
       position: relative;
       min-height: var(--header-height);
     }
@@ -128,44 +129,15 @@
       margin-right: max(10px, calc(15px * var(--scale-factor)));
     }
     
-    /* Botón para expandir/contraer funciones */
-    .toggle-functions {
-      height: var(--button-height);
-      background: linear-gradient(145deg, #9c27b0, #7b1fa2);
-      border: none;
-      border-radius: 12px;
-      color: white;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 
-        0 4px 0 rgba(0, 0, 0, 0.3),
-        inset 0 1px 3px rgba(255, 255, 255, 0.1);
-      transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
-      touch-action: manipulation;
-      flex: 1;
-    }
-    
-    .toggle-functions:active {
-      transform: translateY(4px) scale(0.98);
-      box-shadow: 
-        0 0 0 rgba(0, 0, 0, 0.3),
-        inset 0 1px 3px rgba(255, 255, 255, 0.1);
-    }
-    
     @keyframes logoGlow {
       from { box-shadow: 0 0 12px rgba(0, 136, 255, 0.5); }
       to { box-shadow: 0 0 20px rgba(0, 136, 255, 0.8); }
     }
     
-    /* CALCULADORA - CONTENEDOR PRINCIPAL TRANSPARENTE */
+    /* CALCULADORA */
     .calculator {
       width: 100%;
       max-width: 460px;
-      /* FONDO TRANSPARENTE PARA VER LAS PARTÍCULAS */
       background: transparent;
       backdrop-filter: none;
       border-radius: 20px;
@@ -180,14 +152,12 @@
       gap: var(--gap-size);
       flex: 1;
       min-height: 0;
-      /* Asegurar que no rebase los límites - AJUSTADO PARA MEJOR DISTRIBUCIÓN */
       max-height: calc(100vh - (var(--corner-size) * 1.5));
       overflow: hidden;
-      /* Espacio reducido para la cabecera - AJUSTADO */
       margin-top: calc(var(--header-height) + max(5px, calc(8px * var(--scale-factor))));
     }
     
-    /* PANTALLA DE LA CALCULADORA - CON CRECIMIENTO DINÁMICO */
+    /* PANTALLA */
     .screen {
       background: rgba(10, 20, 30, 0.9);
       border-radius: 15px;
@@ -203,7 +173,6 @@
       transition: all 0.3s ease;
       flex: 1;
       max-height: var(--screen-expanded-height);
-      /* La pantalla mantiene su opacidad */
       backdrop-filter: blur(10px);
     }
     
@@ -240,66 +209,23 @@
       min-height: calc(22px * var(--scale-factor));
     }
     
-    /* Indicador de previsualización */
     .preview-indicator {
       font-size: 12px;
       color: rgba(255, 255, 255, 0.4);
       font-style: normal;
     }
     
-    /* CONTENEDOR DE FUNCIONES CIENTÍFICAS - TRANSPARENTE */
-    .scientific-functions {
-      display: flex;
-      flex-direction: column;
-      gap: calc(10px * var(--scale-factor));
-      margin-bottom: calc(10px * var(--scale-factor));
-      flex-shrink: 0;
-      /* Fondo transparente */
-      background: transparent;
-    }
-    
-    /* Fila superior */
-    .scientific-row-top {
+    /* CONTENEDOR DE BOTONES - NUEVA ESTRUCTURA 8x4 */
+    .buttons-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: calc(10px * var(--scale-factor));
-      opacity: 1;
-      height: var(--button-height);
-      /* Fondo transparente para los botones individuales */
-      background: transparent;
-    }
-    
-    /* Fila inferior (expandible) */
-    .scientific-row-bottom {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: calc(10px * var(--scale-factor));
-      transition: all 0.3s ease;
-      overflow: hidden;
-      max-height: var(--button-height);
-      opacity: 1;
-      /* Fondo transparente */
-      background: transparent;
-    }
-    
-    .scientific-row-bottom.collapsed {
-      max-height: 0;
-      opacity: 0;
-      gap: 0;
-      margin-bottom: 0;
-    }
-    
-    /* TECLADO BÁSICO - TRANSPARENTE */
-    .basic-keyboard {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(8, var(--button-height));
       gap: calc(10px * var(--scale-factor));
       flex-shrink: 0;
-      /* Fondo transparente */
       background: transparent;
     }
     
-    /* BOTONES GENERALES - CON TRANSPARENCIA EN SUS FONDOS */
+    /* BOTONES GENERALES */
     .btn {
       height: var(--button-height);
       border: none;
@@ -316,7 +242,6 @@
       box-shadow: 
         0 4px 0 rgba(0, 0, 0, 0.3),
         inset 0 1px 3px rgba(255, 255, 255, 0.1);
-      /* Añadir un pequeño desenfoque para mejor visibilidad sobre partículas */
       backdrop-filter: blur(5px);
     }
     
@@ -327,48 +252,37 @@
         inset 0 1px 3px rgba(255, 255, 255, 0.1);
     }
     
-    /* TIPOS DE BOTONES - CON MAYOR TRANSPARENCIA */
-    .btn-number {
-      background: linear-gradient(145deg, rgba(58, 58, 93, 0.85), rgba(42, 42, 74, 0.85));
+    /* FILAS 1-3: AZUL CLARO */
+    .row-1 .btn,
+    .row-2 .btn,
+    .row-3 .btn {
+      background: var(--blue-gradient);
     }
     
-    .btn-operator {
-      background: linear-gradient(145deg, rgba(0, 136, 255, 0.85), rgba(0, 102, 204, 0.85));
+    /* FILAS 4-8: AZUL FUERTE */
+    .row-4 .btn,
+    .row-5 .btn,
+    .row-6 .btn,
+    .row-7 .btn,
+    .row-8 .btn {
+      background: var(--dark-gradient);
     }
     
-    .btn-function {
-      background: linear-gradient(145deg, rgba(156, 39, 176, 0.85), rgba(123, 31, 162, 0.85));
-      font-size: calc(16px * var(--scale-factor));
-      height: var(--button-height);
+    /* BOTONES ESPECIALES */
+    .btn-equals {
+      background: linear-gradient(145deg, rgba(76, 175, 80, 0.85), rgba(46, 125, 50, 0.85));
     }
     
     .btn-clear {
       background: linear-gradient(145deg, rgba(255, 68, 68, 0.85), rgba(204, 0, 0, 0.85));
     }
     
-    .btn-equals {
-      background: linear-gradient(145deg, rgba(76, 175, 80, 0.85), rgba(46, 125, 50, 0.85));
+    /* FILAS PARA ORGANIZACIÓN */
+    .row-1, .row-2, .row-3, .row-4, .row-5, .row-6, .row-7, .row-8 {
+      display: contents;
     }
     
-    .btn-zero {
-      grid-column: span 2;
-    }
-    
-    /* BOTÓN DE PARÉNTESIS */
-    .btn-parenthesis {
-      background: linear-gradient(145deg, rgba(255, 152, 0, 0.85), rgba(245, 124, 0, 0.85));
-      font-size: calc(20px * var(--scale-factor));
-    }
-    
-    /* BOTÓN DE CERRAR APP */
-    .btn-close {
-      background: linear-gradient(145deg, rgba(255, 87, 34, 0.85), rgba(230, 74, 25, 0.85));
-      font-size: calc(16px * var(--scale-factor));
-    }
-    
-    /* =============================================== */
     /* ELEMENTOS DECORATIVOS DE ESQUINA */
-    /* =============================================== */
     .corner-decoration {
       position: absolute;
       width: var(--corner-size);
@@ -392,11 +306,7 @@
       border-radius: 0 0 12px 0;
     }
     
-    /* =============================================== */
-    /* MEDIA QUERIES MEJORADAS - AJUSTADAS PARA LOS NUEVOS CAMBIOS */
-    /* =============================================== */
-    
-    /* Para pantallas muy grandes */
+    /* MEDIA QUERIES (conservados de tu código) */
     @media (min-height: 900px) {
       :root {
         --scale-factor: 1.1;
@@ -409,7 +319,6 @@
       }
     }
     
-    /* Para pantallas más pequeñas */
     @media (max-height: 700px) {
       :root {
         --scale-factor: 0.95;
@@ -457,7 +366,6 @@
       }
     }
     
-    /* Para pantallas muy pequeñas */
     @media (max-height: 500px) {
       :root {
         --scale-factor: 0.75;
@@ -490,7 +398,6 @@
       }
     }
     
-    /* Para anchos pequeños */
     @media (max-width: 400px) {
       :root {
         --scale-factor: 0.9;
@@ -523,7 +430,6 @@
       }
     }
     
-    /* Para dispositivos muy pequeños en ambas dimensiones */
     @media (max-width: 350px) and (max-height: 500px) {
       :root {
         --scale-factor: 0.7;
@@ -556,7 +462,6 @@
       }
     }
     
-    /* Para orientación horizontal */
     @media (orientation: landscape) and (max-height: 500px) {
       .header-container {
         position: relative;
@@ -576,18 +481,11 @@
         max-height: calc(90vh - var(--header-height));
         margin-top: 0;
       }
-      .basic-keyboard {
-        grid-template-columns: repeat(6, 1fr);
-      }
-      .btn-zero {
-        grid-column: span 3;
-      }
       .screen.expanded {
         flex: 1.2;
       }
     }
     
-    /* Soporte para Safari en iOS */
     @supports (-webkit-touch-callout: none) {
       body {
         height: -webkit-fill-available;
@@ -599,11 +497,11 @@
   <!-- Partículas decorativas -->
   <div class="particles" id="particles"></div>
   
-  <!-- Elementos decorativos de esquina - CON AZUL CELESTE -->
+  <!-- Elementos decorativos de esquina -->
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
-  <!-- CABECERA - MEJORADA Y POSICIONADA ARRIBA SIN FONDO -->
+  <!-- CABECERA -->
   <div class="header-container">
     <div class="header">
       <div class="title">Calculadora Científica</div>
@@ -613,70 +511,79 @@
     </div>
   </div>
   
-  <!-- CALCULADORA - AHORA CON CONTENEDOR TRANSPARENTE Y MEJOR POSICIONADA -->
+  <!-- CALCULADORA -->
   <div class="calculator">
-    <!-- PANTALLA CON CRECIMIENTO DINÁMICO -->
+    <!-- PANTALLA -->
     <div class="screen" id="screen">
       <div class="expression" id="expression"></div>
       <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
     </div>
     
-    <!-- FUNCIONES CIENTÍFICAS - CONTENEDOR TRANSPARENTE -->
-    <div class="scientific-functions" id="scientificFunctions">
-      <!-- Fila superior: 5 BOTONES DEL MISMO TAMAÑO -->
-      <div class="scientific-row-top">
-        <button class="toggle-functions" id="toggleFunctions">◀▶</button>
-        <button class="btn btn-function" data-action="pi">π</button>
-        <button class="btn btn-function" data-action="pow">^</button>
-        <button class="btn btn-function" data-action="factorial">!</button>
-        <button class="btn btn-function" data-action="e">e</button>
+    <!-- CONTENEDOR DE BOTONES - ESTRUCTURA 8x4 EXACTA -->
+    <div class="buttons-grid">
+      <!-- Fila 1: √ π ^ ! (Azul Claro) -->
+      <div class="row-1">
+        <button class="btn" data-action="sqrt">√</button>
+        <button class="btn" data-action="pi">π</button>
+        <button class="btn" data-action="pow">^</button>
+        <button class="btn" data-action="factorial">!</button>
       </div>
       
-      <!-- Fila inferior (expandible): sin cos tan log ln -->
-      <div class="scientific-row-bottom" id="expandableFunctions">
-        <button class="btn btn-function" data-action="sin">sin</button>
-        <button class="btn btn-function" data-action="cos">cos</button>
-        <button class="btn btn-function" data-action="tan">tan</button>
-        <button class="btn btn-function" data-action="log">log</button>
-        <button class="btn btn-function" data-action="ln">ln</button>
+      <!-- Fila 2: Deg sin cos tan (Azul Claro) -->
+      <div class="row-2">
+        <button class="btn" data-action="deg">Deg</button>
+        <button class="btn" data-action="sin">sin</button>
+        <button class="btn" data-action="cos">cos</button>
+        <button class="btn" data-action="tan">tan</button>
       </div>
-    </div>
-    
-    <!-- TECLADO BÁSICO - CONTENEDOR TRANSPARENTE -->
-    <div class="basic-keyboard" id="basicKeyboard">
-      <!-- Fila 1: AC ⌫ √ % ÷ -->
-      <button class="btn btn-clear" data-action="clear">AC</button>
-      <button class="btn btn-clear" data-action="backspace">⌫</button>
-      <button class="btn btn-function" data-action="sqrt">√</button>
-      <button class="btn btn-operator" data-action="percentage">%</button>
-      <button class="btn btn-operator" data-action="divide">÷</button>
       
-      <!-- Fila 2: 7 8 9 × ( ) -->
-      <button class="btn btn-number" data-value="7">7</button>
-      <button class="btn btn-number" data-value="8">8</button>
-      <button class="btn btn-number" data-value="9">9</button>
-      <button class="btn btn-operator" data-action="multiply">×</button>
-      <button class="btn btn-parenthesis" data-action="parenthesis">( )</button>
+      <!-- Fila 3: Inv e ln log (Azul Claro) -->
+      <div class="row-3">
+        <button class="btn" data-action="inv">Inv</button>
+        <button class="btn" data-action="e">e</button>
+        <button class="btn" data-action="ln">ln</button>
+        <button class="btn" data-action="log">log</button>
+      </div>
       
-      <!-- Fila 3: 4 5 6 - × -->
-      <button class="btn btn-number" data-value="4">4</button>
-      <button class="btn btn-number" data-value="5">5</button>
-      <button class="btn btn-number" data-value="6">6</button>
-      <button class="btn btn-operator" data-action="subtract">-</button>
-      <button class="btn btn-operator" data-action="multiply">×</button>
+      <!-- Fila 4: AC () % ÷ (Azul Fuerte) -->
+      <div class="row-4">
+        <button class="btn btn-clear" data-action="clear">AC</button>
+        <button class="btn" data-action="parenthesis">( )</button>
+        <button class="btn" data-action="percentage">%</button>
+        <button class="btn" data-action="divide">÷</button>
+      </div>
       
-      <!-- Fila 4: 1 2 3 + CLOSE -->
-      <button class="btn btn-number" data-value="1">1</button>
-      <button class="btn btn-number" data-value="2">2</button>
-      <button class="btn btn-number" data-value="3">3</button>
-      <button class="btn btn-operator" data-action="add">+</button>
-      <button class="btn btn-close" data-action="close">CLOSE</button>
+      <!-- Fila 5: 7 8 9 × (Azul Fuerte) -->
+      <div class="row-5">
+        <button class="btn" data-value="7">7</button>
+        <button class="btn" data-value="8">8</button>
+        <button class="btn" data-value="9">9</button>
+        <button class="btn" data-action="multiply">×</button>
+      </div>
       
-      <!-- Fila 5: 0 . × = -->
-      <button class="btn btn-number btn-zero" data-value="0">0</button>
-      <button class="btn btn-number" data-value=".">.</button>
-      <button class="btn btn-operator" data-action="multiply">×</button>
-      <button class="btn btn-equals" data-action="equals">=</button>
+      <!-- Fila 6: 4 5 6 - (Azul Fuerte) -->
+      <div class="row-6">
+        <button class="btn" data-value="4">4</button>
+        <button class="btn" data-value="5">5</button>
+        <button class="btn" data-value="6">6</button>
+        <button class="btn" data-action="subtract">-</button>
+      </div>
+      
+      <!-- Fila 7: 1 2 3 + (Azul Fuerte) -->
+      <div class="row-7">
+        <button class="btn" data-value="1">1</button>
+        <button class="btn" data-value="2">2</button>
+        <button class="btn" data-value="3">3</button>
+        <button class="btn" data-action="add">+</button>
+      </div>
+      
+      <!-- Fila 8: 0 . ⌫ = (Azul Fuerte) -->
+      <div class="row-8">
+        <button class="btn" data-value="0">0</button>
+        <button class="btn" data-value=".">.</button>
+        <button class="btn" data-action="backspace">⌫</button>
+        <button class="btn btn-equals" data-action="equals">=</button>
+      </div>
     </div>
   </div>
   
@@ -686,32 +593,27 @@
       const expressionElement = document.getElementById('expression');
       const resultElement = document.getElementById('result');
       const previewValueElement = document.getElementById('previewValue');
-      const scientificFunctions = document.getElementById('scientificFunctions');
-      const basicKeyboard = document.getElementById('basicKeyboard');
       const particlesContainer = document.getElementById('particles');
-      const toggleFunctionsBtn = document.getElementById('toggleFunctions');
-      const expandableFunctions = document.getElementById('expandableFunctions');
       const screenElement = document.getElementById('screen');
       
       // Estado de la calculadora
       let currentExpression = '';
       let currentPreview = '0';
-      let isScientificExpanded = true;
       let parenthesisOpen = false;
       let lastSqrtIndex = -1;
       let previewTimeout = null;
+      let isDeg = true;
+      let isInv = false;
       
       // ================================================
-      // FUNCIÓN MEJORADA DE AJUSTE AUTOMÁTICO DE TAMAÑO
+      // FUNCIÓN DE AJUSTE AUTOMÁTICO DE TAMAÑO
       // ================================================
       function calculateScaleFactor() {
         const viewportHeight = window.innerHeight;
         const viewportWidth = window.innerWidth;
         
-        // Factor base basado en la altura
         let scale = viewportHeight / 800;
         
-        // Ajustes específicos para diferentes rangos
         if (viewportHeight >= 900) {
           scale = 1.1;
         } else if (viewportHeight >= 800) {
@@ -726,7 +628,6 @@
           scale = 0.7;
         }
         
-        // Ajuste adicional para anchos pequeños
         if (viewportWidth < 400) {
           scale = Math.min(scale, 0.9);
         }
@@ -735,12 +636,10 @@
           scale = Math.min(scale, 0.8);
         }
         
-        // Para orientación horizontal
         if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
           scale = Math.min(scale, 0.8);
         }
         
-        // Asegurar límites razonables
         scale = Math.max(scale, 0.65);
         scale = Math.min(scale, 1.2);
         
@@ -750,12 +649,9 @@
       function updateScale() {
         const scale = calculateScaleFactor();
         document.documentElement.style.setProperty('--scale-factor', scale);
-        
-        // Actualizar también el tamaño de las corner-decorations
         document.documentElement.style.setProperty('--corner-size', 
           `clamp(40px, calc(60px * ${scale}), 70px)`);
         
-        // Ajustar la calculadora para orientación horizontal
         const calculator = document.querySelector('.calculator');
         if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
           calculator.style.maxHeight = 'calc(90vh - var(--header-height))';
@@ -765,7 +661,6 @@
           calculator.style.overflowY = 'hidden';
         }
         
-        // Forzar reflow para aplicar cambios
         calculator.style.display = 'none';
         calculator.offsetHeight;
         calculator.style.display = 'flex';
@@ -879,7 +774,6 @@
         expressionElement.textContent = currentExpression || '';
         previewValueElement.textContent = currentPreview;
         
-        // Mostrar/ocultar indicador de preview
         if (currentPreview === '0' || currentPreview === '') {
           resultElement.querySelector('.preview-indicator').style.display = 'none';
         } else {
@@ -964,6 +858,38 @@
         parenthesisOpen = true;
       }
       
+      // TOGGLE GRADOS/RADIANES
+      function toggleDeg() {
+        isDeg = !isDeg;
+        const degButtons = document.querySelectorAll('[data-action="deg"]');
+        degButtons.forEach(btn => {
+          btn.textContent = isDeg ? 'Deg' : 'Rad';
+        });
+      }
+      
+      // TOGGLE FUNCIONES INVERSAS
+      function toggleInv() {
+        isInv = !isInv;
+        const invButtons = document.querySelectorAll('[data-action="inv"]');
+        const sinButtons = document.querySelectorAll('[data-action="sin"]');
+        const cosButtons = document.querySelectorAll('[data-action="cos"]');
+        const tanButtons = document.querySelectorAll('[data-action="tan"]');
+        
+        invButtons.forEach(btn => {
+          btn.style.backgroundColor = isInv ? '#ff5a75' : '';
+        });
+        
+        if (isInv) {
+          sinButtons.forEach(btn => btn.textContent = 'sin⁻¹');
+          cosButtons.forEach(btn => btn.textContent = 'cos⁻¹');
+          tanButtons.forEach(btn => btn.textContent = 'tan⁻¹');
+        } else {
+          sinButtons.forEach(btn => btn.textContent = 'sin');
+          cosButtons.forEach(btn => btn.textContent = 'cos');
+          tanButtons.forEach(btn => btn.textContent = 'tan');
+        }
+      }
+      
       // ACTUALIZAR PREVISUALIZACIÓN EN TIEMPO REAL
       function updatePreview() {
         if (previewTimeout) {
@@ -982,17 +908,40 @@
             
             expressionToEval = balanceParentheses(expressionToEval);
             
+            // Reemplazar símbolos por funciones mathjs
             expressionToEval = expressionToEval
               .replace(/×/g, '*')
               .replace(/÷/g, '/')
               .replace(/π/g, 'pi')
               .replace(/√/g, 'sqrt')
               .replace(/\^/g, '^')
-              .replace(/sin/g, 'sin')
-              .replace(/cos/g, 'cos')
-              .replace(/tan/g, 'tan')
-              .replace(/log/g, 'log10')
-              .replace(/ln/g, 'log');
+              .replace(/e/g, 'e');
+            
+            // Manejar funciones trigonométricas
+            if (isInv) {
+              expressionToEval = expressionToEval
+                .replace(/sin/g, 'asin')
+                .replace(/cos/g, 'acos')
+                .replace(/tan/g, 'atan');
+            } else {
+              expressionToEval = expressionToEval
+                .replace(/sin/g, 'sin')
+                .replace(/cos/g, 'cos')
+                .replace(/tan/g, 'tan');
+            }
+            
+            // Convertir grados a radianes si es necesario
+            if (isDeg && !isInv) {
+              // Encuentra números antes de funciones trigonométricas
+              expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
+                function(match, func, angle) {
+                  return func + '(' + angle + '*pi/180)';
+                });
+            }
+            
+            expressionToEval = expressionToEval
+              .replace(/ln/g, 'log')
+              .replace(/log/g, 'log10');
             
             expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
               return `factorial(${num})`;
@@ -1029,17 +978,39 @@
           
           expressionToEval = balanceParentheses(expressionToEval);
           
+          // Reemplazar símbolos por funciones mathjs
           expressionToEval = expressionToEval
             .replace(/×/g, '*')
             .replace(/÷/g, '/')
             .replace(/π/g, 'pi')
             .replace(/√/g, 'sqrt')
             .replace(/\^/g, '^')
-            .replace(/sin/g, 'sin')
-            .replace(/cos/g, 'cos')
-            .replace(/tan/g, 'tan')
-            .replace(/log/g, 'log10')
-            .replace(/ln/g, 'log');
+            .replace(/e/g, 'e');
+          
+          // Manejar funciones trigonométricas
+          if (isInv) {
+            expressionToEval = expressionToEval
+              .replace(/sin/g, 'asin')
+              .replace(/cos/g, 'acos')
+              .replace(/tan/g, 'atan');
+          } else {
+            expressionToEval = expressionToEval
+              .replace(/sin/g, 'sin')
+              .replace(/cos/g, 'cos')
+              .replace(/tan/g, 'tan');
+          }
+          
+          // Convertir grados a radianes si es necesario
+          if (isDeg && !isInv) {
+            expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
+              function(match, func, angle) {
+                return func + '(' + angle + '*pi/180)';
+              });
+          }
+          
+          expressionToEval = expressionToEval
+            .replace(/ln/g, 'log')
+            .replace(/log/g, 'log10');
           
           expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
             return `factorial(${num})`;
@@ -1051,10 +1022,16 @@
           
           const result = math.evaluate(expressionToEval);
           
-          let formattedResult = result.toString();
+          // Convertir resultado de radianes a grados si es necesario
+          let finalResult = result;
+          if (isDeg && isInv) {
+            finalResult = result * 180 / Math.PI;
+          }
           
-          if (formattedResult.length > 12 && !isNaN(result)) {
-            formattedResult = Number(result).toPrecision(10);
+          let formattedResult = finalResult.toString();
+          
+          if (formattedResult.length > 12 && !isNaN(finalResult)) {
+            formattedResult = Number(finalResult).toPrecision(10);
           }
           
           currentExpression = formattedResult;
@@ -1085,69 +1062,12 @@
         
         if (isTelegramWebApp && Telegram.WebApp.close) {
           Telegram.WebApp.close();
-        } else {
-          alert('Si estuvieras en Telegram, la Mini App se cerraría.');
         }
-      }
-      
-      // MANEJAR FUNCIONES ESPECIALES
-      function handleSpecialFunction(action) {
-        switch(action) {
-          case 'sin':
-            addToExpression('sin(');
-            parenthesisOpen = true;
-            break;
-          case 'cos':
-            addToExpression('cos(');
-            parenthesisOpen = true;
-            break;
-          case 'tan':
-            addToExpression('tan(');
-            parenthesisOpen = true;
-            break;
-          case 'log':
-            addToExpression('log(');
-            parenthesisOpen = true;
-            break;
-          case 'ln':
-            addToExpression('ln(');
-            parenthesisOpen = true;
-            break;
-          case 'sqrt':
-            handleSquareRoot();
-            break;
-          case 'pi':
-            addToExpression('π');
-            break;
-          case 'e':
-            addToExpression('e');
-            break;
-          case 'pow':
-            addToExpression('^');
-            break;
-          case 'factorial':
-            addToExpression('!');
-            break;
-          case 'percentage':
-            addToExpression('%');
-            break;
-        }
-      }
-      
-      // TOGGLE FUNCIONES CIENTÍFICAS CON EXPANSIÓN DE PANTALLA
-      function toggleScientificFunctions() {
-        isScientificExpanded = !isScientificExpanded;
-        expandableFunctions.classList.toggle('collapsed', !isScientificExpanded);
-        screenElement.classList.toggle('expanded', !isScientificExpanded);
-        toggleFunctionsBtn.textContent = isScientificExpanded ? '◀▶' : '◀▶';
-        
-        // Actualizar el tamaño después del cambio
-        setTimeout(updateScale, 50);
       }
       
       // MANEJAR CLICS EN BOTONES
       function handleButtonClick(event) {
-        const button = event.target.closest('.btn, .toggle-functions');
+        const button = event.target.closest('.btn');
         if (!button) return;
         
         button.style.transform = 'translateY(4px) scale(0.98)';
@@ -1189,20 +1109,55 @@
             case 'percentage':
               addToExpression('%');
               break;
-            case 'close':
-              closeMiniApp();
+            case 'sqrt':
+              handleSquareRoot();
               break;
-            default:
-              handleSpecialFunction(action);
+            case 'pi':
+              addToExpression('π');
+              break;
+            case 'e':
+              addToExpression('e');
+              break;
+            case 'pow':
+              addToExpression('^');
+              break;
+            case 'factorial':
+              addToExpression('!');
+              break;
+            case 'sin':
+              addToExpression(isInv ? 'asin(' : 'sin(');
+              parenthesisOpen = true;
+              break;
+            case 'cos':
+              addToExpression(isInv ? 'acos(' : 'cos(');
+              parenthesisOpen = true;
+              break;
+            case 'tan':
+              addToExpression(isInv ? 'atan(' : 'tan(');
+              parenthesisOpen = true;
+              break;
+            case 'ln':
+              addToExpression('ln(');
+              parenthesisOpen = true;
+              break;
+            case 'log':
+              addToExpression('log(');
+              parenthesisOpen = true;
+              break;
+            case 'deg':
+              toggleDeg();
+              break;
+            case 'inv':
+              toggleInv();
+              break;
           }
         }
       }
       
-      // INICIALIZAR TECLADOS
-      function initializeKeyboards() {
-        scientificFunctions.addEventListener('click', handleButtonClick);
-        basicKeyboard.addEventListener('click', handleButtonClick);
-        toggleFunctionsBtn.addEventListener('click', toggleScientificFunctions);
+      // INICIALIZAR
+      function initialize() {
+        const buttonsGrid = document.querySelector('.buttons-grid');
+        buttonsGrid.addEventListener('click', handleButtonClick);
         
         // Soporte para teclado físico
         document.addEventListener('keydown', function(event) {
@@ -1234,8 +1189,6 @@
             handleParenthesis();
           } else if (key === '%') {
             addToExpression('%');
-          } else if (key === 'c' || key === 'C') {
-            closeMiniApp();
           }
         });
       }
@@ -1243,7 +1196,6 @@
       // Verificar si estamos en Telegram WebApp
       const isTelegramWebApp = window.Telegram && window.Telegram.WebApp;
       
-      // Inicializar WebApp de Telegram si está disponible
       if (isTelegramWebApp) {
         Telegram.WebApp.ready();
         console.log('✅ Calculadora Científica para Telegram inicializada');
@@ -1254,13 +1206,8 @@
       
       // INICIALIZAR TODO
       createParticles();
-      initializeKeyboards();
+      initialize();
       updateScreen();
-      
-      // Inicializar con la segunda fila expandida
-      expandableFunctions.classList.remove('collapsed');
-      screenElement.classList.remove('expanded');
-      isScientificExpanded = true;
       
       // Ajustar para dispositivos iOS
       if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
@@ -1275,13 +1222,6 @@
         window.addEventListener('resize', setVH);
         window.addEventListener('orientationchange', setVH);
       }
-      
-      // Auto-contraer en pantallas muy pequeñas
-      setTimeout(() => {
-        if (window.innerHeight < 600 || window.innerWidth < 350) {
-          toggleScientificFunctions();
-        }
-      }, 500);
     });
   </script>
 </body>
