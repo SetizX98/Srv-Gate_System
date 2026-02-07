@@ -48,7 +48,10 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: var(--corner-size) max(10px, calc(15px * var(--scale-factor)));
+      /* REDUCIDO el padding superior para dar más espacio a la calculadora */
+      padding: max(10px, calc(15px * var(--scale-factor))) max(10px, calc(15px * var(--scale-factor)));
+      /* Ajustar para que la calculadora pueda extenderse hacia arriba */
+      justify-content: flex-start;
     }
     
     /* Partículas decorativas */
@@ -67,31 +70,29 @@
       will-change: transform;
     }
     
-    /* CABECERA */
+    /* CABECERA - MODIFICADA para estar dentro de la calculadora */
     .header-container {
-      position: absolute;
-      top: max(5px, calc(10px * var(--scale-factor)));
-      left: 0;
       width: 100%;
+      max-width: 460px;
       z-index: 3;
       display: flex;
       justify-content: center;
-      padding: 0 var(--calculator-padding);
+      margin-bottom: max(10px, calc(15px * var(--scale-factor)));
     }
     
     .header {
       width: 100%;
-      max-width: 460px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: max(5px, calc(8px * var(--scale-factor))) 0;
-      background: transparent;
-      backdrop-filter: none;
-      border: none;
-      box-shadow: none;
-      position: relative;
-      min-height: var(--header-height);
+      padding: max(8px, calc(12px * var(--scale-factor))) max(15px, calc(20px * var(--scale-factor)));
+      background: rgba(10, 20, 30, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 
+        0 10px 30px rgba(0, 0, 0, 0.3),
+        inset 0 0 15px rgba(255, 255, 255, 0.05);
     }
     
     .title {
@@ -134,7 +135,7 @@
       to { box-shadow: 0 0 20px rgba(0, 136, 255, 0.8); }
     }
     
-    /* CALCULADORA */
+    /* CALCULADORA - AMPLIADA para ocupar más espacio vertical */
     .calculator {
       width: 100%;
       max-width: 460px;
@@ -152,12 +153,14 @@
       gap: var(--gap-size);
       flex: 1;
       min-height: 0;
-      max-height: calc(100vh - (var(--corner-size) * 1.5));
+      /* AMPLIADO: más altura disponible */
+      max-height: calc(100vh - 40px);
       overflow: hidden;
-      margin-top: calc(var(--header-height) + max(5px, calc(8px * var(--scale-factor))));
+      /* Sin margen superior ya que el header está separado */
+      margin-top: 0;
     }
     
-    /* PANTALLA */
+    /* PANTALLA - Reducida un poco para dar más espacio a los botones */
     .screen {
       background: rgba(10, 20, 30, 0.9);
       border-radius: 15px;
@@ -165,20 +168,15 @@
       text-align: right;
       border: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
-      min-height: var(--screen-min-height);
+      min-height: calc(90px * var(--scale-factor));
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       overflow: hidden;
       transition: all 0.3s ease;
-      flex: 1;
-      max-height: var(--screen-expanded-height);
+      flex-shrink: 0;
+      max-height: calc(100px * var(--scale-factor));
       backdrop-filter: blur(10px);
-    }
-    
-    .screen.expanded {
-      flex: 1.5;
-      max-height: calc(var(--screen-expanded-height) * 1.3);
     }
     
     /* ECUACIÓN */
@@ -192,7 +190,7 @@
       white-space: nowrap;
       margin-bottom: 5px;
       flex-shrink: 0;
-      min-height: calc(40px * var(--scale-factor));
+      min-height: calc(35px * var(--scale-factor));
     }
     
     /* RESULTADO */
@@ -206,7 +204,7 @@
       overflow-x: auto;
       font-style: italic;
       flex-shrink: 0;
-      min-height: calc(22px * var(--scale-factor));
+      min-height: calc(20px * var(--scale-factor));
     }
     
     .preview-indicator {
@@ -215,19 +213,23 @@
       font-style: normal;
     }
     
-    /* CONTENEDOR DE BOTONES - NUEVA ESTRUCTURA 8x4 */
+    /* CONTENEDOR DE BOTONES - CON MÁS ESPACIO DISPONIBLE */
     .buttons-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(8, var(--button-height));
-      gap: calc(10px * var(--scale-factor));
-      flex-shrink: 0;
+      grid-template-rows: repeat(8, 1fr);
+      gap: calc(8px * var(--scale-factor));
+      flex: 1;
+      min-height: 0;
       background: transparent;
+      /* Altura total de los botones: 8 filas */
+      height: calc(8 * var(--button-height) + 7 * calc(8px * var(--scale-factor)));
     }
     
     /* BOTONES GENERALES */
     .btn {
-      height: var(--button-height);
+      height: 100%;
+      width: 100%;
       border: none;
       border-radius: 12px;
       font-size: var(--font-size-button);
@@ -306,7 +308,7 @@
       border-radius: 0 0 12px 0;
     }
     
-    /* MEDIA QUERIES (conservados de tu código) */
+    /* MEDIA QUERIES AJUSTADAS PARA LA NUEVA DISPOSICIÓN */
     @media (min-height: 900px) {
       :root {
         --scale-factor: 1.1;
@@ -314,7 +316,7 @@
       .calculator {
         max-width: 500px;
       }
-      .header {
+      .header-container {
         max-width: 500px;
       }
     }
@@ -324,13 +326,12 @@
         --scale-factor: 0.95;
       }
       body {
-        padding: calc(var(--corner-size) * 0.8) max(8px, calc(10px * var(--scale-factor)));
+        padding: max(8px, calc(10px * var(--scale-factor))) max(8px, calc(10px * var(--scale-factor)));
       }
       .calculator {
         max-width: 440px;
-        margin-top: calc(var(--header-height) + max(4px, calc(6px * var(--scale-factor))));
       }
-      .header {
+      .header-container {
         max-width: 440px;
       }
     }
@@ -341,11 +342,9 @@
       }
       .calculator {
         max-width: 400px;
-        margin-top: calc(var(--header-height) + max(3px, calc(5px * var(--scale-factor))));
       }
-      .header {
+      .header-container {
         max-width: 400px;
-        padding: max(3px, calc(5px * var(--scale-factor))) 0;
       }
       .title {
         font-size: clamp(16px, calc(20px * var(--scale-factor)), 24px);
@@ -358,11 +357,9 @@
         margin-left: max(8px, calc(12px * var(--scale-factor)));
         margin-right: max(8px, calc(12px * var(--scale-factor)));
       }
-      .screen.expanded {
-        flex: 1.8;
-      }
-      body {
-        padding: calc(var(--corner-size) * 0.7) max(6px, calc(8px * var(--scale-factor)));
+      .screen {
+        min-height: calc(80px * var(--scale-factor));
+        max-height: calc(90px * var(--scale-factor));
       }
     }
     
@@ -370,17 +367,11 @@
       :root {
         --scale-factor: 0.75;
       }
-      body {
-        padding: calc(var(--corner-size) * 0.6) max(4px, calc(6px * var(--scale-factor)));
-      }
       .calculator {
         max-width: 380px;
-        margin-top: calc(var(--header-height) + max(2px, calc(4px * var(--scale-factor))));
       }
-      .header {
+      .header-container {
         max-width: 380px;
-        padding: max(2px, calc(4px * var(--scale-factor))) 0;
-        min-height: calc(var(--header-height) * 0.9);
       }
       .title {
         font-size: clamp(14px, calc(18px * var(--scale-factor)), 22px);
@@ -393,8 +384,9 @@
         margin-left: max(6px, calc(10px * var(--scale-factor)));
         margin-right: max(6px, calc(10px * var(--scale-factor)));
       }
-      .screen.expanded {
-        flex: 2;
+      .screen {
+        min-height: calc(70px * var(--scale-factor));
+        max-height: calc(80px * var(--scale-factor));
       }
     }
     
@@ -403,15 +395,13 @@
         --scale-factor: 0.9;
       }
       body {
-        padding: var(--corner-size) max(6px, calc(8px * var(--scale-factor)));
+        padding: max(8px, calc(10px * var(--scale-factor))) max(6px, calc(8px * var(--scale-factor)));
       }
       .calculator {
         max-width: 100%;
-        margin-top: calc(var(--header-height) + max(3px, calc(5px * var(--scale-factor))));
       }
-      .header {
+      .header-container {
         max-width: 100%;
-        padding: max(3px, calc(5px * var(--scale-factor))) 0;
       }
     }
     
@@ -420,13 +410,7 @@
         --scale-factor: 0.8;
       }
       body {
-        padding: calc(var(--corner-size) * 0.6) max(4px, calc(6px * var(--scale-factor)));
-      }
-      .calculator {
-        margin-top: calc(var(--header-height) + max(2px, calc(4px * var(--scale-factor))));
-      }
-      .header {
-        padding: max(2px, calc(4px * var(--scale-factor))) 0;
+        padding: max(6px, calc(8px * var(--scale-factor))) max(4px, calc(6px * var(--scale-factor)));
       }
     }
     
@@ -436,12 +420,9 @@
       }
       .calculator {
         max-width: 95%;
-        margin-top: calc(var(--header-height) + max(1px, calc(3px * var(--scale-factor))));
       }
-      .header {
+      .header-container {
         max-width: 95%;
-        padding: max(1px, calc(3px * var(--scale-factor))) 0;
-        min-height: calc(var(--header-height) * 0.85);
       }
       .title {
         font-size: clamp(12px, calc(16px * var(--scale-factor)), 20px);
@@ -454,35 +435,46 @@
         margin-left: max(4px, calc(8px * var(--scale-factor)));
         margin-right: max(4px, calc(8px * var(--scale-factor)));
       }
-      .screen.expanded {
-        flex: 2.2;
-      }
-      body {
-        padding: calc(var(--corner-size) * 0.5) max(3px, calc(5px * var(--scale-factor)));
+      .screen {
+        min-height: calc(60px * var(--scale-factor));
+        max-height: calc(70px * var(--scale-factor));
       }
     }
     
     @media (orientation: landscape) and (max-height: 500px) {
-      .header-container {
-        position: relative;
-        top: 0;
-        margin-bottom: max(3px, calc(5px * var(--scale-factor)));
-      }
-      .header {
-        max-width: 90%;
-        margin: 0 auto;
-      }
       body {
-        padding: calc(var(--corner-size) * 0.5) max(3px, calc(5px * var(--scale-factor)));
-        justify-content: flex-start;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        padding: max(10px, calc(15px * var(--scale-factor)));
       }
+      
+      .header-container {
+        position: absolute;
+        top: max(10px, calc(15px * var(--scale-factor)));
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 90%;
+        margin-bottom: 0;
+      }
+      
       .calculator {
         max-width: 90%;
-        max-height: calc(90vh - var(--header-height));
-        margin-top: 0;
+        max-height: calc(100vh - 60px);
+        margin-top: calc(var(--header-height) + max(15px, calc(20px * var(--scale-factor))));
+        flex-direction: row;
+        gap: max(15px, calc(20px * var(--scale-factor)));
       }
-      .screen.expanded {
-        flex: 1.2;
+      
+      .screen {
+        flex: 0 0 40%;
+        max-height: none;
+        min-height: auto;
+      }
+      
+      .buttons-grid {
+        flex: 0 0 60%;
+        height: 100%;
       }
     }
     
@@ -501,7 +493,7 @@
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
-  <!-- CABECERA -->
+  <!-- CABECERA SEPARADA ARRIBA DE LA CALCULADORA -->
   <div class="header-container">
     <div class="header">
       <div class="title">Calculadora Científica</div>
@@ -511,7 +503,7 @@
     </div>
   </div>
   
-  <!-- CALCULADORA -->
+  <!-- CALCULADORA AMPLIADA -->
   <div class="calculator">
     <!-- PANTALLA -->
     <div class="screen" id="screen">
@@ -588,6 +580,7 @@
   </div>
   
   <script>
+    // El script permanece igual que en la versión anterior
     document.addEventListener('DOMContentLoaded', function() {
       // Elementos de la calculadora
       const expressionElement = document.getElementById('expression');
@@ -654,10 +647,10 @@
         
         const calculator = document.querySelector('.calculator');
         if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
-          calculator.style.maxHeight = 'calc(90vh - var(--header-height))';
+          calculator.style.maxHeight = 'calc(100vh - 60px)';
           calculator.style.overflowY = 'auto';
         } else {
-          calculator.style.maxHeight = 'calc(100vh - (var(--corner-size) * 1.5) - var(--header-height))';
+          calculator.style.maxHeight = 'calc(100vh - 40px)';
           calculator.style.overflowY = 'hidden';
         }
         
@@ -932,7 +925,6 @@
             
             // Convertir grados a radianes si es necesario
             if (isDeg && !isInv) {
-              // Encuentra números antes de funciones trigonométricas
               expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
                 function(match, func, angle) {
                   return func + '(' + angle + '*pi/180)';
@@ -1053,15 +1045,6 @@
             lastSqrtIndex = -1;
             updateScreen();
           }, 1500);
-        }
-      }
-      
-      // CERRAR LA MINI APP
-      function closeMiniApp() {
-        const isTelegramWebApp = window.Telegram && window.Telegram.WebApp;
-        
-        if (isTelegramWebApp && Telegram.WebApp.close) {
-          Telegram.WebApp.close();
         }
       }
       
