@@ -17,11 +17,11 @@
     
     :root {
       --scale-factor: 1;
-      --button-height: calc(60px * var(--scale-factor)); /* AUMENTADO de 48px a 60px */
+      --button-height: calc(60px * var(--scale-factor));
       --font-size-expression: calc(28px * var(--scale-factor));
       --font-size-result: calc(16px * var(--scale-factor));
       --font-size-button: calc(18px * var(--scale-factor));
-      --screen-min-height: calc(80px * var(--scale-factor)); /* REDUCIDO para pantalla superior */
+      --screen-min-height: calc(80px * var(--scale-factor));
       --corner-size: clamp(40px, calc(60px * var(--scale-factor)), 70px);
       --light-blue: rgba(64, 156, 255, 0.85);
       --dark-blue: rgba(42, 42, 74, 0.85);
@@ -44,8 +44,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between; /* Cambiado para distribuir espacio */
-      padding: var(--corner-size) max(15px, calc(20px * var(--scale-factor))) var(--corner-size);
+      /* Cambiado para tener más separación entre pantalla y botones */
+      padding: calc(var(--corner-size) * 0.8) max(15px, calc(20px * var(--scale-factor))) calc(var(--corner-size) * 0.8);
     }
     
     /* Partículas decorativas - MEJORADAS */
@@ -59,17 +59,17 @@
     
     .particle {
       position: absolute;
-      background: rgba(255, 255, 255, 0.15); /* Aumentada opacidad */
+      background: rgba(255, 255, 255, 0.15);
       border-radius: 50%;
       will-change: transform, opacity;
       transition: opacity 0.3s ease;
-      box-shadow: 0 0 6px currentColor; /* Añadido brillo */
+      box-shadow: 0 0 6px currentColor;
     }
     
-    /* PANTALLA - EN LA PARTE SUPERIOR donde estaba el título */
+    /* PANTALLA - EN LA PARTE SUPERIOR */
     .screen {
       width: 100%;
-      max-width: 460px; /* Aumentado para mejor distribución */
+      max-width: 460px;
       background: rgba(10, 20, 30, 0.9);
       backdrop-filter: blur(15px);
       border-radius: 15px;
@@ -85,8 +85,8 @@
       justify-content: flex-end;
       overflow: hidden;
       z-index: 2;
-      margin-top: 0;
-      /* Posicionada en la parte superior, debajo del corner */
+      /* Añadido margen inferior para separar de los botones */
+      margin-bottom: max(20px, calc(30px * var(--scale-factor)));
       align-self: center;
       flex-shrink: 0;
     }
@@ -125,29 +125,30 @@
       font-style: normal;
     }
     
-    /* CONTENEDOR DE BOTONES - SIN FONDO, OCUPANDO EL ESPACIO RESTANTE */
+    /* CONTENEDOR DE BOTONES - CON MÁS SEPARACIÓN */
     .buttons-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(8, var(--button-height));
-      gap: calc(10px * var(--scale-factor)); /* Aumentado de 7px para más espacio */
+      gap: calc(12px * var(--scale-factor)); /* Aumentado de 10px a 12px */
       width: 100%;
       max-width: 460px;
       background: transparent;
       z-index: 2;
-      /* Ocupa el espacio restante entre pantalla y corner inferior */
+      /* Ocupa el espacio disponible hasta el corner inferior */
       flex: 1;
       min-height: 0;
-      margin-bottom: 0;
+      /* Asegurar que llegue hasta abajo */
+      margin-top: 0;
       align-self: center;
     }
     
-    /* BOTONES GENERALES - MÁS GRANDES Y MEJOR DISTRIBUIDOS */
+    /* BOTONES GENERALES */
     .btn {
       height: 100%;
       width: 100%;
       border: none;
-      border-radius: 12px; /* Aumentado de 10px */
+      border-radius: 12px;
       font-size: var(--font-size-button);
       font-weight: 600;
       cursor: pointer;
@@ -158,13 +159,13 @@
       touch-action: manipulation;
       color: white;
       box-shadow: 
-        0 4px 0 rgba(0, 0, 0, 0.4), /* Aumentado de 3px */
+        0 4px 0 rgba(0, 0, 0, 0.4),
         inset 0 1px 3px rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(8px); /* Aumentado de 5px */
+      backdrop-filter: blur(8px);
     }
     
     .btn:active {
-      transform: translateY(4px) scale(0.98); /* Aumentado de 3px */
+      transform: translateY(4px) scale(0.98);
       box-shadow: 
         0 0 0 rgba(0, 0, 0, 0.3),
         inset 0 1px 3px rgba(255, 255, 255, 0.15);
@@ -224,7 +225,7 @@
       border-radius: 0 0 12px 0;
     }
     
-    /* MEDIA QUERIES AJUSTADAS PARA LA NUEVA DISTRIBUCIÓN */
+    /* MEDIA QUERIES AJUSTADAS */
     @media (min-height: 900px) {
       :root {
         --scale-factor: 1.1;
@@ -236,7 +237,10 @@
         --scale-factor: 0.9;
       }
       body {
-        padding: calc(var(--corner-size) * 0.8) max(12px, calc(16px * var(--scale-factor))) calc(var(--corner-size) * 0.8);
+        padding: calc(var(--corner-size) * 0.7) max(12px, calc(16px * var(--scale-factor))) calc(var(--corner-size) * 0.7);
+      }
+      .screen {
+        margin-bottom: max(15px, calc(25px * var(--scale-factor)));
       }
     }
     
@@ -245,13 +249,15 @@
         --scale-factor: 0.8;
       }
       body {
-        padding: calc(var(--corner-size) * 0.7) max(10px, calc(14px * var(--scale-factor))) calc(var(--corner-size) * 0.7);
+        padding: calc(var(--corner-size) * 0.6) max(10px, calc(14px * var(--scale-factor))) calc(var(--corner-size) * 0.6);
       }
       .screen {
         max-width: 420px;
+        margin-bottom: max(12px, calc(20px * var(--scale-factor)));
       }
       .buttons-grid {
         max-width: 420px;
+        gap: calc(10px * var(--scale-factor));
       }
     }
     
@@ -260,13 +266,15 @@
         --scale-factor: 0.7;
       }
       body {
-        padding: calc(var(--corner-size) * 0.6) max(8px, calc(12px * var(--scale-factor))) calc(var(--corner-size) * 0.6);
+        padding: calc(var(--corner-size) * 0.5) max(8px, calc(12px * var(--scale-factor))) calc(var(--corner-size) * 0.5);
       }
       .screen {
         max-width: 380px;
+        margin-bottom: max(10px, calc(15px * var(--scale-factor)));
       }
       .buttons-grid {
         max-width: 380px;
+        gap: calc(8px * var(--scale-factor));
       }
     }
     
@@ -275,7 +283,7 @@
         --scale-factor: 0.9;
       }
       body {
-        padding: var(--corner-size) max(12px, calc(15px * var(--scale-factor))) var(--corner-size);
+        padding: calc(var(--corner-size) * 0.8) max(12px, calc(15px * var(--scale-factor))) calc(var(--corner-size) * 0.8);
       }
     }
     
@@ -303,7 +311,7 @@
         justify-content: center;
         align-items: center;
         padding: max(10px, calc(15px * var(--scale-factor)));
-        gap: max(20px, calc(30px * var(--scale-factor)));
+        gap: max(25px, calc(35px * var(--scale-factor)));
       }
       
       .screen {
@@ -311,6 +319,7 @@
         max-height: 80%;
         max-width: 35%;
         margin: 0;
+        margin-bottom: 0;
       }
       
       .buttons-grid {
@@ -338,13 +347,13 @@
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
-  <!-- PANTALLA EN LA PARTE SUPERIOR (donde estaba el título) -->
+  <!-- PANTALLA EN LA PARTE SUPERIOR -->
   <div class="screen" id="screen">
     <div class="expression" id="expression"></div>
     <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
   </div>
   
-  <!-- CONTENEDOR DE BOTONES - ESTRUCTURA 8x4 EXACTA SIN FONDO -->
+  <!-- CONTENEDOR DE BOTONES - CON MÁS SEPARACIÓN DE LA PANTALLA -->
   <div class="buttons-grid">
     <!-- Fila 1: √ π ^ ! (Azul Claro) -->
     <div class="row-1">
@@ -412,6 +421,7 @@
   </div>
   
   <script>
+    // El código JavaScript permanece igual
     document.addEventListener('DOMContentLoaded', function() {
       // Elementos de la calculadora
       const expressionElement = document.getElementById('expression');
@@ -492,14 +502,14 @@
       function createParticles() {
         const particles = [];
         const colors = [
-          'rgba(255, 107, 107, 0.4)',      // Aumentada opacidad
-          'rgba(255, 255, 255, 0.3)',      // Aumentada opacidad
-          'rgba(255, 142, 83, 0.35)',      // Aumentada opacidad
-          'rgba(0, 136, 255, 0.3)',        // Aumentada opacidad
-          'rgba(255, 215, 0, 0.3)',        // Aumentada opacidad
-          'rgba(138, 43, 226, 0.3)',       // Aumentada opacidad
-          'rgba(0, 255, 204, 0.25)',       // Nuevo color
-          'rgba(255, 0, 255, 0.25)',       // Nuevo color
+          'rgba(255, 107, 107, 0.4)',
+          'rgba(255, 255, 255, 0.3)',
+          'rgba(255, 142, 83, 0.35)',
+          'rgba(0, 136, 255, 0.3)',
+          'rgba(255, 215, 0, 0.3)',
+          'rgba(138, 43, 226, 0.3)',
+          'rgba(0, 255, 204, 0.25)',
+          'rgba(255, 0, 255, 0.25)',
         ];
         
         const containerWidth = particlesContainer.clientWidth;
