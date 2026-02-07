@@ -17,13 +17,11 @@
     
     :root {
       --scale-factor: 1;
-      --button-height: calc(48px * var(--scale-factor)); /* REDUCIDO de 55px a 48px */
-      --font-size-expression: calc(28px * var(--scale-factor)); /* REDUCIDO de 34px */
-      --font-size-result: calc(16px * var(--scale-factor)); /* REDUCIDO de 18px */
-      --font-size-button: calc(18px * var(--scale-factor)); /* REDUCIDO de 20px */
-      --screen-min-height: calc(100px * var(--scale-factor)); /* REDUCIDO de 120px */
-      --calculator-padding: calc(15px * var(--scale-factor)); /* REDUCIDO de 20px */
-      --gap-size: calc(12px * var(--scale-factor)); /* REDUCIDO de 15px */
+      --button-height: calc(60px * var(--scale-factor)); /* AUMENTADO de 48px a 60px */
+      --font-size-expression: calc(28px * var(--scale-factor));
+      --font-size-result: calc(16px * var(--scale-factor));
+      --font-size-button: calc(18px * var(--scale-factor));
+      --screen-min-height: calc(80px * var(--scale-factor)); /* REDUCIDO para pantalla superior */
       --corner-size: clamp(40px, calc(60px * var(--scale-factor)), 70px);
       --light-blue: rgba(64, 156, 255, 0.85);
       --dark-blue: rgba(42, 42, 74, 0.85);
@@ -46,11 +44,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center; /* CENTRADO vertical */
-      padding: max(10px, calc(15px * var(--scale-factor))) max(10px, calc(15px * var(--scale-factor)));
+      justify-content: space-between; /* Cambiado para distribuir espacio */
+      padding: var(--corner-size) max(15px, calc(20px * var(--scale-factor))) var(--corner-size);
     }
     
-    /* Partículas decorativas */
+    /* Partículas decorativas - MEJORADAS */
     .particles {
       position: absolute;
       width: 100%;
@@ -61,56 +59,41 @@
     
     .particle {
       position: absolute;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.15); /* Aumentada opacidad */
       border-radius: 50%;
-      will-change: transform;
+      will-change: transform, opacity;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 0 6px currentColor; /* Añadido brillo */
     }
     
-    /* CALCULADORA - COMPACTADA y CENTRADA */
-    .calculator {
-      width: 100%;
-      max-width: 420px; /* REDUCIDO de 460px */
-      background: rgba(15, 25, 45, 0.9);
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.5),
-        inset 0 0 30px rgba(255, 255, 255, 0.05);
-      padding: var(--calculator-padding);
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      gap: var(--gap-size);
-      /* Tamaño compacto y centrado */
-      min-height: auto;
-      max-height: auto;
-      overflow: hidden;
-      margin-top: 0;
-      /* Asegurar que no crezca demasiado */
-      flex-shrink: 0;
-    }
-    
-    /* PANTALLA - MÁS COMPACTA */
+    /* PANTALLA - EN LA PARTE SUPERIOR donde estaba el título */
     .screen {
+      width: 100%;
+      max-width: 460px; /* Aumentado para mejor distribución */
       background: rgba(10, 20, 30, 0.9);
-      border-radius: 12px; /* REDUCIDO de 15px */
-      padding: max(12px, calc(15px * var(--scale-factor))); /* REDUCIDO */
+      backdrop-filter: blur(15px);
+      border-radius: 15px;
+      padding: max(15px, calc(20px * var(--scale-factor)));
       text-align: right;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5); /* REDUCIDO de 15px */
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 
+        inset 0 0 15px rgba(0, 0, 0, 0.5),
+        0 8px 20px rgba(0, 0, 0, 0.3);
       min-height: var(--screen-min-height);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       overflow: hidden;
-      backdrop-filter: blur(10px);
+      z-index: 2;
+      margin-top: 0;
+      /* Posicionada en la parte superior, debajo del corner */
+      align-self: center;
       flex-shrink: 0;
     }
     
     /* ECUACIÓN */
     .expression {
-      color: rgba(255, 255, 255, 0.9);
+      color: rgba(255, 255, 255, 0.95);
       font-size: var(--font-size-expression);
       font-weight: 600;
       word-break: break-all;
@@ -119,45 +102,52 @@
       white-space: nowrap;
       margin-bottom: 5px;
       flex-shrink: 0;
-      min-height: calc(32px * var(--scale-factor)); /* REDUCIDO de 35px */
+      min-height: calc(35px * var(--scale-factor));
     }
     
     /* RESULTADO */
     .result {
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.7);
       font-size: var(--font-size-result);
       font-weight: 400;
-      text-shadow: 0 0 5px rgba(0, 200, 255, 0.3);
+      text-shadow: 0 0 6px rgba(0, 200, 255, 0.4);
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
       font-style: italic;
       flex-shrink: 0;
-      min-height: calc(18px * var(--scale-factor)); /* REDUCIDO de 20px */
+      min-height: calc(20px * var(--scale-factor));
     }
     
     .preview-indicator {
-      font-size: 11px; /* REDUCIDO de 12px */
-      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
       font-style: normal;
     }
     
-    /* CONTENEDOR DE BOTONES - COMPACTADO */
+    /* CONTENEDOR DE BOTONES - SIN FONDO, OCUPANDO EL ESPACIO RESTANTE */
     .buttons-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(8, var(--button-height));
-      gap: calc(7px * var(--scale-factor)); /* REDUCIDO de 8px */
-      flex-shrink: 0;
+      gap: calc(10px * var(--scale-factor)); /* Aumentado de 7px para más espacio */
+      width: 100%;
+      max-width: 460px;
       background: transparent;
+      z-index: 2;
+      /* Ocupa el espacio restante entre pantalla y corner inferior */
+      flex: 1;
+      min-height: 0;
+      margin-bottom: 0;
+      align-self: center;
     }
     
-    /* BOTONES GENERALES - MÁS PEQUEÑOS */
+    /* BOTONES GENERALES - MÁS GRANDES Y MEJOR DISTRIBUIDOS */
     .btn {
-      height: var(--button-height);
+      height: 100%;
       width: 100%;
       border: none;
-      border-radius: 10px; /* REDUCIDO de 12px */
+      border-radius: 12px; /* Aumentado de 10px */
       font-size: var(--font-size-button);
       font-weight: 600;
       cursor: pointer;
@@ -168,16 +158,16 @@
       touch-action: manipulation;
       color: white;
       box-shadow: 
-        0 3px 0 rgba(0, 0, 0, 0.3), /* REDUCIDO de 4px */
-        inset 0 1px 2px rgba(255, 255, 255, 0.1); /* REDUCIDO de 3px */
-      backdrop-filter: blur(5px);
+        0 4px 0 rgba(0, 0, 0, 0.4), /* Aumentado de 3px */
+        inset 0 1px 3px rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px); /* Aumentado de 5px */
     }
     
     .btn:active {
-      transform: translateY(3px) scale(0.98); /* REDUCIDO de 4px */
+      transform: translateY(4px) scale(0.98); /* Aumentado de 3px */
       box-shadow: 
         0 0 0 rgba(0, 0, 0, 0.3),
-        inset 0 1px 2px rgba(255, 255, 255, 0.1); /* REDUCIDO de 3px */
+        inset 0 1px 3px rgba(255, 255, 255, 0.15);
     }
     
     /* FILAS 1-3: AZUL CLARO */
@@ -198,11 +188,11 @@
     
     /* BOTONES ESPECIALES */
     .btn-equals {
-      background: linear-gradient(145deg, rgba(76, 175, 80, 0.85), rgba(46, 125, 50, 0.85));
+      background: linear-gradient(145deg, rgba(76, 175, 80, 0.9), rgba(46, 125, 50, 0.9));
     }
     
     .btn-clear {
-      background: linear-gradient(145deg, rgba(255, 68, 68, 0.85), rgba(204, 0, 0, 0.85));
+      background: linear-gradient(145deg, rgba(255, 68, 68, 0.9), rgba(204, 0, 0, 0.9));
     }
     
     /* FILAS PARA ORGANIZACIÓN */
@@ -221,82 +211,88 @@
     .corner-top-left {
       top: max(5px, calc(10px * var(--scale-factor)));
       left: max(5px, calc(10px * var(--scale-factor)));
-      border-top: 3px solid rgba(100, 200, 255, 0.8);
-      border-left: 3px solid rgba(100, 200, 255, 0.8);
+      border-top: 3px solid rgba(100, 200, 255, 0.9);
+      border-left: 3px solid rgba(100, 200, 255, 0.9);
       border-radius: 12px 0 0 0;
     }
     
     .corner-bottom-right {
       bottom: max(5px, calc(10px * var(--scale-factor)));
       right: max(5px, calc(10px * var(--scale-factor)));
-      border-bottom: 3px solid rgba(100, 200, 255, 0.8);
-      border-right: 3px solid rgba(100, 200, 255, 0.8);
+      border-bottom: 3px solid rgba(100, 200, 255, 0.9);
+      border-right: 3px solid rgba(100, 200, 255, 0.9);
       border-radius: 0 0 12px 0;
     }
     
-    /* MEDIA QUERIES AJUSTADAS PARA TAMAÑOS MÁS PEQUEÑOS */
+    /* MEDIA QUERIES AJUSTADAS PARA LA NUEVA DISTRIBUCIÓN */
     @media (min-height: 900px) {
       :root {
-        --scale-factor: 1.05; /* REDUCIDO de 1.1 */
-      }
-      .calculator {
-        max-width: 450px; /* REDUCIDO de 500px */
+        --scale-factor: 1.1;
       }
     }
     
     @media (max-height: 700px) {
       :root {
-        --scale-factor: 0.85; /* REDUCIDO de 0.95 */
+        --scale-factor: 0.9;
       }
       body {
-        padding: max(6px, calc(8px * var(--scale-factor))) max(6px, calc(8px * var(--scale-factor)));
-      }
-      .calculator {
-        max-width: 380px; /* REDUCIDO de 440px */
+        padding: calc(var(--corner-size) * 0.8) max(12px, calc(16px * var(--scale-factor))) calc(var(--corner-size) * 0.8);
       }
     }
     
     @media (max-height: 600px) {
       :root {
-        --scale-factor: 0.75; /* REDUCIDO de 0.85 */
+        --scale-factor: 0.8;
       }
-      .calculator {
-        max-width: 360px; /* REDUCIDO de 400px */
+      body {
+        padding: calc(var(--corner-size) * 0.7) max(10px, calc(14px * var(--scale-factor))) calc(var(--corner-size) * 0.7);
+      }
+      .screen {
+        max-width: 420px;
+      }
+      .buttons-grid {
+        max-width: 420px;
       }
     }
     
     @media (max-height: 500px) {
       :root {
-        --scale-factor: 0.65; /* REDUCIDO de 0.75 */
+        --scale-factor: 0.7;
       }
-      .calculator {
-        max-width: 340px; /* REDUCIDO de 380px */
+      body {
+        padding: calc(var(--corner-size) * 0.6) max(8px, calc(12px * var(--scale-factor))) calc(var(--corner-size) * 0.6);
+      }
+      .screen {
+        max-width: 380px;
+      }
+      .buttons-grid {
+        max-width: 380px;
       }
     }
     
     @media (max-width: 400px) {
       :root {
-        --scale-factor: 0.8; /* REDUCIDO de 0.9 */
+        --scale-factor: 0.9;
       }
       body {
-        padding: max(6px, calc(8px * var(--scale-factor))) max(4px, calc(6px * var(--scale-factor)));
-      }
-      .calculator {
-        max-width: 100%;
+        padding: var(--corner-size) max(12px, calc(15px * var(--scale-factor))) var(--corner-size);
       }
     }
     
     @media (max-width: 350px) and (max-height: 600px) {
       :root {
-        --scale-factor: 0.7; /* REDUCIDO de 0.8 */
+        --scale-factor: 0.75;
       }
     }
     
     @media (max-width: 350px) and (max-height: 500px) {
       :root {
-        --scale-factor: 0.6; /* REDUCIDO de 0.7 */
+        --scale-factor: 0.65;
       }
-      .calculator {
+      .screen {
+        max-width: 95%;
+      }
+      .buttons-grid {
         max-width: 95%;
       }
     }
@@ -306,27 +302,24 @@
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        padding: max(8px, calc(10px * var(--scale-factor)));
-      }
-      
-      .calculator {
-        max-width: 90%;
-        max-height: 90vh;
-        flex-direction: row;
-        gap: max(12px, calc(15px * var(--scale-factor)));
+        padding: max(10px, calc(15px * var(--scale-factor)));
+        gap: max(20px, calc(30px * var(--scale-factor)));
       }
       
       .screen {
         flex: 0 0 35%;
-        max-height: none;
-        min-height: auto;
+        max-height: 80%;
+        max-width: 35%;
+        margin: 0;
       }
       
       .buttons-grid {
-        flex: 0 0 65%;
+        flex: 0 0 60%;
+        height: 100%;
+        max-width: 60%;
+        margin: 0;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(8, 1fr);
-        height: 100%;
       }
     }
     
@@ -345,79 +338,76 @@
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
-  <!-- CALCULADORA COMPACTADA Y CENTRADA -->
-  <div class="calculator">
-    <!-- PANTALLA -->
-    <div class="screen" id="screen">
-      <div class="expression" id="expression"></div>
-      <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
+  <!-- PANTALLA EN LA PARTE SUPERIOR (donde estaba el título) -->
+  <div class="screen" id="screen">
+    <div class="expression" id="expression"></div>
+    <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
+  </div>
+  
+  <!-- CONTENEDOR DE BOTONES - ESTRUCTURA 8x4 EXACTA SIN FONDO -->
+  <div class="buttons-grid">
+    <!-- Fila 1: √ π ^ ! (Azul Claro) -->
+    <div class="row-1">
+      <button class="btn" data-action="sqrt">√</button>
+      <button class="btn" data-action="pi">π</button>
+      <button class="btn" data-action="pow">^</button>
+      <button class="btn" data-action="factorial">!</button>
     </div>
     
-    <!-- CONTENEDOR DE BOTONES - ESTRUCTURA 8x4 EXACTA -->
-    <div class="buttons-grid">
-      <!-- Fila 1: √ π ^ ! (Azul Claro) -->
-      <div class="row-1">
-        <button class="btn" data-action="sqrt">√</button>
-        <button class="btn" data-action="pi">π</button>
-        <button class="btn" data-action="pow">^</button>
-        <button class="btn" data-action="factorial">!</button>
-      </div>
-      
-      <!-- Fila 2: Deg sin cos tan (Azul Claro) -->
-      <div class="row-2">
-        <button class="btn" data-action="deg">Deg</button>
-        <button class="btn" data-action="sin">sin</button>
-        <button class="btn" data-action="cos">cos</button>
-        <button class="btn" data-action="tan">tan</button>
-      </div>
-      
-      <!-- Fila 3: Inv e ln log (Azul Claro) -->
-      <div class="row-3">
-        <button class="btn" data-action="inv">Inv</button>
-        <button class="btn" data-action="e">e</button>
-        <button class="btn" data-action="ln">ln</button>
-        <button class="btn" data-action="log">log</button>
-      </div>
-      
-      <!-- Fila 4: AC () % ÷ (Azul Fuerte) -->
-      <div class="row-4">
-        <button class="btn btn-clear" data-action="clear">AC</button>
-        <button class="btn" data-action="parenthesis">( )</button>
-        <button class="btn" data-action="percentage">%</button>
-        <button class="btn" data-action="divide">÷</button>
-      </div>
-      
-      <!-- Fila 5: 7 8 9 × (Azul Fuerte) -->
-      <div class="row-5">
-        <button class="btn" data-value="7">7</button>
-        <button class="btn" data-value="8">8</button>
-        <button class="btn" data-value="9">9</button>
-        <button class="btn" data-action="multiply">×</button>
-      </div>
-      
-      <!-- Fila 6: 4 5 6 - (Azul Fuerte) -->
-      <div class="row-6">
-        <button class="btn" data-value="4">4</button>
-        <button class="btn" data-value="5">5</button>
-        <button class="btn" data-value="6">6</button>
-        <button class="btn" data-action="subtract">-</button>
-      </div>
-      
-      <!-- Fila 7: 1 2 3 + (Azul Fuerte) -->
-      <div class="row-7">
-        <button class="btn" data-value="1">1</button>
-        <button class="btn" data-value="2">2</button>
-        <button class="btn" data-value="3">3</button>
-        <button class="btn" data-action="add">+</button>
-      </div>
-      
-      <!-- Fila 8: 0 . ⌫ = (Azul Fuerte) -->
-      <div class="row-8">
-        <button class="btn" data-value="0">0</button>
-        <button class="btn" data-value=".">.</button>
-        <button class="btn" data-action="backspace">⌫</button>
-        <button class="btn btn-equals" data-action="equals">=</button>
-      </div>
+    <!-- Fila 2: Deg sin cos tan (Azul Claro) -->
+    <div class="row-2">
+      <button class="btn" data-action="deg">Deg</button>
+      <button class="btn" data-action="sin">sin</button>
+      <button class="btn" data-action="cos">cos</button>
+      <button class="btn" data-action="tan">tan</button>
+    </div>
+    
+    <!-- Fila 3: Inv e ln log (Azul Claro) -->
+    <div class="row-3">
+      <button class="btn" data-action="inv">Inv</button>
+      <button class="btn" data-action="e">e</button>
+      <button class="btn" data-action="ln">ln</button>
+      <button class="btn" data-action="log">log</button>
+    </div>
+    
+    <!-- Fila 4: AC () % ÷ (Azul Fuerte) -->
+    <div class="row-4">
+      <button class="btn btn-clear" data-action="clear">AC</button>
+      <button class="btn" data-action="parenthesis">( )</button>
+      <button class="btn" data-action="percentage">%</button>
+      <button class="btn" data-action="divide">÷</button>
+    </div>
+    
+    <!-- Fila 5: 7 8 9 × (Azul Fuerte) -->
+    <div class="row-5">
+      <button class="btn" data-value="7">7</button>
+      <button class="btn" data-value="8">8</button>
+      <button class="btn" data-value="9">9</button>
+      <button class="btn" data-action="multiply">×</button>
+    </div>
+    
+    <!-- Fila 6: 4 5 6 - (Azul Fuerte) -->
+    <div class="row-6">
+      <button class="btn" data-value="4">4</button>
+      <button class="btn" data-value="5">5</button>
+      <button class="btn" data-value="6">6</button>
+      <button class="btn" data-action="subtract">-</button>
+    </div>
+    
+    <!-- Fila 7: 1 2 3 + (Azul Fuerte) -->
+    <div class="row-7">
+      <button class="btn" data-value="1">1</button>
+      <button class="btn" data-value="2">2</button>
+      <button class="btn" data-value="3">3</button>
+      <button class="btn" data-action="add">+</button>
+    </div>
+    
+    <!-- Fila 8: 0 . ⌫ = (Azul Fuerte) -->
+    <div class="row-8">
+      <button class="btn" data-value="0">0</button>
+      <button class="btn" data-value=".">.</button>
+      <button class="btn" data-action="backspace">⌫</button>
+      <button class="btn btn-equals" data-action="equals">=</button>
     </div>
   </div>
   
@@ -448,33 +438,33 @@
         let scale = viewportHeight / 800;
         
         if (viewportHeight >= 900) {
-          scale = 1.05;
+          scale = 1.1;
         } else if (viewportHeight >= 800) {
           scale = 1;
         } else if (viewportHeight >= 700) {
-          scale = 0.85;
+          scale = 0.9;
         } else if (viewportHeight >= 600) {
-          scale = 0.75;
+          scale = 0.8;
         } else if (viewportHeight >= 500) {
-          scale = 0.65;
+          scale = 0.7;
         } else {
-          scale = 0.55;
+          scale = 0.6;
         }
         
         if (viewportWidth < 400) {
-          scale = Math.min(scale, 0.8);
+          scale = Math.min(scale, 0.9);
         }
         
         if (viewportWidth < 350) {
-          scale = Math.min(scale, 0.7);
+          scale = Math.min(scale, 0.75);
         }
         
         if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
-          scale = Math.min(scale, 0.65);
+          scale = Math.min(scale, 0.7);
         }
         
-        scale = Math.max(scale, 0.5);
-        scale = Math.min(scale, 1.1);
+        scale = Math.max(scale, 0.55);
+        scale = Math.min(scale, 1.2);
         
         return scale;
       }
@@ -484,15 +474,6 @@
         document.documentElement.style.setProperty('--scale-factor', scale);
         document.documentElement.style.setProperty('--corner-size', 
           `clamp(40px, calc(60px * ${scale}), 70px)`);
-        
-        const calculator = document.querySelector('.calculator');
-        if (window.innerHeight < 500 && window.innerWidth > window.innerHeight) {
-          calculator.style.maxHeight = '90vh';
-          calculator.style.overflowY = 'auto';
-        } else {
-          calculator.style.maxHeight = 'auto';
-          calculator.style.overflowY = 'hidden';
-        }
       }
       
       // Inicializar y actualizar en cambios de tamaño
@@ -507,30 +488,39 @@
         setTimeout(updateScale, 200);
       });
       
-      // SISTEMA DE PARTÍCULAS
+      // SISTEMA DE PARTÍCULAS - MEJORADO
       function createParticles() {
         const particles = [];
         const colors = [
-          'rgba(255, 107, 107, 0.3)', 
-          'rgba(255, 255, 255, 0.2)', 
-          'rgba(255, 142, 83, 0.25)',
-          'rgba(0, 136, 255, 0.2)',
-          'rgba(255, 215, 0, 0.2)',
-          'rgba(138, 43, 226, 0.2)'
+          'rgba(255, 107, 107, 0.4)',      // Aumentada opacidad
+          'rgba(255, 255, 255, 0.3)',      // Aumentada opacidad
+          'rgba(255, 142, 83, 0.35)',      // Aumentada opacidad
+          'rgba(0, 136, 255, 0.3)',        // Aumentada opacidad
+          'rgba(255, 215, 0, 0.3)',        // Aumentada opacidad
+          'rgba(138, 43, 226, 0.3)',       // Aumentada opacidad
+          'rgba(0, 255, 204, 0.25)',       // Nuevo color
+          'rgba(255, 0, 255, 0.25)',       // Nuevo color
         ];
         
         const containerWidth = particlesContainer.clientWidth;
         const containerHeight = particlesContainer.clientHeight;
         
-        for (let i = 0; i < 15; i++) { // REDUCIDO de 20 a 15
+        // Aumentado a 25 partículas
+        for (let i = 0; i < 25; i++) {
           const particle = document.createElement('div');
           particle.className = 'particle';
           
-          const size = Math.random() * 10 + 2; // REDUCIDO de 12 a 10
+          // Tamaño entre 3-16px
+          const size = Math.random() * 13 + 3;
           particle.style.width = `${size}px`;
           particle.style.height = `${size}px`;
           
           particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+          
+          // Añadir brillo a algunas partículas
+          if (Math.random() > 0.7) {
+            particle.style.boxShadow = '0 0 10px currentColor';
+          }
           
           const initialX = Math.random() * (containerWidth - size);
           const initialY = Math.random() * (containerHeight - size);
@@ -538,13 +528,15 @@
           particle.style.left = `${initialX}px`;
           particle.style.top = `${initialY}px`;
           
-          const speed = Math.random() * 0.4 + 0.1; // REDUCIDO de 0.5 a 0.4
+          // Velocidad aumentada
+          const speed = Math.random() * 0.7 + 0.15;
           const angle = Math.random() * Math.PI * 2;
           
           const velocityX = Math.cos(angle) * speed;
           const velocityY = Math.sin(angle) * speed;
           
-          const rotationSpeed = (Math.random() - 0.5) * 1;
+          // Rotación aumentada
+          const rotationSpeed = (Math.random() - 0.5) * 1.5;
           let rotation = 0;
           
           particlesContainer.appendChild(particle);
@@ -571,6 +563,7 @@
             
             p.rotation += p.rotationSpeed;
             
+            // Rebote en los bordes
             if (p.x <= 0) {
               p.x = 0;
               p.velocityX = Math.abs(p.velocityX);
@@ -587,9 +580,18 @@
               p.velocityY = -Math.abs(p.velocityY);
             }
             
+            // Aplicar movimiento y rotación
             p.element.style.left = `${p.x}px`;
             p.element.style.top = `${p.y}px`;
             p.element.style.transform = `rotate(${p.rotation}deg)`;
+            
+            // Efecto de parpadeo sutil
+            if (Math.random() > 0.95) {
+              p.element.style.opacity = Math.random() * 0.5 + 0.5;
+              setTimeout(() => {
+                p.element.style.opacity = 1;
+              }, 100);
+            }
           }
           
           requestAnimationFrame(animateParticles);
@@ -889,7 +891,7 @@
         const button = event.target.closest('.btn');
         if (!button) return;
         
-        button.style.transform = 'translateY(3px) scale(0.98)';
+        button.style.transform = 'translateY(4px) scale(0.98)';
         setTimeout(() => {
           button.style.transform = '';
         }, 150);
