@@ -40,7 +40,7 @@
       background-color: #1a1a2e;
       padding: 24px 20px;
       text-align: right;
-      min-height: 180px; /* Aumentado de 160px a 180px */
+      min-height: 180px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -48,29 +48,29 @@
     }
     
     .expression {
-      color: rgba(255, 255, 255, 0.95); /* Más visible */
-      font-size: 2.2rem; /* Reducido de 1.5rem a 2.2rem */
+      color: rgba(255, 255, 255, 0.95);
+      font-size: 2.2rem;
       font-weight: 500;
       word-break: break-all;
       text-align: right;
       min-height: 35px;
       overflow-x: auto;
       white-space: nowrap;
-      margin-bottom: 4px; /* Reducido espacio */
+      margin-bottom: 4px;
     }
     
     .result {
-      color: rgba(255, 255, 255, 0.7); /* Menos prominente */
-      font-size: 1.3rem; /* Reducido de 3.5rem a 1.3rem */
-      font-weight: 400; /* Más ligero */
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 1.3rem;
+      font-weight: 400;
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
       line-height: 1.3;
-      min-height: 25px; /* Reducido altura */
+      min-height: 25px;
       overflow-y: auto;
-      max-height: 60px; /* Reducido altura máxima */
-      margin-bottom: 8px; /* Espacio adicional */
+      max-height: 60px;
+      margin-bottom: 8px;
     }
     
     .result::-webkit-scrollbar {
@@ -84,6 +84,69 @@
     .result::-webkit-scrollbar-thumb {
       background: #4cc9f0;
       border-radius: 2px;
+    }
+    
+    /* Nuevo estilo para el interruptor de vibración */
+    .vibration-toggle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 8px 0;
+      background: linear-gradient(to bottom, #3a3a5e, #2d2d4a);
+      border-bottom: 1px solid #3a3a4e;
+    }
+    
+    .vibration-toggle label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #a5b1c2;
+      font-size: 0.85rem;
+      cursor: pointer;
+    }
+    
+    .toggle-switch {
+      position: relative;
+      width: 40px;
+      height: 20px;
+    }
+    
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #2d2d4a;
+      transition: .3s;
+      border-radius: 20px;
+    }
+    
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: .3s;
+      border-radius: 50%;
+    }
+    
+    input:checked + .toggle-slider {
+      background-color: #4cc9f0;
+    }
+    
+    input:checked + .toggle-slider:before {
+      transform: translateX(20px);
     }
     
     .toggle-scientific {
@@ -192,7 +255,6 @@
       background: linear-gradient(145deg, #5cd9ff, #4ab8e8);
     }
     
-    /* MODIFICACIÓN: Botón de porcentaje con color de operador */
     .percentage {
       background: linear-gradient(145deg, #4cc9f0, #3aa8d8);
       color: #1a1a2e;
@@ -233,7 +295,6 @@
       background: linear-gradient(145deg, #ff7b7b, #f65c5c);
     }
     
-    /* Modo horizontal (pantallas más anchas) */
     @media (min-width: 768px) {
       .scientific-buttons {
         max-height: 500px !important;
@@ -263,7 +324,6 @@
       }
     }
     
-    /* Para pantallas pequeñas */
     @media (max-width: 480px) {
       body {
         padding: 12px;
@@ -276,15 +336,15 @@
       
       .display {
         padding: 20px 16px;
-        min-height: 160px; /* Aumentado de 140px a 160px */
+        min-height: 160px;
       }
       
       .expression {
-        font-size: 1.9rem; /* Ajustado de 1.3rem a 1.9rem */
+        font-size: 1.9rem;
       }
       
       .result {
-        font-size: 1.1rem; /* Ajustado de 3rem a 1.1rem */
+        font-size: 1.1rem;
       }
       
       .button {
@@ -308,7 +368,6 @@
       }
     }
     
-    /* Para pantallas muy pequeñas */
     @media (max-width: 360px) {
       .button {
         height: 48px;
@@ -316,11 +375,11 @@
       }
       
       .expression {
-        font-size: 1.7rem; /* Ajustado de 1.2rem a 1.7rem */
+        font-size: 1.7rem;
       }
       
       .result {
-        font-size: 1rem; /* Ajustado de 2.5rem a 1rem */
+        font-size: 1rem;
       }
       
       .scientific-btn {
@@ -336,6 +395,17 @@
     <div class="display">
       <div class="expression" id="expression"></div>
       <div class="result" id="result">0</div>
+    </div>
+    
+    <!-- Interruptor de vibración -->
+    <div class="vibration-toggle">
+      <label>
+        <div class="toggle-switch">
+          <input type="checkbox" id="vibrationToggle" checked>
+          <span class="toggle-slider"></span>
+        </div>
+        Vibración táctil
+      </label>
     </div>
     
     <!-- Botón para mostrar/ocultar funciones científicas -->
@@ -416,6 +486,22 @@
       let previewTimeout = null;
       let isDeg = true;
       let isInv = false;
+      
+      // ================================================
+      // FUNCIÓN DE VIBRACIÓN - AÑADIDA AQUÍ
+      // ================================================
+      
+      // Variable para controlar si la vibración está activada
+      let hapticFeedbackEnabled = true;
+      
+      // Función para activar la vibración del dispositivo
+      function vibrateDevice() {
+        // Solo vibrar si está activado, el dispositivo lo soporta y no es iOS
+        if (hapticFeedbackEnabled && "vibrate" in navigator && !/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+          // Vibración corta (15ms) - consumo mínimo de batería
+          navigator.vibrate(15);
+        }
+      }
       
       // ================================================
       // NUEVAS FUNCIONES PARA FORMATO DE NÚMEROS
@@ -820,10 +906,17 @@
         }
       }
       
-      // Manejar clics en botones
+      // ================================================
+      // FUNCIÓN MODIFICADA PARA MANEJAR CLICS CON VIBRACIÓN
+      // ================================================
+      
+      // Manejar clics en botones (MODIFICADA PARA INCLUIR VIBRACIÓN)
       function handleButtonClick(event) {
         const button = event.target.closest('.button');
         if (!button) return;
+        
+        // --- AÑADIDO: ACTIVAR VIBRACIÓN ---
+        vibrateDevice();
         
         button.style.transform = 'translateY(2px) scale(0.98)';
         setTimeout(() => {
@@ -1006,16 +1099,64 @@
         }
       }
       
+      // ================================================
+      // CONFIGURACIÓN DEL INTERRUPTOR DE VIBRACIÓN
+      // ================================================
+      
+      // Configurar el interruptor de vibración
+      const vibrationToggle = document.getElementById('vibrationToggle');
+      
+      // Cargar la preferencia guardada
+      function loadVibrationPreference() {
+        const savedPreference = localStorage.getItem('hapticFeedback');
+        if (savedPreference !== null) {
+          hapticFeedbackEnabled = savedPreference === 'true';
+          vibrationToggle.checked = hapticFeedbackEnabled;
+        }
+      }
+      
+      // Guardar la preferencia
+      function saveVibrationPreference() {
+        localStorage.setItem('hapticFeedback', hapticFeedbackEnabled);
+      }
+      
+      // Manejar cambio en el interruptor
+      vibrationToggle.addEventListener('change', function() {
+        hapticFeedbackEnabled = this.checked;
+        saveVibrationPreference();
+        
+        // Dar retroalimentación visual
+        if (hapticFeedbackEnabled) {
+          console.log('Vibración activada');
+        } else {
+          console.log('Vibración desactivada');
+        }
+      });
+      
+      // ================================================
+      // INICIALIZACIÓN
+      // ================================================
+      
       // Inicializar
       function initialize() {
+        // Cargar preferencia de vibración
+        loadVibrationPreference();
+        
+        // Agregar event listeners a los botones
         document.querySelectorAll('.button').forEach(button => {
           button.addEventListener('click', handleButtonClick);
         });
         
+        // Botón para mostrar/ocultar funciones científicas
         toggleScientificBtn.addEventListener('click', toggleScientificPanel);
+        
+        // Manejar teclado
         document.addEventListener('keydown', handleKeyboard);
+        
+        // Manejar cambio de tamaño de ventana
         window.addEventListener('resize', updateScientificPanelVisibility);
         
+        // Inicializar visibilidad del panel
         updateScientificPanelVisibility();
         updateScreen();
       }
