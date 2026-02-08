@@ -113,7 +113,7 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 10px;
-      max-height: 350px; /* Aumentado para incluir la fila de vibración */
+      max-height: 350px;
       overflow: hidden;
       transition: max-height 0.3s ease, padding 0.3s ease;
       border-bottom: 1px solid #3a3a4e;
@@ -391,6 +391,122 @@
         max-height: 370px; /* Ajustado para pantallas muy pequeñas */
       }
     }
+    
+    /* Indicador de prueba de vibración */
+    .vibration-test-btn {
+      background: linear-gradient(145deg, #9d4edd, #7b2cbf);
+      font-size: 0.8rem;
+      padding: 4px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: 8px;
+    }
+    
+    .vibration-test-btn:hover {
+      background: linear-gradient(145deg, #ad5eed, #8b3ccf);
+    }
+    
+    /* Modal de configuración de vibración */
+    .vibration-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    
+    .vibration-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .vibration-modal-content {
+      background: #2a2a3e;
+      border-radius: 20px;
+      padding: 24px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      border: 1px solid #3a3a4e;
+    }
+    
+    .vibration-modal h3 {
+      color: #4cc9f0;
+      margin-bottom: 16px;
+      font-size: 1.5rem;
+    }
+    
+    .vibration-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 12px;
+      background: #1e1e2e;
+      border-radius: 12px;
+      border: 1px solid #3a3a4e;
+    }
+    
+    .vibration-option label {
+      font-size: 1rem;
+      color: #e0e0e0;
+    }
+    
+    .vibration-intensity {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .intensity-btn {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      background: #1e1e2e;
+      border-radius: 10px;
+      cursor: pointer;
+      border: 1px solid #3a3a4e;
+      transition: all 0.2s;
+    }
+    
+    .intensity-btn.active {
+      background: #4cc9f0;
+      color: #1a1a2e;
+      border-color: #4cc9f0;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    
+    .modal-btn {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    
+    .modal-btn.primary {
+      background: #4cc9f0;
+      color: #1a1a2e;
+    }
+    
+    .modal-btn.secondary {
+      background: #3a3a5e;
+      color: #e0e0e0;
+    }
   </style>
 </head>
 <body>
@@ -435,6 +551,7 @@
             <span class="toggle-slider"></span>
           </div>
           Vibración táctil
+          <div class="vibration-test-btn" id="vibrationTestBtn">Probar</div>
         </label>
       </div>
     </div>
@@ -473,8 +590,54 @@
     </div>
   </div>
   
+  <!-- Modal de configuración de vibración -->
+  <div class="vibration-modal" id="vibrationModal">
+    <div class="vibration-modal-content">
+      <h3>Configuración de Vibración</h3>
+      
+      <div class="vibration-option">
+        <label>Activar vibración táctil</label>
+        <div class="toggle-switch">
+          <input type="checkbox" id="vibrationModalToggle" checked>
+          <span class="toggle-slider"></span>
+        </div>
+      </div>
+      
+      <div class="vibration-option">
+        <label>Intensidad de vibración</label>
+      </div>
+      
+      <div class="vibration-intensity">
+        <div class="intensity-btn active" data-intensity="light">Suave</div>
+        <div class="intensity-btn" data-intensity="medium">Media</div>
+        <div class="intensity-btn" data-intensity="strong">Fuerte</div>
+      </div>
+      
+      <div class="vibration-option">
+        <label>Tipo de vibración</label>
+      </div>
+      
+      <div class="vibration-intensity">
+        <div class="intensity-btn active" data-type="short">Corta</div>
+        <div class="intensity-btn" data-type="medium">Media</div>
+        <div class="intensity-btn" data-type="long">Larga</div>
+      </div>
+      
+      <div class="modal-buttons">
+        <div class="modal-btn secondary" id="testVibrationBtn">Probar Vibración</div>
+        <div class="modal-btn primary" id="saveVibrationBtn">Guardar</div>
+      </div>
+    </div>
+  </div>
+  
   <script>
     document.addEventListener('DOMContentLoaded', function() {
+      // Configurar math.js para usar números grandes sin notación científica
+      math.config({
+        number: 'BigNumber',
+        precision: 128 // Aumentar precisión para cálculos grandes
+      });
+
       // Elementos de la calculadora
       const expressionElement = document.getElementById('expression');
       const resultElement = document.getElementById('result');
@@ -482,6 +645,8 @@
       const scientificButtons = document.getElementById('scientificButtons');
       const degBtn = document.getElementById('deg-btn');
       const invBtn = document.getElementById('inv-btn');
+      const vibrationTestBtn = document.getElementById('vibrationTestBtn');
+      const vibrationModal = document.getElementById('vibrationModal');
       
       // Estado de la calculadora
       let currentExpression = '';
@@ -493,168 +658,106 @@
       let isInv = false;
       
       // ================================================
-      // FUNCIÓN DE VIBRACIÓN - AÑADIDA AQUÍ
-      // ================================================
-      
-      // Variable para controlar si la vibración está activada
-      let hapticFeedbackEnabled = true;
-      
-      // Función para activar la vibración del dispositivo
-      function vibrateDevice() {
-        // Solo vibrar si está activado, el dispositivo lo soporta y no es iOS
-        if (hapticFeedbackEnabled && "vibrate" in navigator && !/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-          // Vibración corta (15ms) - consumo mínimo de batería
-          navigator.vibrate(15);
-        }
-      }
-      
-      // ================================================
-      // NUEVAS FUNCIONES PARA FORMATO DE NÚMEROS
+      // NUEVA FUNCIÓN PARA FORMATEAR NÚMEROS GRANDES
       // ================================================
       
       /**
-       * Función para formatear números con separadores de miles
-       * Ejemplo: 1000000 -> "1,000,000"
+       * Función para formatear números sin notación científica
+       * y con separadores de miles para mejor legibilidad
        */
-      function formatNumberWithCommas(numStr) {
-        // Si es un número en notación científica, lo convertimos primero
-        if (numStr.includes('e')) {
-          try {
-            // Convertimos la notación científica a número completo
-            const num = parseFloat(numStr);
-            if (isNaN(num)) return numStr;
-            
-            // Si el número es muy grande o muy pequeño, lo manejamos de forma especial
-            if (Math.abs(num) > 1e15 || (Math.abs(num) < 1e-6 && num !== 0)) {
-              // Para números extremadamente grandes/pequeños, mantenemos notación científica
-              // pero la formateamos mejor
-              return num.toExponential(10).replace(/(\.\d*?)(0+)e/, '$1e').replace(/\.e/, 'e');
-            }
-            
-            numStr = num.toString();
-          } catch (e) {
-            return numStr;
-          }
-        }
-        
-        // Separamos parte entera y decimal
-        const parts = numStr.split('.');
-        let integerPart = parts[0];
-        const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
-        
-        // Añadimos comas cada 3 dígitos en la parte entera
-        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        
-        return integerPart + decimalPart;
-      }
-      
-      /**
-       * Función para formatear una expresión matemática manteniendo los números con comas
-       * pero sin afectar a las funciones matemáticas
-       */
-      function formatExpressionWithCommas(expression) {
-        if (!expression) return '';
-        
-        // Reemplazamos números en la expresión (excluyendo funciones como sin, cos, etc.)
-        return expression.replace(/(\d+(?:\.\d+)?)/g, function(match) {
-          return formatNumberWithCommas(match);
-        });
-      }
-      
-      /**
-       * Función para eliminar comas de un número formateado antes de realizar cálculos
-       */
-      function removeCommas(numStr) {
-        return numStr.replace(/,/g, '');
-      }
-      
-      /**
-       * Función para manejar números grandes sin notación científica
-       * Mantiene el número como string para evitar pérdida de precisión
-       */
-      function handleLargeNumber(result) {
+      function formatLargeNumber(number) {
         try {
-          // Si el resultado es un número muy grande, lo mantenemos como string
-          if (typeof result === 'number' && (Math.abs(result) > 1e15 || 
-              (Math.abs(result) < 1e-6 && result !== 0))) {
-            // Para números extremadamente grandes, usamos notación de cadena
-            if (Math.abs(result) >= 1e21) {
-              return result.toExponential(10);
-            }
-            // Para números grandes pero manejables, intentamos string normal
-            const str = result.toString();
-            // Si aún está en notación científica, la convertimos
-            if (str.includes('e')) {
-              return result.toLocaleString('fullwide', { useGrouping: false });
-            }
-            return str;
+          // Si es un objeto BigNumber de math.js
+          if (typeof number === 'object' && number.isBigNumber) {
+            number = number.toString();
           }
           
-          // Para números normales, los convertimos a string
-          let str = result.toString();
+          // Si ya es string, convertir a número para formatear
+          let numStr = typeof number === 'string' ? number : number.toString();
           
-          // Si aparece notación científica, la manejamos
-          if (str.includes('e')) {
-            // Intentamos convertir a número completo
+          // Manejar números en notación científica
+          if (numStr.includes('e')) {
             try {
-              // Usamos toLocaleString para evitar notación científica
-              str = result.toLocaleString('fullwide', { useGrouping: false });
+              // Convertir notación científica a número completo
+              const [base, exponent] = numStr.split('e');
+              const exp = parseInt(exponent);
+              
+              if (exp >= 0) {
+                // Números positivos grandes
+                const [integer, decimal = ''] = base.split('.');
+                const zerosNeeded = exp - decimal.length;
+                
+                if (zerosNeeded >= 0) {
+                  numStr = integer + decimal + '0'.repeat(zerosNeeded);
+                } else {
+                  const position = decimal.length + zerosNeeded;
+                  numStr = integer + decimal.substring(0, position) + '.' + decimal.substring(position);
+                }
+              } else {
+                // Números pequeños (negativos)
+                const [integer, decimal = ''] = base.split('.');
+                const allDigits = integer + decimal;
+                const zerosNeeded = Math.abs(exp) - 1;
+                
+                numStr = '0.' + '0'.repeat(zerosNeeded) + allDigits;
+              }
             } catch (e) {
-              // Si falla, mantenemos la notación científica pero la formateamos
-              str = result.toExponential(10)
-                .replace(/(\.\d*?)(0+)e/, '$1e')
-                .replace(/\.e/, 'e');
+              // Si falla, mantener la notación científica
+              console.log('No se pudo convertir notación científica:', e);
             }
           }
           
-          return str;
-        } catch (e) {
-          return result.toString();
+          // Agregar separadores de miles
+          const parts = numStr.split('.');
+          let integerPart = parts[0];
+          const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+          
+          // Manejar números negativos
+          const isNegative = integerPart.startsWith('-');
+          if (isNegative) integerPart = integerPart.substring(1);
+          
+          // Agregar comas cada 3 dígitos
+          integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+          
+          if (isNegative) integerPart = '-' + integerPart;
+          
+          // Limitar decimales a 10 para evitar overflow visual
+          let finalDecimal = decimalPart;
+          if (decimalPart.length > 10) {
+            finalDecimal = decimalPart.substring(0, 11);
+          }
+          
+          // Si el número es muy largo, mostrar una versión abreviada
+          const totalLength = integerPart.length + finalDecimal.length;
+          if (totalLength > 30) {
+            if (integerPart.length > 20) {
+              return integerPart.substring(0, 20) + '...';
+            }
+          }
+          
+          return integerPart + finalDecimal;
+        } catch (error) {
+          console.error('Error al formatear número:', error);
+          return number.toString();
         }
       }
       
       // ================================================
-      // FUNCIONES MODIFICADAS DE LA CALCULADORA
+      // FUNCIONES MODIFICADAS PARA MANEJAR NÚMEROS GRANDES
       // ================================================
       
       // Actualizar la pantalla (MODIFICADA)
       function updateScreen() {
-        // Mostramos la expresión con comas para mejor legibilidad
-        expressionElement.textContent = formatExpressionWithCommas(currentExpression) || '';
+        // Mostrar expresión con formato
+        expressionElement.textContent = currentExpression || '';
         
-        // Mostramos el preview con comas
-        resultElement.textContent = formatNumberWithCommas(currentPreview);
+        // Mostrar preview con formato para números grandes
+        resultElement.textContent = formatLargeNumber(currentPreview);
       }
       
       // Agregar valor a la expresión (MODIFICADA)
       function addToExpression(value) {
-        // Si el valor es un número o punto decimal, lo añadimos directamente
-        if (value.match(/[\d\.]/)) {
-          currentExpression += value;
-        } else {
-          // Para operadores y funciones, aseguramos que el último número no tenga comas
-          const cleanExpression = removeCommas(currentExpression);
-          currentExpression = cleanExpression + value;
-        }
-        updateScreen();
-        updatePreview();
-      }
-      
-      // Borrar último carácter (MODIFICADA)
-      function backspace() {
-        if (currentExpression.slice(-2) === '√(') {
-          lastSqrtIndex = -1;
-        }
-        
-        if (currentExpression.slice(-1) === '(') {
-          parenthesisOpen = false;
-        } else if (currentExpression.slice(-1) === ')') {
-          parenthesisOpen = true;
-        }
-        
-        // Eliminamos el último carácter de la expresión sin comas
-        const cleanExpression = removeCommas(currentExpression);
-        currentExpression = cleanExpression.slice(0, -1);
+        currentExpression += value;
         updateScreen();
         updatePreview();
       }
@@ -673,13 +776,13 @@
         
         previewTimeout = setTimeout(() => {
           try {
-            // Preparamos la expresión para evaluación (sin comas)
-            let expressionToEval = removeCommas(currentExpression);
+            // Preparamos la expresión para evaluación
+            let expressionToEval = currentExpression;
             
-            // Balanceamos paréntesis
+            // Balancear paréntesis
             expressionToEval = balanceParentheses(expressionToEval);
             
-            // Reemplazamos símbolos para math.js
+            // Reemplazar símbolos para math.js
             expressionToEval = expressionToEval
               .replace(/×/g, '*')
               .replace(/÷/g, '/')
@@ -724,31 +827,11 @@
               return `(${num}/100)`;
             });
             
-            // Evaluamos la expresión
+            // Evaluar con math.js usando BigNumber
             const result = math.evaluate(expressionToEval);
             
-            // Formateamos el resultado para evitar notación científica
-            let formattedResult = handleLargeNumber(result);
-            
-            // Limitamos la longitud para pantalla
-            if (formattedResult.length > 20) {
-              // Si es un número entero muy largo, lo truncamos pero mantenemos como string
-              if (!formattedResult.includes('.') && !formattedResult.includes('e')) {
-                if (formattedResult.length > 30) {
-                  formattedResult = formattedResult.substring(0, 30) + '...';
-                }
-              } else if (formattedResult.includes('.')) {
-                // Para decimales, limitamos los dígitos decimales
-                const [integer, decimal] = formattedResult.split('.');
-                if (integer.length > 15) {
-                  formattedResult = integer.substring(0, 15) + '...';
-                } else if (decimal && decimal.length > 10) {
-                  formattedResult = integer + '.' + decimal.substring(0, 10);
-                }
-              }
-            }
-            
-            currentPreview = formattedResult;
+            // Formatear el resultado para mostrar
+            currentPreview = result.toString();
             updateScreen();
             
           } catch (error) {
@@ -763,13 +846,13 @@
         if (!currentExpression) return;
         
         try {
-          // Preparamos la expresión para evaluación (sin comas)
-          let expressionToEval = removeCommas(currentExpression);
+          // Preparamos la expresión para evaluación
+          let expressionToEval = currentExpression;
           
-          // Balanceamos paréntesis
+          // Balancear paréntesis
           expressionToEval = balanceParentheses(expressionToEval);
           
-          // Reemplazamos símbolos para math.js
+          // Reemplazar símbolos para math.js
           expressionToEval = expressionToEval
             .replace(/×/g, '*')
             .replace(/÷/g, '/')
@@ -814,7 +897,7 @@
             return `(${num}/100)`;
           });
           
-          // Evaluamos
+          // Evaluar con math.js usando BigNumber
           const result = math.evaluate(expressionToEval);
           
           let finalResult = result;
@@ -822,11 +905,11 @@
             finalResult = result * 180 / Math.PI;
           }
           
-          // Formateamos el resultado final
-          let formattedResult = handleLargeNumber(finalResult);
+          // Formatear el resultado para mostrar
+          let formattedResult = formatLargeNumber(finalResult);
           
-          // Actualizamos la expresión con el resultado (sin comas para futuros cálculos)
-          currentExpression = removeCommas(formattedResult);
+          // Actualizar expresión con el resultado
+          currentExpression = formattedResult;
           currentPreview = '0';
           parenthesisOpen = false;
           lastSqrtIndex = -1;
@@ -846,6 +929,209 @@
             updateScreen();
           }, 1500);
         }
+      }
+      
+      // ================================================
+      // SISTEMA DE VIBRACIÓN MEJORADO (sin cambios)
+      // ================================================
+      
+      // Configuración de vibración
+      let vibrationConfig = {
+        enabled: true,
+        intensity: 'medium',
+        type: 'short',
+        pattern: {
+          light: [15, 5, 10],
+          medium: [25, 10, 15],
+          strong: [40, 15, 20]
+        },
+        durations: {
+          short: 15,
+          medium: 30,
+          long: 50
+        }
+      };
+      
+      // Detectar capacidades del dispositivo
+      const deviceCapabilities = {
+        hasVibrationAPI: ('vibrate' in navigator),
+        isIOS: /iPhone|iPad|iPod/.test(navigator.userAgent),
+        isAndroid: /Android/.test(navigator.userAgent),
+        isChrome: /Chrome/.test(navigator.userAgent),
+        isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
+      };
+      
+      // Función para detectar si el dispositivo soporta vibración
+      function detectVibrationSupport() {
+        console.log('Detectando capacidades de vibración:');
+        console.log('- API de vibración disponible:', deviceCapabilities.hasVibrationAPI);
+        console.log('- Sistema operativo:', deviceCapabilities.isIOS ? 'iOS' : deviceCapabilities.isAndroid ? 'Android' : 'Otro');
+        console.log('- Navegador:', deviceCapabilities.isChrome ? 'Chrome' : deviceCapabilities.isSafari ? 'Safari' : 'Otro');
+        
+        return deviceCapabilities.hasVibrationAPI || deviceCapabilities.isIOS;
+      }
+      
+      // Función mejorada para activar la vibración
+      function vibrateDevice(forceIntensity = null, forceType = null) {
+        if (!vibrationConfig.enabled) return false;
+        
+        const intensity = forceIntensity || vibrationConfig.intensity;
+        const type = forceType || vibrationConfig.type;
+        
+        // Si no hay API de vibración, intentamos alternativas para iOS
+        if (!deviceCapabilities.hasVibrationAPI) {
+          if (deviceCapabilities.isIOS) {
+            return vibrateIOSFallback(intensity, type);
+          }
+          return false;
+        }
+        
+        try {
+          let vibrationPattern;
+          
+          if (type === 'short') {
+            vibrationPattern = vibrationConfig.durations[type];
+          } else if (type === 'medium') {
+            vibrationPattern = vibrationConfig.pattern[intensity];
+          } else if (type === 'long') {
+            vibrationPattern = [vibrationConfig.durations[type], 20, vibrationConfig.durations[type]/2];
+          }
+          
+          if (deviceCapabilities.isAndroid) {
+            navigator.vibrate(vibrationPattern);
+          } else if (deviceCapabilities.isChrome) {
+            if (navigator.vibrate(vibrationPattern) === false) {
+              console.log('Vibración no soportada en este navegador');
+              return false;
+            }
+          } else {
+            navigator.vibrate(vibrationPattern);
+          }
+          
+          return true;
+        } catch (error) {
+          console.error('Error al activar vibración:', error);
+          
+          try {
+            navigator.vibrate(15);
+            return true;
+          } catch (e) {
+            console.error('Fallback de vibración también falló:', e);
+            return false;
+          }
+        }
+      }
+      
+      // Fallback para iOS
+      function vibrateIOSFallback(intensity, type) {
+        console.log('Usando fallback para iOS');
+        
+        try {
+          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const oscillator = audioContext.createOscillator();
+          const gainNode = audioContext.createGain();
+          
+          oscillator.connect(gainNode);
+          gainNode.connect(audioContext.destination);
+          
+          oscillator.frequency.setValueAtTime(60, audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          
+          const duration = vibrationConfig.durations[type] / 1000;
+          
+          oscillator.start();
+          oscillator.stop(audioContext.currentTime + duration);
+          
+          return true;
+        } catch (audioError) {
+          console.log('Fallback de audio falló:', audioError);
+        }
+        
+        try {
+          const buttons = document.querySelectorAll('.button:active');
+          buttons.forEach(button => {
+            button.style.boxShadow = 'inset 0 0 10px rgba(76, 201, 240, 0.5)';
+            setTimeout(() => {
+              button.style.boxShadow = '';
+            }, 150);
+          });
+          
+          return true;
+        } catch (visualError) {
+          console.log('Fallback visual también falló:', visualError);
+        }
+        
+        return false;
+      }
+      
+      // Función para probar vibración
+      function testVibration(intensity = null, type = null) {
+        if (!vibrationConfig.enabled) {
+          alert('La vibración está desactivada. Actívala primero.');
+          return;
+        }
+        
+        const success = vibrateDevice(intensity, type);
+        
+        if (!success) {
+          console.log('No se pudo activar la vibración en este dispositivo');
+          
+          if (!deviceCapabilities.hasVibrationAPI) {
+            alert('Tu dispositivo o navegador no soporta vibración táctil. ' +
+                  'Asegúrate de usar un dispositivo móvil compatible.');
+          }
+        }
+      }
+      
+      // Función para guardar configuración de vibración
+      function saveVibrationConfig() {
+        try {
+          localStorage.setItem('vibrationConfig', JSON.stringify(vibrationConfig));
+          console.log('Configuración de vibración guardada:', vibrationConfig);
+          return true;
+        } catch (error) {
+          console.error('Error al guardar configuración:', error);
+          return false;
+        }
+      }
+      
+      // Función para cargar configuración de vibración
+      function loadVibrationConfig() {
+        try {
+          const savedConfig = localStorage.getItem('vibrationConfig');
+          if (savedConfig) {
+            const parsedConfig = JSON.parse(savedConfig);
+            vibrationConfig = { ...vibrationConfig, ...parsedConfig };
+            console.log('Configuración de vibración cargada:', vibrationConfig);
+          }
+        } catch (error) {
+          console.error('Error al cargar configuración:', error);
+        }
+        
+        updateVibrationUI();
+      }
+      
+      // Actualizar controles de la UI según configuración
+      function updateVibrationUI() {
+        const mainToggle = document.getElementById('vibrationToggle');
+        const modalToggle = document.getElementById('vibrationModalToggle');
+        
+        if (mainToggle) mainToggle.checked = vibrationConfig.enabled;
+        if (modalToggle) modalToggle.checked = vibrationConfig.enabled;
+        
+        document.querySelectorAll('.intensity-btn[data-intensity]').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.intensity === vibrationConfig.intensity) {
+            btn.classList.add('active');
+          }
+        });
+        
+        document.querySelectorAll('.intensity-btn[data-type]').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.type === vibrationConfig.type) {
+            btn.classList.add('active');
+          }
+        });
       }
       
       // ================================================
@@ -911,18 +1197,37 @@
         }
       }
       
-      // ================================================
-      // FUNCIÓN MODIFICADA PARA MANEJAR CLICS CON VIBRACIÓN
-      // ================================================
-      
-      // Manejar clics en botones (MODIFICADA PARA INCLUIR VIBRACIÓN)
+      // Manejar clics en botones
       function handleButtonClick(event) {
         const button = event.target.closest('.button');
         if (!button) return;
         
-        // --- AÑADIDO: ACTIVAR VIBRACIÓN ---
-        vibrateDevice();
+        // Vibración
+        if (vibrationConfig.enabled) {
+          const action = button.getAttribute('data-action');
+          const value = button.getAttribute('data-value');
+          
+          let vibrationType = 'short';
+          let vibrationIntensity = 'medium';
+          
+          if (action === 'equals') {
+            vibrationType = 'medium';
+            vibrationIntensity = 'strong';
+          } else if (action === 'clear' || action === 'backspace') {
+            vibrationType = 'short';
+            vibrationIntensity = 'light';
+          } else if (button.classList.contains('operator')) {
+            vibrationType = 'short';
+            vibrationIntensity = 'medium';
+          } else if (button.classList.contains('scientific-btn')) {
+            vibrationType = 'short';
+            vibrationIntensity = 'light';
+          }
+          
+          vibrateDevice(vibrationIntensity, vibrationType);
+        }
         
+        // Efecto visual
         button.style.transform = 'translateY(2px) scale(0.98)';
         setTimeout(() => {
           button.style.transform = '';
@@ -1007,7 +1312,7 @@
         }
       }
       
-      // Limpiar todo (sin cambios)
+      // Limpiar todo
       function clearAll() {
         currentExpression = '';
         currentPreview = '0';
@@ -1022,7 +1327,24 @@
         updateScreen();
       }
       
-      // Manejar paréntesis (sin cambios)
+      // Borrar último carácter
+      function backspace() {
+        if (currentExpression.slice(-2) === '√(') {
+          lastSqrtIndex = -1;
+        }
+        
+        if (currentExpression.slice(-1) === '(') {
+          parenthesisOpen = false;
+        } else if (currentExpression.slice(-1) === ')') {
+          parenthesisOpen = true;
+        }
+        
+        currentExpression = currentExpression.slice(0, -1);
+        updateScreen();
+        updatePreview();
+      }
+      
+      // Manejar paréntesis
       function handleParenthesis() {
         if (parenthesisOpen) {
           addToExpression(')');
@@ -1064,7 +1386,17 @@
         }
       }
       
-      // Manejar entrada por teclado (MODIFICADA para manejar comas)
+      // Mostrar modal de configuración de vibración
+      function showVibrationModal() {
+        vibrationModal.classList.add('active');
+      }
+      
+      // Ocultar modal de configuración de vibración
+      function hideVibrationModal() {
+        vibrationModal.classList.remove('active');
+      }
+      
+      // Manejar entrada por teclado
       function handleKeyboard(event) {
         const key = event.key;
         
@@ -1099,44 +1431,88 @@
         } else if (key === 'e' || key === 'E') {
           addToExpression('e');
         } else if (key === ',') {
-          // Ignoramos comas del teclado, ya que las añadimos automáticamente
+          // Ignorar comas del teclado
           event.preventDefault();
         }
       }
       
       // ================================================
-      // CONFIGURACIÓN DEL INTERRUPTOR DE VIBRACIÓN
+      // CONFIGURACIÓN DEL SISTEMA DE VIBRACIÓN
       // ================================================
       
-      // Configurar el interruptor de vibración
-      const vibrationToggle = document.getElementById('vibrationToggle');
-      
-      // Cargar la preferencia guardada
-      function loadVibrationPreference() {
-        const savedPreference = localStorage.getItem('hapticFeedback');
-        if (savedPreference !== null) {
-          hapticFeedbackEnabled = savedPreference === 'true';
-          vibrationToggle.checked = hapticFeedbackEnabled;
-        }
-      }
-      
-      // Guardar la preferencia
-      function saveVibrationPreference() {
-        localStorage.setItem('hapticFeedback', hapticFeedbackEnabled);
-      }
-      
-      // Manejar cambio en el interruptor
-      vibrationToggle.addEventListener('change', function() {
-        hapticFeedbackEnabled = this.checked;
-        saveVibrationPreference();
+      // Configurar eventos del modal de vibración
+      function setupVibrationModalEvents() {
+        vibrationTestBtn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          showVibrationModal();
+        });
         
-        // Dar retroalimentación visual
-        if (hapticFeedbackEnabled) {
-          console.log('Vibración activada');
-        } else {
-          console.log('Vibración desactivada');
-        }
-      });
+        document.getElementById('testVibrationBtn').addEventListener('click', function() {
+          testVibration();
+        });
+        
+        document.getElementById('saveVibrationBtn').addEventListener('click', function() {
+          vibrationConfig.enabled = document.getElementById('vibrationModalToggle').checked;
+          
+          const intensityBtn = document.querySelector('.intensity-btn[data-intensity].active');
+          if (intensityBtn) {
+            vibrationConfig.intensity = intensityBtn.dataset.intensity;
+          }
+          
+          const typeBtn = document.querySelector('.intensity-btn[data-type].active');
+          if (typeBtn) {
+            vibrationConfig.type = typeBtn.dataset.type;
+          }
+          
+          saveVibrationConfig();
+          
+          document.getElementById('vibrationToggle').checked = vibrationConfig.enabled;
+          
+          hideVibrationModal();
+          
+          if (vibrationConfig.enabled) {
+            testVibration();
+          }
+        });
+        
+        document.querySelectorAll('.intensity-btn[data-intensity]').forEach(btn => {
+          btn.addEventListener('click', function() {
+            document.querySelectorAll('.intensity-btn[data-intensity]').forEach(b => {
+              b.classList.remove('active');
+            });
+            this.classList.add('active');
+          });
+        });
+        
+        document.querySelectorAll('.intensity-btn[data-type]').forEach(btn => {
+          btn.addEventListener('click', function() {
+            document.querySelectorAll('.intensity-btn[data-type]').forEach(b => {
+              b.classList.remove('active');
+            });
+            this.classList.add('active');
+          });
+        });
+        
+        vibrationModal.addEventListener('click', function(e) {
+          if (e.target === vibrationModal) {
+            hideVibrationModal();
+          }
+        });
+      }
+      
+      // Configurar interruptor de vibración principal
+      function setupVibrationToggle() {
+        const vibrationToggle = document.getElementById('vibrationToggle');
+        
+        vibrationToggle.addEventListener('change', function() {
+          vibrationConfig.enabled = this.checked;
+          saveVibrationConfig();
+          
+          if (vibrationConfig.enabled) {
+            testVibration();
+          }
+        });
+      }
       
       // ================================================
       // INICIALIZACIÓN
@@ -1144,8 +1520,15 @@
       
       // Inicializar
       function initialize() {
-        // Cargar preferencia de vibración
-        loadVibrationPreference();
+        // Detectar capacidades del dispositivo
+        detectVibrationSupport();
+        
+        // Cargar configuración de vibración
+        loadVibrationConfig();
+        
+        // Configurar eventos de vibración
+        setupVibrationToggle();
+        setupVibrationModalEvents();
         
         // Agregar event listeners a los botones
         document.querySelectorAll('.button').forEach(button => {
@@ -1164,6 +1547,17 @@
         // Inicializar visibilidad del panel
         updateScientificPanelVisibility();
         updateScreen();
+        
+        // Mostrar información al iniciar
+        console.log('✅ Calculadora científica inicializada');
+        console.log('✅ Sistema de números grandes configurado');
+        
+        // Probar vibración al inicio si está activada
+        if (vibrationConfig.enabled) {
+          setTimeout(() => {
+            testVibration('light', 'short');
+          }, 500);
+        }
       }
       
       // Verificar si estamos en Telegram WebApp
