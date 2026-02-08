@@ -343,7 +343,7 @@
     </div>
     
     <!-- Funciones científicas -->
-    <div class="scientific-buttons" id="scientificButtons">
+    <div class="scientific-buttons collapsed" id="scientificButtons">
       <!-- Fila 1: √ π ^ ! -->
       <div class="button scientific-btn" data-action="sqrt">√</div>
       <div class="button scientific-btn" data-action="pi">π</div>
@@ -866,10 +866,13 @@
         // Manejar cambio de tamaño de ventana
         window.addEventListener('resize', updateScientificPanelVisibility);
         
-        // Inicializar visibilidad del panel
-        updateScientificPanelVisibility();
-        updateScreen();
-      }
+        // Inicializar visibilidad del panel - AHORA COMENZARÁ OCULTO
+if (window.innerWidth < 768) {
+    scientificButtons.classList.add('collapsed');
+    toggleScientificBtn.innerHTML = '<span>Funciones científicas ︾</span>';
+}
+updateScientificPanelVisibility();
+updateScreen();
       
       // Verificar si estamos en Telegram WebApp
       const isTelegramWebApp = window.Telegram && window.Telegram.WebApp;
