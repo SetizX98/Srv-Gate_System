@@ -17,11 +17,12 @@
     
     :root {
       --scale-factor: 1;
-      --button-height: calc(50px * var(--scale-factor)); /* REDUCIDO de 60px a 50px */
+      --button-height: calc(50px * var(--scale-factor));
       --font-size-expression: calc(28px * var(--scale-factor));
-      --font-size-result: calc(16px * var(--scale-factor));
-      --font-size-button: calc(16px * var(--scale-factor)); /* REDUCIDO de 18px a 16px */
-      --screen-min-height: calc(120px * var(--scale-factor)); /* AUMENTADO de 80px a 120px */
+      --font-size-result: calc(18px * var(--scale-factor)); /* AUMENTADO de 16px a 18px */
+      --font-size-button: calc(16px * var(--scale-factor));
+      --screen-min-height: calc(120px * var(--scale-factor));
+      --screen-expanded-height: calc(180px * var(--scale-factor)); /* NUEVA: altura expandida */
       --corner-size: clamp(40px, calc(60px * var(--scale-factor)), 70px);
       --light-blue: rgba(64, 156, 255, 0.85);
       --dark-blue: rgba(42, 42, 74, 0.85);
@@ -44,7 +45,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* AUMENTADO el padding inferior para más separación */
       padding: calc(var(--corner-size) * 0.8) max(15px, calc(20px * var(--scale-factor))) calc(var(--corner-size) * 1.2);
     }
     
@@ -66,7 +66,7 @@
       box-shadow: 0 0 6px currentColor;
     }
     
-    /* PANTALLA - MÁS GRANDE Y CON MÁRGEN INFERIOR */
+    /* PANTALLA CON CONTENIDO FIJO EN LA PARTE INFERIOR */
     .screen {
       width: 100%;
       max-width: 460px;
@@ -82,16 +82,26 @@
       min-height: var(--screen-min-height);
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
+      justify-content: flex-end; /* Mantiene el contenido al fondo */
       overflow: hidden;
       z-index: 2;
-      /* AUMENTADO el margen inferior para más separación con botones */
       margin-bottom: max(25px, calc(35px * var(--scale-factor)));
       align-self: center;
       flex-shrink: 0;
+      transition: min-height 0.3s ease; /* Transición suave para la expansión */
     }
     
-    /* ECUACIÓN */
+    /* CONTENEDOR INTERNO DE LA PANTALLA - FIJADO EN LA PARTE INFERIOR */
+    .screen-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      width: 100%;
+      /* El contenido siempre se queda en la parte inferior */
+      margin-top: auto;
+    }
+    
+    /* ECUACIÓN - POSICIÓN ESTÁTICA */
     .expression {
       color: rgba(255, 255, 255, 0.95);
       font-size: var(--font-size-expression);
@@ -100,29 +110,36 @@
       text-align: right;
       overflow-x: auto;
       white-space: nowrap;
-      margin-bottom: 5px;
+      margin-bottom: 8px; /* Aumentado ligeramente */
       flex-shrink: 0;
-      min-height: calc(40px * var(--scale-factor)); /* Aumentado */
+      min-height: calc(40px * var(--scale-factor));
+      /* Evita que se mueva cuando la pantalla crece */
+      position: relative;
+      top: 0;
     }
     
-    /* RESULTADO */
+    /* RESULTADO - MÁS GRANDE */
     .result {
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.75); /* Un poco más claro */
       font-size: var(--font-size-result);
-      font-weight: 400;
-      text-shadow: 0 0 6px rgba(0, 200, 255, 0.4);
+      font-weight: 500; /* Un poco más grueso */
+      text-shadow: 0 0 8px rgba(0, 200, 255, 0.5); /* Brillo aumentado */
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
       font-style: italic;
       flex-shrink: 0;
-      min-height: calc(25px * var(--scale-factor)); /* Aumentado */
+      min-height: calc(28px * var(--scale-factor)); /* Aumentado */
+      /* Evita que se mueva cuando la pantalla crece */
+      position: relative;
+      top: 0;
     }
     
     .preview-indicator {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
+      font-size: 13px; /* Un poco más grande */
+      color: rgba(255, 255, 255, 0.6);
       font-style: normal;
+      margin-right: 5px;
     }
     
     /* BOTÓN PARA EXPANDIR/CONTRER FILAS AZULES */
@@ -151,12 +168,12 @@
       transform: scale(1.1);
     }
     
-    /* CONTENEDOR DE BOTONES - CON GAP AUMENTADO */
+    /* CONTENEDOR DE BOTONES */
     .buttons-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(8, var(--button-height));
-      gap: calc(14px * var(--scale-factor)); /* AUMENTADO de 12px a 14px */
+      gap: calc(14px * var(--scale-factor));
       width: 100%;
       max-width: 460px;
       background: transparent;
@@ -172,12 +189,12 @@
       display: none !important;
     }
     
-    /* BOTONES GENERALES - MÁS PEQUEÑOS */
+    /* BOTONES GENERALES */
     .btn {
       height: 100%;
       width: 100%;
       border: none;
-      border-radius: 10px; /* REDUCIDO de 12px a 10px */
+      border-radius: 10px;
       font-size: var(--font-size-button);
       font-weight: 600;
       cursor: pointer;
@@ -188,13 +205,13 @@
       touch-action: manipulation;
       color: white;
       box-shadow: 
-        0 3px 0 rgba(0, 0, 0, 0.4), /* REDUCIDO de 4px a 3px */
+        0 3px 0 rgba(0, 0, 0, 0.4),
         inset 0 1px 3px rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(8px);
     }
     
     .btn:active {
-      transform: translateY(3px) scale(0.98); /* Ajustado a 3px */
+      transform: translateY(3px) scale(0.98);
       box-shadow: 
         0 0 0 rgba(0, 0, 0, 0.3),
         inset 0 1px 3px rgba(255, 255, 255, 0.15);
@@ -328,7 +345,7 @@
       }
       
       .toggle-rows-btn {
-        display: none; /* Ocultar en landscape */
+        display: none;
       }
       
       .buttons-grid {
@@ -356,10 +373,12 @@
   <div class="corner-decoration corner-top-left"></div>
   <div class="corner-decoration corner-bottom-right"></div>
   
-  <!-- PANTALLA EN LA PARTE SUPERIOR -->
+  <!-- PANTALLA CON CONTENIDO FIJO -->
   <div class="screen" id="screen">
-    <div class="expression" id="expression"></div>
-    <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
+    <div class="screen-content">
+      <div class="expression" id="expression"></div>
+      <div class="result" id="result"><span class="preview-indicator">preview:</span> <span id="previewValue">0</span></div>
+    </div>
   </div>
   
   <!-- BOTÓN PARA EXPANDIR/CONTRER FILAS -->
@@ -433,7 +452,6 @@
   </div>
   
   <script>
-    // CÓDIGO MODIFICADO - AÑADIDA FUNCIONALIDAD DE EXPANDIR/CONTRER
     document.addEventListener('DOMContentLoaded', function() {
       // Elementos de la calculadora
       const expressionElement = document.getElementById('expression');
@@ -457,7 +475,7 @@
       let rowsExpanded = true;
       
       // ================================================
-      // FUNCIÓN PARA EXPANDIR/CONTRER FILAS
+      // FUNCIÓN PARA EXPANDIR/CONTRER FILAS - MODIFICADA
       // ================================================
       function toggleRows() {
         rowsExpanded = !rowsExpanded;
@@ -469,7 +487,7 @@
           row3.classList.remove('row-hidden');
           toggleRowsBtn.textContent = '︾';
           
-          // Restaurar tamaño de pantalla
+          // Restaurar tamaño de pantalla normal
           screen.style.minHeight = 'var(--screen-min-height)';
           screen.style.marginBottom = 'max(25px, calc(35px * var(--scale-factor)))';
         } else {
@@ -479,11 +497,18 @@
           row3.classList.add('row-hidden');
           toggleRowsBtn.textContent = '︽';
           
-          // Aumentar tamaño de pantalla
+          // Ampliar pantalla solo un poco (hasta donde iría la primera fila azul)
+          // Calculamos aproximadamente la altura de 3 filas de botones + gaps
           const scale = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--scale-factor'));
-          const extraHeight = 180 * scale; // Altura extra cuando se contraen las filas
+          const buttonHeight = 50 * scale; // altura de un botón
+          const gapHeight = 14 * scale; // gap entre filas
+          
+          // Altura de 3 filas (aproximadamente 180px con escala)
+          const extraHeight = (buttonHeight * 3) + (gapHeight * 2);
+          
+          // Usamos la variable CSS para la altura expandida
           screen.style.minHeight = `calc(var(--screen-min-height) + ${extraHeight}px)`;
-          screen.style.marginBottom = 'max(15px, calc(25px * var(--scale-factor)))';
+          screen.style.marginBottom = 'max(20px, calc(30px * var(--scale-factor)))';
         }
       }
       
@@ -491,7 +516,7 @@
       toggleRowsBtn.addEventListener('click', toggleRows);
       
       // ================================================
-      // FUNCIÓN DE AJUSTE AUTOMÁTICO DE TAMAÑO (existente)
+      // FUNCIÓN DE AJUSTE AUTOMÁTICO DE TAMAÑO
       // ================================================
       function calculateScaleFactor() {
         const viewportHeight = window.innerHeight;
@@ -550,7 +575,7 @@
         setTimeout(updateScale, 200);
       });
       
-      // SISTEMA DE PARTÍCULAS (existente)
+      // SISTEMA DE PARTÍCULAS
       function createParticles() {
         const particles = [];
         const colors = [
@@ -654,7 +679,7 @@
         animateParticles();
       }
       
-      // ACTUALIZAR LA PANTALLA DE LA CALCULADORA (existente)
+      // ACTUALIZAR LA PANTALLA DE LA CALCULADORA
       function updateScreen() {
         expressionElement.textContent = currentExpression || '';
         previewValueElement.textContent = currentPreview;
@@ -666,14 +691,14 @@
         }
       }
       
-      // AGREGAR VALOR A LA EXPRESIÓN (existente)
+      // AGREGAR VALOR A LA EXPRESIÓN
       function addToExpression(value) {
         currentExpression += value;
         updateScreen();
         updatePreview();
       }
       
-      // LIMPIAR TODO (existente)
+      // LIMPIAR TODO
       function clearAll() {
         currentExpression = '';
         currentPreview = '0';
@@ -688,7 +713,7 @@
         updateScreen();
       }
       
-      // BORRAR ÚLTIMO CARÁCTER (existente)
+      // BORRAR ÚLTIMO CARÁCTER
       function backspace() {
         if (currentExpression.slice(-2) === '√(') {
           lastSqrtIndex = -1;
@@ -705,7 +730,7 @@
         updatePreview();
       }
       
-      // MANEJAR PARÉNTESIS (existente)
+      // MANEJAR PARÉNTESIS
       function handleParenthesis() {
         if (parenthesisOpen) {
           addToExpression(')');
@@ -716,7 +741,7 @@
         }
       }
       
-      // FUNCIÓN PARA CERRAR PARÉNTESIS AUTOMÁTICAMENTE (existente)
+      // FUNCIÓN PARA CERRAR PARÉNTESIS AUTOMÁTICAMENTE
       function balanceParentheses(expression) {
         let openCount = (expression.match(/\(/g) || []).length;
         let closeCount = (expression.match(/\)/g) || []).length;
@@ -728,7 +753,7 @@
         return expression;
       }
       
-      // FUNCIÓN ESPECIAL PARA RAÍZ CUADRADA (existente)
+      // FUNCIÓN ESPECIAL PARA RAÍZ CUADRADA
       function handleSquareRoot() {
         if (lastSqrtIndex !== -1) {
           const afterSqrt = currentExpression.substring(lastSqrtIndex);
@@ -743,7 +768,7 @@
         parenthesisOpen = true;
       }
       
-      // TOGGLE GRADOS/RADIANES (existente)
+      // TOGGLE GRADOS/RADIANES
       function toggleDeg() {
         isDeg = !isDeg;
         const degButtons = document.querySelectorAll('[data-action="deg"]');
@@ -752,7 +777,7 @@
         });
       }
       
-      // TOGGLE FUNCIONES INVERSAS (existente)
+      // TOGGLE FUNCIONES INVERSAS
       function toggleInv() {
         isInv = !isInv;
         const invButtons = document.querySelectorAll('[data-action="inv"]');
@@ -775,7 +800,7 @@
         }
       }
       
-      // ACTUALIZAR PREVISUALIZACIÓN EN TIEMPO REAL (existente)
+      // ACTUALIZAR PREVISUALIZACIÓN EN TIEMPO REAL
       function updatePreview() {
         if (previewTimeout) {
           clearTimeout(previewTimeout);
@@ -850,7 +875,7 @@
         }, 200);
       }
       
-      // CALCULAR RESULTADO FINAL (existente)
+      // CALCULAR RESULTADO FINAL
       function calculateResult() {
         if (!currentExpression) return;
         
@@ -933,7 +958,7 @@
         }
       }
       
-      // MANEJAR CLICS EN BOTONES (existente)
+      // MANEJAR CLICS EN BOTONES
       function handleButtonClick(event) {
         const button = event.target.closest('.btn');
         if (!button) return;
@@ -1022,7 +1047,7 @@
         }
       }
       
-      // INICIALIZAR (existente modificada)
+      // INICIALIZAR
       function initialize() {
         const buttonsGrid = document.querySelector('.buttons-grid');
         buttonsGrid.addEventListener('click', handleButtonClick);
