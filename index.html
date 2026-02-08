@@ -8,13 +8,394 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   
   <style>
-    /* ... (todo el CSS permanece igual) ... */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #1e1e2e, #2d2d44);
+      color: #fff;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    }
+    
+    .calculator {
+      width: 100%;
+      max-width: 420px;
+      background-color: #2a2a3e;
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid #3a3a4e;
+    }
+    
+    .display {
+      background-color: #1a1a2e;
+      padding: 24px 20px;
+      text-align: right;
+      min-height: 180px; /* Aumentado de 160px a 180px */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      border-bottom: 1px solid #3a3a4e;
+    }
+    
+    .expression {
+      color: rgba(255, 255, 255, 0.95); /* Más visible */
+      font-size: 2.2rem; /* Reducido de 1.5rem a 2.2rem */
+      font-weight: 500;
+      word-break: break-all;
+      text-align: right;
+      min-height: 35px;
+      overflow-x: auto;
+      white-space: nowrap;
+      margin-bottom: 4px; /* Reducido espacio */
+    }
+    
+    .result {
+      color: rgba(255, 255, 255, 0.7); /* Menos prominente */
+      font-size: 1.3rem; /* Reducido de 3.5rem a 1.3rem */
+      font-weight: 400; /* Más ligero */
+      word-break: break-all;
+      text-align: right;
+      overflow-x: auto;
+      line-height: 1.3;
+      min-height: 25px; /* Reducido altura */
+      overflow-y: auto;
+      max-height: 60px; /* Reducido altura máxima */
+      margin-bottom: 8px; /* Espacio adicional */
+    }
+    
+    .result::-webkit-scrollbar {
+      width: 4px;
+    }
+    
+    .result::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+    
+    .result::-webkit-scrollbar-thumb {
+      background: #4cc9f0;
+      border-radius: 2px;
+    }
+    
+    .toggle-scientific {
+      display: flex;
+      justify-content: center;
+      padding: 10px 0;
+      background: linear-gradient(to bottom, #3a3a5e, #2d2d4a);
+      cursor: pointer;
+      color: #a5b1c2;
+      font-size: 0.9rem;
+      transition: background 0.3s;
+      border-bottom: 1px solid #3a3a4e;
+    }
+    
+    .toggle-scientific:hover {
+      background: linear-gradient(to bottom, #44446e, #35355a);
+    }
+    
+    .buttons-container {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .scientific-buttons {
+      background: linear-gradient(to bottom, #2d2d44, #252536);
+      padding: 12px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      max-height: 300px;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+      border-bottom: 1px solid #3a3a4e;
+    }
+    
+    .scientific-buttons.collapsed {
+      max-height: 0;
+      padding: 0;
+      border-bottom: none;
+    }
+    
+    .basic-buttons {
+      background: linear-gradient(to bottom, #252536, #1e1e2e);
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+    
+    .button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 56px;
+      border-radius: 16px;
+      font-size: 1.4rem;
+      font-weight: 500;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s;
+      border: none;
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      touch-action: manipulation;
+    }
+    
+    .button:active {
+      transform: translateY(2px) scale(0.98);
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+    }
+    
+    .scientific-btn {
+      background: linear-gradient(145deg, #3a3a5e, #2d2d4a);
+      font-size: 1.2rem;
+    }
+    
+    .scientific-btn:hover {
+      background: linear-gradient(145deg, #44446e, #35355a);
+    }
+    
+    .number {
+      background: linear-gradient(145deg, #2a2a3e, #1e1e2e);
+    }
+    
+    .number:hover {
+      background: linear-gradient(145deg, #34344e, #282838);
+    }
+    
+    .operator {
+      background: linear-gradient(145deg, #4cc9f0, #3aa8d8);
+      color: #1a1a2e;
+      font-weight: 600;
+    }
+    
+    .operator:hover {
+      background: linear-gradient(145deg, #5cd9ff, #4ab8e8);
+    }
+    
+    .parenthesis {
+      background: linear-gradient(145deg, #4cc9f0, #3aa8d8);
+      color: #1a1a2e;
+      font-weight: 600;
+    }
+    
+    .parenthesis:hover {
+      background: linear-gradient(145deg, #5cd9ff, #4ab8e8);
+    }
+    
+    /* MODIFICACIÓN: Botón de porcentaje con color de operador */
+    .percentage {
+      background: linear-gradient(145deg, #4cc9f0, #3aa8d8);
+      color: #1a1a2e;
+      font-weight: 600;
+    }
+    
+    .percentage:hover {
+      background: linear-gradient(145deg, #5cd9ff, #4ab8e8);
+    }
+    
+    .equals {
+      background: linear-gradient(145deg, #f72585, #d11475);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .equals:hover {
+      background: linear-gradient(145deg, #ff35a5, #e12485);
+    }
+    
+    .clear {
+      background: linear-gradient(145deg, #ff6b6b, #e64c4c);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .clear:hover {
+      background: linear-gradient(145deg, #ff7b7b, #f65c5c);
+    }
+    
+    .delete {
+      background: linear-gradient(145deg, #ff6b6b, #e64c4c);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .delete:hover {
+      background: linear-gradient(145deg, #ff7b7b, #f65c5c);
+    }
+    
+    /* Modo horizontal (pantallas más anchas) */
+    @media (min-width: 768px) {
+      .scientific-buttons {
+        max-height: 500px !important;
+        padding: 15px !important;
+      }
+      
+      .toggle-scientific {
+        display: none;
+      }
+      
+      .calculator {
+        max-width: 800px;
+      }
+      
+      .buttons-container {
+        display: flex;
+      }
+      
+      .scientific-buttons {
+        width: 50%;
+        border-right: 1px solid #3a3a4e;
+        border-bottom: none;
+      }
+      
+      .basic-buttons {
+        width: 50%;
+      }
+    }
+    
+    /* Para pantallas pequeñas */
+    @media (max-width: 480px) {
+      body {
+        padding: 12px;
+      }
+      
+      .calculator {
+        max-width: 100%;
+        border-radius: 20px;
+      }
+      
+      .display {
+        padding: 20px 16px;
+        min-height: 160px; /* Aumentado de 140px a 160px */
+      }
+      
+      .expression {
+        font-size: 1.9rem; /* Ajustado de 1.3rem a 1.9rem */
+      }
+      
+      .result {
+        font-size: 1.1rem; /* Ajustado de 3rem a 1.1rem */
+      }
+      
+      .button {
+        height: 52px;
+        font-size: 1.3rem;
+        border-radius: 14px;
+      }
+      
+      .scientific-btn {
+        font-size: 1.1rem;
+      }
+      
+      .scientific-buttons {
+        padding: 10px;
+        gap: 8px;
+      }
+      
+      .basic-buttons {
+        padding: 14px;
+        gap: 10px;
+      }
+    }
+    
+    /* Para pantallas muy pequeñas */
+    @media (max-width: 360px) {
+      .button {
+        height: 48px;
+        font-size: 1.2rem;
+      }
+      
+      .expression {
+        font-size: 1.7rem; /* Ajustado de 1.2rem a 1.7rem */
+      }
+      
+      .result {
+        font-size: 1rem; /* Ajustado de 2.5rem a 1rem */
+      }
+      
+      .scientific-btn {
+        font-size: 1rem;
+      }
+    }
   </style>
 </head>
 <body>
   <!-- Calculadora con diseño nuevo -->
   <div class="calculator">
-    <!-- ... (todo el HTML permanece igual) ... -->
+    <!-- Pantalla de resultados -->
+    <div class="display">
+      <div class="expression" id="expression"></div>
+      <div class="result" id="result">0</div>
+    </div>
+    
+    <!-- Botón para mostrar/ocultar funciones científicas -->
+    <div class="toggle-scientific" id="toggleScientific">
+      <span>Funciones científicas ︾</span>
+    </div>
+    
+    <!-- Funciones científicas -->
+    <div class="scientific-buttons collapsed" id="scientificButtons">
+      <!-- Fila 1: √ π ^ ! -->
+      <div class="button scientific-btn" data-action="sqrt">√</div>
+      <div class="button scientific-btn" data-action="pi">π</div>
+      <div class="button scientific-btn" data-action="pow">^</div>
+      <div class="button scientific-btn" data-action="factorial">!</div>
+      
+      <!-- Fila 2: Deg sin cos tan -->
+      <div class="button scientific-btn" data-action="deg" id="deg-btn">Deg</div>
+      <div class="button scientific-btn" data-action="sin">sin</div>
+      <div class="button scientific-btn" data-action="cos">cos</div>
+      <div class="button scientific-btn" data-action="tan">tan</div>
+      
+      <!-- Fila 3: Inv e ln log -->
+      <div class="button scientific-btn" data-action="inv" id="inv-btn">Inv</div>
+      <div class="button scientific-btn" data-action="e">e</div>
+      <div class="button scientific-btn" data-action="ln">ln</div>
+      <div class="button scientific-btn" data-action="log">log</div>
+    </div>
+    
+    <!-- Funciones básicas -->
+    <div class="basic-buttons">
+      <!-- Fila 4: AC () % ÷ -->
+      <div class="button clear" data-action="clear">AC</div>
+      <div class="button parenthesis" data-action="parenthesis">( )</div>
+      <div class="button percentage" data-action="percentage">%</div>
+      <div class="button operator" data-action="divide">÷</div>
+      
+      <!-- Fila 5: 7 8 9 × -->
+      <div class="button number" data-value="7">7</div>
+      <div class="button number" data-value="8">8</div>
+      <div class="button number" data-value="9">9</div>
+      <div class="button operator" data-action="multiply">×</div>
+      
+      <!-- Fila 6: 4 5 6 - -->
+      <div class="button number" data-value="4">4</div>
+      <div class="button number" data-value="5">5</div>
+      <div class="button number" data-value="6">6</div>
+      <div class="button operator" data-action="subtract">-</div>
+      
+      <!-- Fila 7: 1 2 3 + -->
+      <div class="button number" data-value="1">1</div>
+      <div class="button number" data-value="2">2</div>
+      <div class="button number" data-value="3">3</div>
+      <div class="button operator" data-action="add">+</div>
+      
+      <!-- Fila 8: 0 . ⌫ = (MODIFICADA según tus instrucciones) -->
+      <div class="button number" data-value="0">0</div>
+      <div class="button number" data-value=".">.</div>
+      <div class="button delete" data-action="backspace">⌫</div>
+      <div class="button equals" data-action="equals">=</div>
+    </div>
   </div>
   
   <script>
