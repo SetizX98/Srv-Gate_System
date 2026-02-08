@@ -391,122 +391,6 @@
         max-height: 370px; /* Ajustado para pantallas muy pequeñas */
       }
     }
-    
-    /* Indicador de prueba de vibración */
-    .vibration-test-btn {
-      background: linear-gradient(145deg, #9d4edd, #7b2cbf);
-      font-size: 0.8rem;
-      padding: 4px 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-left: 8px;
-    }
-    
-    .vibration-test-btn:hover {
-      background: linear-gradient(145deg, #ad5eed, #8b3ccf);
-    }
-    
-    /* Modal de configuración de vibración */
-    .vibration-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s, visibility 0.3s;
-    }
-    
-    .vibration-modal.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    
-    .vibration-modal-content {
-      background: #2a2a3e;
-      border-radius: 20px;
-      padding: 24px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-      border: 1px solid #3a3a4e;
-    }
-    
-    .vibration-modal h3 {
-      color: #4cc9f0;
-      margin-bottom: 16px;
-      font-size: 1.5rem;
-    }
-    
-    .vibration-option {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 16px;
-      padding: 12px;
-      background: #1e1e2e;
-      border-radius: 12px;
-      border: 1px solid #3a3a4e;
-    }
-    
-    .vibration-option label {
-      font-size: 1rem;
-      color: #e0e0e0;
-    }
-    
-    .vibration-intensity {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-    
-    .intensity-btn {
-      flex: 1;
-      padding: 10px;
-      text-align: center;
-      background: #1e1e2e;
-      border-radius: 10px;
-      cursor: pointer;
-      border: 1px solid #3a3a4e;
-      transition: all 0.2s;
-    }
-    
-    .intensity-btn.active {
-      background: #4cc9f0;
-      color: #1a1a2e;
-      border-color: #4cc9f0;
-    }
-    
-    .modal-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    
-    .modal-btn {
-      flex: 1;
-      padding: 12px;
-      text-align: center;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 500;
-    }
-    
-    .modal-btn.primary {
-      background: #4cc9f0;
-      color: #1a1a2e;
-    }
-    
-    .modal-btn.secondary {
-      background: #3a3a5e;
-      color: #e0e0e0;
-    }
   </style>
 </head>
 <body>
@@ -551,7 +435,6 @@
             <span class="toggle-slider"></span>
           </div>
           Vibración táctil
-          <div class="vibration-test-btn" id="vibrationTestBtn">Probar</div>
         </label>
       </div>
     </div>
@@ -590,46 +473,6 @@
     </div>
   </div>
   
-  <!-- Modal de configuración de vibración -->
-  <div class="vibration-modal" id="vibrationModal">
-    <div class="vibration-modal-content">
-      <h3>Configuración de Vibración</h3>
-      
-      <div class="vibration-option">
-        <label>Activar vibración táctil</label>
-        <div class="toggle-switch">
-          <input type="checkbox" id="vibrationModalToggle" checked>
-          <span class="toggle-slider"></span>
-        </div>
-      </div>
-      
-      <div class="vibration-option">
-        <label>Intensidad de vibración</label>
-      </div>
-      
-      <div class="vibration-intensity">
-        <div class="intensity-btn active" data-intensity="light">Suave</div>
-        <div class="intensity-btn" data-intensity="medium">Media</div>
-        <div class="intensity-btn" data-intensity="strong">Fuerte</div>
-      </div>
-      
-      <div class="vibration-option">
-        <label>Tipo de vibración</label>
-      </div>
-      
-      <div class="vibration-intensity">
-        <div class="intensity-btn active" data-type="short">Corta</div>
-        <div class="intensity-btn" data-type="medium">Media</div>
-        <div class="intensity-btn" data-type="long">Larga</div>
-      </div>
-      
-      <div class="modal-buttons">
-        <div class="modal-btn secondary" id="testVibrationBtn">Probar Vibración</div>
-        <div class="modal-btn primary" id="saveVibrationBtn">Guardar</div>
-      </div>
-    </div>
-  </div>
-  
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       // Configurar math.js para usar números grandes sin notación científica
@@ -645,8 +488,6 @@
       const scientificButtons = document.getElementById('scientificButtons');
       const degBtn = document.getElementById('deg-btn');
       const invBtn = document.getElementById('inv-btn');
-      const vibrationTestBtn = document.getElementById('vibrationTestBtn');
-      const vibrationModal = document.getElementById('vibrationModal');
       
       // Estado de la calculadora
       let currentExpression = '';
@@ -658,13 +499,106 @@
       let isInv = false;
       
       // ================================================
-      // NUEVA FUNCIÓN PARA FORMATEAR NÚMEROS GRANDES
+      // SISTEMA DE VIBRACIÓN SIMPLIFICADO Y ROBUSTO
       // ================================================
       
-      /**
-       * Función para formatear números sin notación científica
-       * y con separadores de miles para mejor legibilidad
-       */
+      // Estado de vibración
+      let hapticFeedbackEnabled = true;
+      
+      // Detectar capacidades del dispositivo
+      const deviceCapabilities = {
+        hasVibrationAPI: ('vibrate' in navigator),
+        isIOS: /iPhone|iPad|iPod/.test(navigator.userAgent),
+        isAndroid: /Android/.test(navigator.userAgent),
+        isChrome: /Chrome/.test(navigator.userAgent),
+        isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent),
+        isDesktop: !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      };
+      
+      // Función mejorada para activar vibración
+      function vibrateDevice() {
+        if (!hapticFeedbackEnabled) return false;
+        
+        // 1. Primero intentar con la API estándar de vibración
+        if (deviceCapabilities.hasVibrationAPI) {
+          try {
+            // Patrón de vibración corto y compatible
+            const vibrationPattern = 20; // 20ms - duración óptima para todos los dispositivos
+            
+            // Intentar vibrar
+            const result = navigator.vibrate(vibrationPattern);
+            
+            // Si devuelve false, significa que no está soportado
+            if (result === false) {
+              console.log('Vibración no soportada por el navegador');
+              return false;
+            }
+            
+            return true;
+          } catch (error) {
+            console.log('Error con API de vibración estándar:', error);
+          }
+        }
+        
+        // 2. Para iOS en Safari (no soporta navigator.vibrate)
+        if (deviceCapabilities.isIOS && deviceCapabilities.isSafari) {
+          try {
+            // En iOS Safari, podemos intentar usar AudioContext como feedback háptico
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            // Frecuencia baja para simular vibración
+            oscillator.frequency.setValueAtTime(60, audioContext.currentTime);
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.02); // 20ms
+            
+            return true;
+          } catch (audioError) {
+            console.log('Fallback de audio para iOS falló:', audioError);
+          }
+        }
+        
+        // 3. Para dispositivos de escritorio o sin soporte de vibración
+        if (deviceCapabilities.isDesktop) {
+          // En desktop no hay vibración, pero podemos dar feedback visual
+          try {
+            // Efecto visual como alternativa
+            const activeButtons = document.querySelectorAll('.button:active');
+            activeButtons.forEach(button => {
+              const originalColor = button.style.background;
+              button.style.background = 'linear-gradient(145deg, #4cc9f0, #3aa8d8)';
+              
+              setTimeout(() => {
+                button.style.background = originalColor;
+              }, 50);
+            });
+            
+            return true;
+          } catch (visualError) {
+            console.log('Fallback visual falló:', visualError);
+          }
+        }
+        
+        // 4. Si estamos en Telegram Web App, usar su API
+        if (window.Telegram && Telegram.WebApp && Telegram.WebApp.HapticFeedback) {
+          try {
+            Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            return true;
+          } catch (tgError) {
+            console.log('API de Telegram falló:', tgError);
+          }
+        }
+        
+        return false;
+      }
+      
+      // Función para formatear números grandes
       function formatLargeNumber(number) {
         try {
           // Si es un objeto BigNumber de math.js
@@ -672,18 +606,15 @@
             number = number.toString();
           }
           
-          // Si ya es string, convertir a número para formatear
           let numStr = typeof number === 'string' ? number : number.toString();
           
           // Manejar números en notación científica
           if (numStr.includes('e')) {
             try {
-              // Convertir notación científica a número completo
               const [base, exponent] = numStr.split('e');
               const exp = parseInt(exponent);
               
               if (exp >= 0) {
-                // Números positivos grandes
                 const [integer, decimal = ''] = base.split('.');
                 const zerosNeeded = exp - decimal.length;
                 
@@ -694,7 +625,6 @@
                   numStr = integer + decimal.substring(0, position) + '.' + decimal.substring(position);
                 }
               } else {
-                // Números pequeños (negativos)
                 const [integer, decimal = ''] = base.split('.');
                 const allDigits = integer + decimal;
                 const zerosNeeded = Math.abs(exp) - 1;
@@ -702,7 +632,6 @@
                 numStr = '0.' + '0'.repeat(zerosNeeded) + allDigits;
               }
             } catch (e) {
-              // Si falla, mantener la notación científica
               console.log('No se pudo convertir notación científica:', e);
             }
           }
@@ -712,22 +641,18 @@
           let integerPart = parts[0];
           const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
           
-          // Manejar números negativos
           const isNegative = integerPart.startsWith('-');
           if (isNegative) integerPart = integerPart.substring(1);
           
-          // Agregar comas cada 3 dígitos
           integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
           
           if (isNegative) integerPart = '-' + integerPart;
           
-          // Limitar decimales a 10 para evitar overflow visual
           let finalDecimal = decimalPart;
           if (decimalPart.length > 10) {
             finalDecimal = decimalPart.substring(0, 11);
           }
           
-          // Si el número es muy largo, mostrar una versión abreviada
           const totalLength = integerPart.length + finalDecimal.length;
           if (totalLength > 30) {
             if (integerPart.length > 20) {
@@ -743,26 +668,23 @@
       }
       
       // ================================================
-      // FUNCIONES MODIFICADAS PARA MANEJAR NÚMEROS GRANDES
+      // FUNCIONES DE LA CALCULADORA
       // ================================================
       
-      // Actualizar la pantalla (MODIFICADA)
+      // Actualizar la pantalla
       function updateScreen() {
-        // Mostrar expresión con formato
         expressionElement.textContent = currentExpression || '';
-        
-        // Mostrar preview con formato para números grandes
         resultElement.textContent = formatLargeNumber(currentPreview);
       }
       
-      // Agregar valor a la expresión (MODIFICADA)
+      // Agregar valor a la expresión
       function addToExpression(value) {
         currentExpression += value;
         updateScreen();
         updatePreview();
       }
       
-      // Actualizar previsualización en tiempo real (MODIFICADA)
+      // Actualizar previsualización en tiempo real
       function updatePreview() {
         if (previewTimeout) {
           clearTimeout(previewTimeout);
@@ -776,13 +698,10 @@
         
         previewTimeout = setTimeout(() => {
           try {
-            // Preparamos la expresión para evaluación
             let expressionToEval = currentExpression;
             
-            // Balancear paréntesis
             expressionToEval = balanceParentheses(expressionToEval);
             
-            // Reemplazar símbolos para math.js
             expressionToEval = expressionToEval
               .replace(/×/g, '*')
               .replace(/÷/g, '/')
@@ -791,7 +710,6 @@
               .replace(/\^/g, '^')
               .replace(/e/g, 'e');
             
-            // Manejo de funciones trigonométricas inversas
             if (isInv) {
               expressionToEval = expressionToEval
                 .replace(/sin/g, 'asin')
@@ -804,7 +722,6 @@
                 .replace(/tan/g, 'tan');
             }
             
-            // Conversión grados/radianes
             if (isDeg && !isInv) {
               expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
                 function(match, func, angle) {
@@ -812,25 +729,20 @@
                 });
             }
             
-            // Funciones logarítmicas
             expressionToEval = expressionToEval
               .replace(/ln/g, 'log')
               .replace(/log/g, 'log10');
             
-            // Factorial
             expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
               return `factorial(${num})`;
             });
             
-            // Porcentaje
             expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
               return `(${num}/100)`;
             });
             
-            // Evaluar con math.js usando BigNumber
             const result = math.evaluate(expressionToEval);
             
-            // Formatear el resultado para mostrar
             currentPreview = result.toString();
             updateScreen();
             
@@ -841,18 +753,15 @@
         }, 200);
       }
       
-      // Calcular resultado final (MODIFICADA)
+      // Calcular resultado final
       function calculateResult() {
         if (!currentExpression) return;
         
         try {
-          // Preparamos la expresión para evaluación
           let expressionToEval = currentExpression;
           
-          // Balancear paréntesis
           expressionToEval = balanceParentheses(expressionToEval);
           
-          // Reemplazar símbolos para math.js
           expressionToEval = expressionToEval
             .replace(/×/g, '*')
             .replace(/÷/g, '/')
@@ -861,7 +770,6 @@
             .replace(/\^/g, '^')
             .replace(/e/g, 'e');
           
-          // Manejo de funciones trigonométricas inversas
           if (isInv) {
             expressionToEval = expressionToEval
               .replace(/sin/g, 'asin')
@@ -874,7 +782,6 @@
               .replace(/tan/g, 'tan');
           }
           
-          // Conversión grados/radianes
           if (isDeg && !isInv) {
             expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
               function(match, func, angle) {
@@ -882,22 +789,18 @@
               });
           }
           
-          // Funciones logarítmicas
           expressionToEval = expressionToEval
             .replace(/ln/g, 'log')
             .replace(/log/g, 'log10');
           
-          // Factorial
           expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
             return `factorial(${num})`;
           });
           
-          // Porcentaje
           expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
             return `(${num}/100)`;
           });
           
-          // Evaluar con math.js usando BigNumber
           const result = math.evaluate(expressionToEval);
           
           let finalResult = result;
@@ -905,10 +808,8 @@
             finalResult = result * 180 / Math.PI;
           }
           
-          // Formatear el resultado para mostrar
           let formattedResult = formatLargeNumber(finalResult);
           
-          // Actualizar expresión con el resultado
           currentExpression = formattedResult;
           currentPreview = '0';
           parenthesisOpen = false;
@@ -930,213 +831,6 @@
           }, 1500);
         }
       }
-      
-      // ================================================
-      // SISTEMA DE VIBRACIÓN MEJORADO (sin cambios)
-      // ================================================
-      
-      // Configuración de vibración
-      let vibrationConfig = {
-        enabled: true,
-        intensity: 'medium',
-        type: 'short',
-        pattern: {
-          light: [15, 5, 10],
-          medium: [25, 10, 15],
-          strong: [40, 15, 20]
-        },
-        durations: {
-          short: 15,
-          medium: 30,
-          long: 50
-        }
-      };
-      
-      // Detectar capacidades del dispositivo
-      const deviceCapabilities = {
-        hasVibrationAPI: ('vibrate' in navigator),
-        isIOS: /iPhone|iPad|iPod/.test(navigator.userAgent),
-        isAndroid: /Android/.test(navigator.userAgent),
-        isChrome: /Chrome/.test(navigator.userAgent),
-        isSafari: /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent)
-      };
-      
-      // Función para detectar si el dispositivo soporta vibración
-      function detectVibrationSupport() {
-        console.log('Detectando capacidades de vibración:');
-        console.log('- API de vibración disponible:', deviceCapabilities.hasVibrationAPI);
-        console.log('- Sistema operativo:', deviceCapabilities.isIOS ? 'iOS' : deviceCapabilities.isAndroid ? 'Android' : 'Otro');
-        console.log('- Navegador:', deviceCapabilities.isChrome ? 'Chrome' : deviceCapabilities.isSafari ? 'Safari' : 'Otro');
-        
-        return deviceCapabilities.hasVibrationAPI || deviceCapabilities.isIOS;
-      }
-      
-      // Función mejorada para activar la vibración
-      function vibrateDevice(forceIntensity = null, forceType = null) {
-        if (!vibrationConfig.enabled) return false;
-        
-        const intensity = forceIntensity || vibrationConfig.intensity;
-        const type = forceType || vibrationConfig.type;
-        
-        // Si no hay API de vibración, intentamos alternativas para iOS
-        if (!deviceCapabilities.hasVibrationAPI) {
-          if (deviceCapabilities.isIOS) {
-            return vibrateIOSFallback(intensity, type);
-          }
-          return false;
-        }
-        
-        try {
-          let vibrationPattern;
-          
-          if (type === 'short') {
-            vibrationPattern = vibrationConfig.durations[type];
-          } else if (type === 'medium') {
-            vibrationPattern = vibrationConfig.pattern[intensity];
-          } else if (type === 'long') {
-            vibrationPattern = [vibrationConfig.durations[type], 20, vibrationConfig.durations[type]/2];
-          }
-          
-          if (deviceCapabilities.isAndroid) {
-            navigator.vibrate(vibrationPattern);
-          } else if (deviceCapabilities.isChrome) {
-            if (navigator.vibrate(vibrationPattern) === false) {
-              console.log('Vibración no soportada en este navegador');
-              return false;
-            }
-          } else {
-            navigator.vibrate(vibrationPattern);
-          }
-          
-          return true;
-        } catch (error) {
-          console.error('Error al activar vibración:', error);
-          
-          try {
-            navigator.vibrate(15);
-            return true;
-          } catch (e) {
-            console.error('Fallback de vibración también falló:', e);
-            return false;
-          }
-        }
-      }
-      
-      // Fallback para iOS
-      function vibrateIOSFallback(intensity, type) {
-        console.log('Usando fallback para iOS');
-        
-        try {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = audioContext.createOscillator();
-          const gainNode = audioContext.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(audioContext.destination);
-          
-          oscillator.frequency.setValueAtTime(60, audioContext.currentTime);
-          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-          
-          const duration = vibrationConfig.durations[type] / 1000;
-          
-          oscillator.start();
-          oscillator.stop(audioContext.currentTime + duration);
-          
-          return true;
-        } catch (audioError) {
-          console.log('Fallback de audio falló:', audioError);
-        }
-        
-        try {
-          const buttons = document.querySelectorAll('.button:active');
-          buttons.forEach(button => {
-            button.style.boxShadow = 'inset 0 0 10px rgba(76, 201, 240, 0.5)';
-            setTimeout(() => {
-              button.style.boxShadow = '';
-            }, 150);
-          });
-          
-          return true;
-        } catch (visualError) {
-          console.log('Fallback visual también falló:', visualError);
-        }
-        
-        return false;
-      }
-      
-      // Función para probar vibración
-      function testVibration(intensity = null, type = null) {
-        if (!vibrationConfig.enabled) {
-          alert('La vibración está desactivada. Actívala primero.');
-          return;
-        }
-        
-        const success = vibrateDevice(intensity, type);
-        
-        if (!success) {
-          console.log('No se pudo activar la vibración en este dispositivo');
-          
-          if (!deviceCapabilities.hasVibrationAPI) {
-            alert('Tu dispositivo o navegador no soporta vibración táctil. ' +
-                  'Asegúrate de usar un dispositivo móvil compatible.');
-          }
-        }
-      }
-      
-      // Función para guardar configuración de vibración
-      function saveVibrationConfig() {
-        try {
-          localStorage.setItem('vibrationConfig', JSON.stringify(vibrationConfig));
-          console.log('Configuración de vibración guardada:', vibrationConfig);
-          return true;
-        } catch (error) {
-          console.error('Error al guardar configuración:', error);
-          return false;
-        }
-      }
-      
-      // Función para cargar configuración de vibración
-      function loadVibrationConfig() {
-        try {
-          const savedConfig = localStorage.getItem('vibrationConfig');
-          if (savedConfig) {
-            const parsedConfig = JSON.parse(savedConfig);
-            vibrationConfig = { ...vibrationConfig, ...parsedConfig };
-            console.log('Configuración de vibración cargada:', vibrationConfig);
-          }
-        } catch (error) {
-          console.error('Error al cargar configuración:', error);
-        }
-        
-        updateVibrationUI();
-      }
-      
-      // Actualizar controles de la UI según configuración
-      function updateVibrationUI() {
-        const mainToggle = document.getElementById('vibrationToggle');
-        const modalToggle = document.getElementById('vibrationModalToggle');
-        
-        if (mainToggle) mainToggle.checked = vibrationConfig.enabled;
-        if (modalToggle) modalToggle.checked = vibrationConfig.enabled;
-        
-        document.querySelectorAll('.intensity-btn[data-intensity]').forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.dataset.intensity === vibrationConfig.intensity) {
-            btn.classList.add('active');
-          }
-        });
-        
-        document.querySelectorAll('.intensity-btn[data-type]').forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.dataset.type === vibrationConfig.type) {
-            btn.classList.add('active');
-          }
-        });
-      }
-      
-      // ================================================
-      // FUNCIONES EXISTENTES (sin cambios)
-      // ================================================
       
       // Función para cerrar paréntesis automáticamente
       function balanceParentheses(expression) {
@@ -1197,35 +891,13 @@
         }
       }
       
-      // Manejar clics en botones
+      // Manejar clics en botones CON VIBRACIÓN
       function handleButtonClick(event) {
         const button = event.target.closest('.button');
         if (!button) return;
         
-        // Vibración
-        if (vibrationConfig.enabled) {
-          const action = button.getAttribute('data-action');
-          const value = button.getAttribute('data-value');
-          
-          let vibrationType = 'short';
-          let vibrationIntensity = 'medium';
-          
-          if (action === 'equals') {
-            vibrationType = 'medium';
-            vibrationIntensity = 'strong';
-          } else if (action === 'clear' || action === 'backspace') {
-            vibrationType = 'short';
-            vibrationIntensity = 'light';
-          } else if (button.classList.contains('operator')) {
-            vibrationType = 'short';
-            vibrationIntensity = 'medium';
-          } else if (button.classList.contains('scientific-btn')) {
-            vibrationType = 'short';
-            vibrationIntensity = 'light';
-          }
-          
-          vibrateDevice(vibrationIntensity, vibrationType);
-        }
+        // Activar vibración si está habilitada
+        vibrateDevice();
         
         // Efecto visual
         button.style.transform = 'translateY(2px) scale(0.98)';
@@ -1356,7 +1028,7 @@
       }
       
       // ================================================
-      // FUNCIONES DE INTERFAZ (sin cambios)
+      // FUNCIONES DE INTERFAZ
       // ================================================
       
       // Mostrar/ocultar panel científico
@@ -1384,16 +1056,6 @@
             toggleScientificBtn.innerHTML = '<span>Funciones científicas ︽</span>';
           }
         }
-      }
-      
-      // Mostrar modal de configuración de vibración
-      function showVibrationModal() {
-        vibrationModal.classList.add('active');
-      }
-      
-      // Ocultar modal de configuración de vibración
-      function hideVibrationModal() {
-        vibrationModal.classList.remove('active');
       }
       
       // Manejar entrada por teclado
@@ -1437,79 +1099,42 @@
       }
       
       // ================================================
-      // CONFIGURACIÓN DEL SISTEMA DE VIBRACIÓN
+      // CONFIGURACIÓN DE VIBRACIÓN SIMPLIFICADA
       // ================================================
       
-      // Configurar eventos del modal de vibración
-      function setupVibrationModalEvents() {
-        vibrationTestBtn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          showVibrationModal();
-        });
-        
-        document.getElementById('testVibrationBtn').addEventListener('click', function() {
-          testVibration();
-        });
-        
-        document.getElementById('saveVibrationBtn').addEventListener('click', function() {
-          vibrationConfig.enabled = document.getElementById('vibrationModalToggle').checked;
-          
-          const intensityBtn = document.querySelector('.intensity-btn[data-intensity].active');
-          if (intensityBtn) {
-            vibrationConfig.intensity = intensityBtn.dataset.intensity;
+      // Cargar preferencia de vibración
+      function loadVibrationPreference() {
+        try {
+          const savedPreference = localStorage.getItem('hapticFeedback');
+          if (savedPreference !== null) {
+            hapticFeedbackEnabled = savedPreference === 'true';
+            document.getElementById('vibrationToggle').checked = hapticFeedbackEnabled;
           }
-          
-          const typeBtn = document.querySelector('.intensity-btn[data-type].active');
-          if (typeBtn) {
-            vibrationConfig.type = typeBtn.dataset.type;
-          }
-          
-          saveVibrationConfig();
-          
-          document.getElementById('vibrationToggle').checked = vibrationConfig.enabled;
-          
-          hideVibrationModal();
-          
-          if (vibrationConfig.enabled) {
-            testVibration();
-          }
-        });
-        
-        document.querySelectorAll('.intensity-btn[data-intensity]').forEach(btn => {
-          btn.addEventListener('click', function() {
-            document.querySelectorAll('.intensity-btn[data-intensity]').forEach(b => {
-              b.classList.remove('active');
-            });
-            this.classList.add('active');
-          });
-        });
-        
-        document.querySelectorAll('.intensity-btn[data-type]').forEach(btn => {
-          btn.addEventListener('click', function() {
-            document.querySelectorAll('.intensity-btn[data-type]').forEach(b => {
-              b.classList.remove('active');
-            });
-            this.classList.add('active');
-          });
-        });
-        
-        vibrationModal.addEventListener('click', function(e) {
-          if (e.target === vibrationModal) {
-            hideVibrationModal();
-          }
-        });
+        } catch (error) {
+          console.log('Error al cargar preferencia de vibración:', error);
+        }
       }
       
-      // Configurar interruptor de vibración principal
+      // Guardar preferencia de vibración
+      function saveVibrationPreference() {
+        try {
+          localStorage.setItem('hapticFeedback', hapticFeedbackEnabled);
+        } catch (error) {
+          console.log('Error al guardar preferencia de vibración:', error);
+        }
+      }
+      
+      // Configurar interruptor de vibración
       function setupVibrationToggle() {
         const vibrationToggle = document.getElementById('vibrationToggle');
         
         vibrationToggle.addEventListener('change', function() {
-          vibrationConfig.enabled = this.checked;
-          saveVibrationConfig();
+          hapticFeedbackEnabled = this.checked;
+          saveVibrationPreference();
           
-          if (vibrationConfig.enabled) {
-            testVibration();
+          // Probar vibración cuando se activa
+          if (hapticFeedbackEnabled) {
+            setTimeout(() => vibrateDevice(), 100);
           }
         });
       }
@@ -1520,15 +1145,11 @@
       
       // Inicializar
       function initialize() {
-        // Detectar capacidades del dispositivo
-        detectVibrationSupport();
+        // Cargar preferencia de vibración
+        loadVibrationPreference();
         
-        // Cargar configuración de vibración
-        loadVibrationConfig();
-        
-        // Configurar eventos de vibración
+        // Configurar interruptor de vibración
         setupVibrationToggle();
-        setupVibrationModalEvents();
         
         // Agregar event listeners a los botones
         document.querySelectorAll('.button').forEach(button => {
@@ -1548,16 +1169,10 @@
         updateScientificPanelVisibility();
         updateScreen();
         
-        // Mostrar información al iniciar
+        // Mostrar información del dispositivo
         console.log('✅ Calculadora científica inicializada');
-        console.log('✅ Sistema de números grandes configurado');
-        
-        // Probar vibración al inicio si está activada
-        if (vibrationConfig.enabled) {
-          setTimeout(() => {
-            testVibration('light', 'short');
-          }, 500);
-        }
+        console.log('✅ Capacidades del dispositivo:', deviceCapabilities);
+        console.log('✅ Vibración disponible:', deviceCapabilities.hasVibrationAPI);
       }
       
       // Verificar si estamos en Telegram WebApp
@@ -1569,6 +1184,11 @@
         Telegram.WebApp.expand();
         Telegram.WebApp.setBackgroundColor('#1e1e2e');
         Telegram.WebApp.setHeaderColor('#1e1e2e');
+        
+        // Si estamos en Telegram, usar su API de vibración si está disponible
+        if (Telegram.WebApp.HapticFeedback) {
+          console.log('✅ API de vibración de Telegram disponible');
+        }
       }
       
       // Inicializar la calculadora
