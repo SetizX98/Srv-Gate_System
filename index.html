@@ -40,7 +40,7 @@
       background-color: #1a1a2e;
       padding: 24px 20px;
       text-align: right;
-      min-height: 180px;
+      min-height: 180px; /* Aumentado de 160px a 180px */
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
@@ -48,29 +48,29 @@
     }
     
     .expression {
-      color: rgba(255, 255, 255, 0.95);
-      font-size: 2.2rem;
+      color: rgba(255, 255, 255, 0.95); /* Más visible */
+      font-size: 2.2rem; /* Reducido de 1.5rem a 2.2rem */
       font-weight: 500;
       word-break: break-all;
       text-align: right;
       min-height: 35px;
       overflow-x: auto;
       white-space: nowrap;
-      margin-bottom: 4px;
+      margin-bottom: 4px; /* Reducido espacio */
     }
     
     .result {
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 1.3rem;
-      font-weight: 400;
+      color: rgba(255, 255, 255, 0.7); /* Menos prominente */
+      font-size: 1.3rem; /* Reducido de 3.5rem a 1.3rem */
+      font-weight: 400; /* Más ligero */
       word-break: break-all;
       text-align: right;
       overflow-x: auto;
       line-height: 1.3;
-      min-height: 25px;
+      min-height: 25px; /* Reducido altura */
       overflow-y: auto;
-      max-height: 60px;
-      margin-bottom: 8px;
+      max-height: 60px; /* Reducido altura máxima */
+      margin-bottom: 8px; /* Espacio adicional */
     }
     
     .result::-webkit-scrollbar {
@@ -84,69 +84,6 @@
     .result::-webkit-scrollbar-thumb {
       background: #4cc9f0;
       border-radius: 2px;
-    }
-    
-    /* Nuevo estilo para el interruptor de vibración */
-    .vibration-toggle {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 8px 0;
-      background: linear-gradient(to bottom, #3a3a5e, #2d2d4a);
-      border-bottom: 1px solid #3a3a4e;
-    }
-    
-    .vibration-toggle label {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #a5b1c2;
-      font-size: 0.85rem;
-      cursor: pointer;
-    }
-    
-    .toggle-switch {
-      position: relative;
-      width: 40px;
-      height: 20px;
-    }
-    
-    .toggle-switch input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-    
-    .toggle-slider {
-      position: absolute;
-      cursor: pointer;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #2d2d4a;
-      transition: .3s;
-      border-radius: 20px;
-    }
-    
-    .toggle-slider:before {
-      position: absolute;
-      content: "";
-      height: 16px;
-      width: 16px;
-      left: 2px;
-      bottom: 2px;
-      background-color: white;
-      transition: .3s;
-      border-radius: 50%;
-    }
-    
-    input:checked + .toggle-slider {
-      background-color: #4cc9f0;
-    }
-    
-    input:checked + .toggle-slider:before {
-      transform: translateX(20px);
     }
     
     .toggle-scientific {
@@ -255,6 +192,7 @@
       background: linear-gradient(145deg, #5cd9ff, #4ab8e8);
     }
     
+    /* MODIFICACIÓN: Botón de porcentaje con color de operador */
     .percentage {
       background: linear-gradient(145deg, #4cc9f0, #3aa8d8);
       color: #1a1a2e;
@@ -295,6 +233,7 @@
       background: linear-gradient(145deg, #ff7b7b, #f65c5c);
     }
     
+    /* Modo horizontal (pantallas más anchas) */
     @media (min-width: 768px) {
       .scientific-buttons {
         max-height: 500px !important;
@@ -324,6 +263,7 @@
       }
     }
     
+    /* Para pantallas pequeñas */
     @media (max-width: 480px) {
       body {
         padding: 12px;
@@ -336,15 +276,15 @@
       
       .display {
         padding: 20px 16px;
-        min-height: 160px;
+        min-height: 160px; /* Aumentado de 140px a 160px */
       }
       
       .expression {
-        font-size: 1.9rem;
+        font-size: 1.9rem; /* Ajustado de 1.3rem a 1.9rem */
       }
       
       .result {
-        font-size: 1.1rem;
+        font-size: 1.1rem; /* Ajustado de 3rem a 1.1rem */
       }
       
       .button {
@@ -368,6 +308,7 @@
       }
     }
     
+    /* Para pantallas muy pequeñas */
     @media (max-width: 360px) {
       .button {
         height: 48px;
@@ -375,11 +316,11 @@
       }
       
       .expression {
-        font-size: 1.7rem;
+        font-size: 1.7rem; /* Ajustado de 1.2rem a 1.7rem */
       }
       
       .result {
-        font-size: 1rem;
+        font-size: 1rem; /* Ajustado de 2.5rem a 1rem */
       }
       
       .scientific-btn {
@@ -395,17 +336,6 @@
     <div class="display">
       <div class="expression" id="expression"></div>
       <div class="result" id="result">0</div>
-    </div>
-    
-    <!-- Interruptor de vibración -->
-    <div class="vibration-toggle">
-      <label>
-        <div class="toggle-switch">
-          <input type="checkbox" id="vibrationToggle" checked>
-          <span class="toggle-slider"></span>
-        </div>
-        Vibración táctil
-      </label>
     </div>
     
     <!-- Botón para mostrar/ocultar funciones científicas -->
@@ -478,7 +408,7 @@
       const degBtn = document.getElementById('deg-btn');
       const invBtn = document.getElementById('inv-btn');
       
-      // Estado de la calculadora
+      // Estado de la calculadora (copiado del código original)
       let currentExpression = '';
       let currentPreview = '0';
       let parenthesisOpen = false;
@@ -488,154 +418,38 @@
       let isInv = false;
       
       // ================================================
-      // FUNCIÓN DE VIBRACIÓN - AÑADIDA AQUÍ
+      // FUNCIONES DE LA CALCULADORA (del código original)
       // ================================================
       
-      // Variable para controlar si la vibración está activada
-      let hapticFeedbackEnabled = true;
-      
-      // Función para activar la vibración del dispositivo
-      function vibrateDevice() {
-        // Solo vibrar si está activado, el dispositivo lo soporta y no es iOS
-        if (hapticFeedbackEnabled && "vibrate" in navigator && !/iPhone|iPad|iPod/.test(navigator.userAgent)) {
-          // Vibración corta (15ms) - consumo mínimo de batería
-          navigator.vibrate(15);
-        }
-      }
-      
-      // ================================================
-      // NUEVAS FUNCIONES PARA FORMATO DE NÚMEROS
-      // ================================================
-      
-      /**
-       * Función para formatear números con separadores de miles
-       * Ejemplo: 1000000 -> "1,000,000"
-       */
-      function formatNumberWithCommas(numStr) {
-        // Si es un número en notación científica, lo convertimos primero
-        if (numStr.includes('e')) {
-          try {
-            // Convertimos la notación científica a número completo
-            const num = parseFloat(numStr);
-            if (isNaN(num)) return numStr;
-            
-            // Si el número es muy grande o muy pequeño, lo manejamos de forma especial
-            if (Math.abs(num) > 1e15 || (Math.abs(num) < 1e-6 && num !== 0)) {
-              // Para números extremadamente grandes/pequeños, mantenemos notación científica
-              // pero la formateamos mejor
-              return num.toExponential(10).replace(/(\.\d*?)(0+)e/, '$1e').replace(/\.e/, 'e');
-            }
-            
-            numStr = num.toString();
-          } catch (e) {
-            return numStr;
-          }
-        }
-        
-        // Separamos parte entera y decimal
-        const parts = numStr.split('.');
-        let integerPart = parts[0];
-        const decimalPart = parts.length > 1 ? '.' + parts[1] : '';
-        
-        // Añadimos comas cada 3 dígitos en la parte entera
-        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        
-        return integerPart + decimalPart;
-      }
-      
-      /**
-       * Función para formatear una expresión matemática manteniendo los números con comas
-       * pero sin afectar a las funciones matemáticas
-       */
-      function formatExpressionWithCommas(expression) {
-        if (!expression) return '';
-        
-        // Reemplazamos números en la expresión (excluyendo funciones como sin, cos, etc.)
-        return expression.replace(/(\d+(?:\.\d+)?)/g, function(match) {
-          return formatNumberWithCommas(match);
-        });
-      }
-      
-      /**
-       * Función para eliminar comas de un número formateado antes de realizar cálculos
-       */
-      function removeCommas(numStr) {
-        return numStr.replace(/,/g, '');
-      }
-      
-      /**
-       * Función para manejar números grandes sin notación científica
-       * Mantiene el número como string para evitar pérdida de precisión
-       */
-      function handleLargeNumber(result) {
-        try {
-          // Si el resultado es un número muy grande, lo mantenemos como string
-          if (typeof result === 'number' && (Math.abs(result) > 1e15 || 
-              (Math.abs(result) < 1e-6 && result !== 0))) {
-            // Para números extremadamente grandes, usamos notación de cadena
-            if (Math.abs(result) >= 1e21) {
-              return result.toExponential(10);
-            }
-            // Para números grandes pero manejables, intentamos string normal
-            const str = result.toString();
-            // Si aún está en notación científica, la convertimos
-            if (str.includes('e')) {
-              return result.toLocaleString('fullwide', { useGrouping: false });
-            }
-            return str;
-          }
-          
-          // Para números normales, los convertimos a string
-          let str = result.toString();
-          
-          // Si aparece notación científica, la manejamos
-          if (str.includes('e')) {
-            // Intentamos convertir a número completo
-            try {
-              // Usamos toLocaleString para evitar notación científica
-              str = result.toLocaleString('fullwide', { useGrouping: false });
-            } catch (e) {
-              // Si falla, mantenemos la notación científica pero la formateamos
-              str = result.toExponential(10)
-                .replace(/(\.\d*?)(0+)e/, '$1e')
-                .replace(/\.e/, 'e');
-            }
-          }
-          
-          return str;
-        } catch (e) {
-          return result.toString();
-        }
-      }
-      
-      // ================================================
-      // FUNCIONES MODIFICADAS DE LA CALCULADORA
-      // ================================================
-      
-      // Actualizar la pantalla (MODIFICADA)
+      // Actualizar la pantalla
       function updateScreen() {
-        // Mostramos la expresión con comas para mejor legibilidad
-        expressionElement.textContent = formatExpressionWithCommas(currentExpression) || '';
-        
-        // Mostramos el preview con comas
-        resultElement.textContent = formatNumberWithCommas(currentPreview);
+        expressionElement.textContent = currentExpression || '';
+        resultElement.textContent = currentPreview;
       }
       
-      // Agregar valor a la expresión (MODIFICADA)
+      // Agregar valor a la expresión
       function addToExpression(value) {
-        // Si el valor es un número o punto decimal, lo añadimos directamente
-        if (value.match(/[\d\.]/)) {
-          currentExpression += value;
-        } else {
-          // Para operadores y funciones, aseguramos que el último número no tenga comas
-          const cleanExpression = removeCommas(currentExpression);
-          currentExpression = cleanExpression + value;
-        }
+        currentExpression += value;
         updateScreen();
         updatePreview();
       }
       
-      // Borrar último carácter (MODIFICADA)
+      // Limpiar todo
+      function clearAll() {
+        currentExpression = '';
+        currentPreview = '0';
+        parenthesisOpen = false;
+        lastSqrtIndex = -1;
+        
+        if (previewTimeout) {
+          clearTimeout(previewTimeout);
+          previewTimeout = null;
+        }
+        
+        updateScreen();
+      }
+      
+      // Borrar último carácter
       function backspace() {
         if (currentExpression.slice(-2) === '√(') {
           lastSqrtIndex = -1;
@@ -647,205 +461,21 @@
           parenthesisOpen = true;
         }
         
-        // Eliminamos el último carácter de la expresión sin comas
-        const cleanExpression = removeCommas(currentExpression);
-        currentExpression = cleanExpression.slice(0, -1);
+        currentExpression = currentExpression.slice(0, -1);
         updateScreen();
         updatePreview();
       }
       
-      // Actualizar previsualización en tiempo real (MODIFICADA)
-      function updatePreview() {
-        if (previewTimeout) {
-          clearTimeout(previewTimeout);
-        }
-        
-        if (!currentExpression.trim()) {
-          currentPreview = '0';
-          updateScreen();
-          return;
-        }
-        
-        previewTimeout = setTimeout(() => {
-          try {
-            // Preparamos la expresión para evaluación (sin comas)
-            let expressionToEval = removeCommas(currentExpression);
-            
-            // Balanceamos paréntesis
-            expressionToEval = balanceParentheses(expressionToEval);
-            
-            // Reemplazamos símbolos para math.js
-            expressionToEval = expressionToEval
-              .replace(/×/g, '*')
-              .replace(/÷/g, '/')
-              .replace(/π/g, 'pi')
-              .replace(/√/g, 'sqrt')
-              .replace(/\^/g, '^')
-              .replace(/e/g, 'e');
-            
-            // Manejo de funciones trigonométricas inversas
-            if (isInv) {
-              expressionToEval = expressionToEval
-                .replace(/sin/g, 'asin')
-                .replace(/cos/g, 'acos')
-                .replace(/tan/g, 'atan');
-            } else {
-              expressionToEval = expressionToEval
-                .replace(/sin/g, 'sin')
-                .replace(/cos/g, 'cos')
-                .replace(/tan/g, 'tan');
-            }
-            
-            // Conversión grados/radianes
-            if (isDeg && !isInv) {
-              expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
-                function(match, func, angle) {
-                  return func + '(' + angle + '*pi/180)';
-                });
-            }
-            
-            // Funciones logarítmicas
-            expressionToEval = expressionToEval
-              .replace(/ln/g, 'log')
-              .replace(/log/g, 'log10');
-            
-            // Factorial
-            expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
-              return `factorial(${num})`;
-            });
-            
-            // Porcentaje
-            expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
-              return `(${num}/100)`;
-            });
-            
-            // Evaluamos la expresión
-            const result = math.evaluate(expressionToEval);
-            
-            // Formateamos el resultado para evitar notación científica
-            let formattedResult = handleLargeNumber(result);
-            
-            // Limitamos la longitud para pantalla
-            if (formattedResult.length > 20) {
-              // Si es un número entero muy largo, lo truncamos pero mantenemos como string
-              if (!formattedResult.includes('.') && !formattedResult.includes('e')) {
-                if (formattedResult.length > 30) {
-                  formattedResult = formattedResult.substring(0, 30) + '...';
-                }
-              } else if (formattedResult.includes('.')) {
-                // Para decimales, limitamos los dígitos decimales
-                const [integer, decimal] = formattedResult.split('.');
-                if (integer.length > 15) {
-                  formattedResult = integer.substring(0, 15) + '...';
-                } else if (decimal && decimal.length > 10) {
-                  formattedResult = integer + '.' + decimal.substring(0, 10);
-                }
-              }
-            }
-            
-            currentPreview = formattedResult;
-            updateScreen();
-            
-          } catch (error) {
-            currentPreview = '...';
-            updateScreen();
-          }
-        }, 200);
-      }
-      
-      // Calcular resultado final (MODIFICADA)
-      function calculateResult() {
-        if (!currentExpression) return;
-        
-        try {
-          // Preparamos la expresión para evaluación (sin comas)
-          let expressionToEval = removeCommas(currentExpression);
-          
-          // Balanceamos paréntesis
-          expressionToEval = balanceParentheses(expressionToEval);
-          
-          // Reemplazamos símbolos para math.js
-          expressionToEval = expressionToEval
-            .replace(/×/g, '*')
-            .replace(/÷/g, '/')
-            .replace(/π/g, 'pi')
-            .replace(/√/g, 'sqrt')
-            .replace(/\^/g, '^')
-            .replace(/e/g, 'e');
-          
-          // Manejo de funciones trigonométricas inversas
-          if (isInv) {
-            expressionToEval = expressionToEval
-              .replace(/sin/g, 'asin')
-              .replace(/cos/g, 'acos')
-              .replace(/tan/g, 'atan');
-          } else {
-            expressionToEval = expressionToEval
-              .replace(/sin/g, 'sin')
-              .replace(/cos/g, 'cos')
-              .replace(/tan/g, 'tan');
-          }
-          
-          // Conversión grados/radianes
-          if (isDeg && !isInv) {
-            expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
-              function(match, func, angle) {
-                return func + '(' + angle + '*pi/180)';
-              });
-          }
-          
-          // Funciones logarítmicas
-          expressionToEval = expressionToEval
-            .replace(/ln/g, 'log')
-            .replace(/log/g, 'log10');
-          
-          // Factorial
-          expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
-            return `factorial(${num})`;
-          });
-          
-          // Porcentaje
-          expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
-            return `(${num}/100)`;
-          });
-          
-          // Evaluamos
-          const result = math.evaluate(expressionToEval);
-          
-          let finalResult = result;
-          if (isDeg && isInv) {
-            finalResult = result * 180 / Math.PI;
-          }
-          
-          // Formateamos el resultado final
-          let formattedResult = handleLargeNumber(finalResult);
-          
-          // Actualizamos la expresión con el resultado (sin comas para futuros cálculos)
-          currentExpression = removeCommas(formattedResult);
-          currentPreview = '0';
+      // Manejar paréntesis
+      function handleParenthesis() {
+        if (parenthesisOpen) {
+          addToExpression(')');
           parenthesisOpen = false;
-          lastSqrtIndex = -1;
-          
-          updateScreen();
-          
-        } catch (error) {
-          console.error('Error en cálculo:', error);
-          currentPreview = 'Error';
-          updateScreen();
-          
-          setTimeout(() => {
-            currentPreview = '0';
-            currentExpression = '';
-            parenthesisOpen = false;
-            lastSqrtIndex = -1;
-            updateScreen();
-          }, 1500);
+        } else {
+          addToExpression('(');
+          parenthesisOpen = true;
         }
       }
-      
-      // ================================================
-      // FUNCIONES EXISTENTES (sin cambios)
-      // ================================================
       
       // Función para cerrar paréntesis automáticamente
       function balanceParentheses(expression) {
@@ -906,17 +536,168 @@
         }
       }
       
-      // ================================================
-      // FUNCIÓN MODIFICADA PARA MANEJAR CLICS CON VIBRACIÓN
-      // ================================================
+      // Actualizar previsualización en tiempo real
+      function updatePreview() {
+        if (previewTimeout) {
+          clearTimeout(previewTimeout);
+        }
+        
+        if (!currentExpression.trim()) {
+          currentPreview = '0';
+          updateScreen();
+          return;
+        }
+        
+        previewTimeout = setTimeout(() => {
+          try {
+            let expressionToEval = currentExpression;
+            
+            expressionToEval = balanceParentheses(expressionToEval);
+            
+            expressionToEval = expressionToEval
+              .replace(/×/g, '*')
+              .replace(/÷/g, '/')
+              .replace(/π/g, 'pi')
+              .replace(/√/g, 'sqrt')
+              .replace(/\^/g, '^')
+              .replace(/e/g, 'e');
+            
+            if (isInv) {
+              expressionToEval = expressionToEval
+                .replace(/sin/g, 'asin')
+                .replace(/cos/g, 'acos')
+                .replace(/tan/g, 'atan');
+            } else {
+              expressionToEval = expressionToEval
+                .replace(/sin/g, 'sin')
+                .replace(/cos/g, 'cos')
+                .replace(/tan/g, 'tan');
+            }
+            
+            if (isDeg && !isInv) {
+              expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
+                function(match, func, angle) {
+                  return func + '(' + angle + '*pi/180)';
+                });
+            }
+            
+            expressionToEval = expressionToEval
+              .replace(/ln/g, 'log')
+              .replace(/log/g, 'log10');
+            
+            expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
+              return `factorial(${num})`;
+            });
+            
+            expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
+              return `(${num}/100)`;
+            });
+            
+            const result = math.evaluate(expressionToEval);
+            
+            let formattedResult = result.toString();
+            
+            if (formattedResult.length > 12 && !isNaN(result)) {
+              formattedResult = Number(result).toPrecision(10);
+            }
+            
+            currentPreview = formattedResult;
+            updateScreen();
+            
+          } catch (error) {
+            currentPreview = '...';
+            updateScreen();
+          }
+        }, 200);
+      }
       
-      // Manejar clics en botones (MODIFICADA PARA INCLUIR VIBRACIÓN)
+      // Calcular resultado final
+      function calculateResult() {
+        if (!currentExpression) return;
+        
+        try {
+          let expressionToEval = currentExpression;
+          
+          expressionToEval = balanceParentheses(expressionToEval);
+          
+          expressionToEval = expressionToEval
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/')
+            .replace(/π/g, 'pi')
+            .replace(/√/g, 'sqrt')
+            .replace(/\^/g, '^')
+            .replace(/e/g, 'e');
+          
+          if (isInv) {
+            expressionToEval = expressionToEval
+              .replace(/sin/g, 'asin')
+              .replace(/cos/g, 'acos')
+              .replace(/tan/g, 'atan');
+          } else {
+            expressionToEval = expressionToEval
+              .replace(/sin/g, 'sin')
+              .replace(/cos/g, 'cos')
+              .replace(/tan/g, 'tan');
+          }
+          
+          if (isDeg && !isInv) {
+            expressionToEval = expressionToEval.replace(/(sin|cos|tan)\(([^)]+)\)/g, 
+              function(match, func, angle) {
+                return func + '(' + angle + '*pi/180)';
+              });
+          }
+          
+          expressionToEval = expressionToEval
+            .replace(/ln/g, 'log')
+            .replace(/log/g, 'log10');
+          
+          expressionToEval = expressionToEval.replace(/(\d+)!/g, function(match, num) {
+            return `factorial(${num})`;
+          });
+          
+          expressionToEval = expressionToEval.replace(/(\d+(\.\d+)?)%/g, function(match, num) {
+            return `(${num}/100)`;
+          });
+          
+          const result = math.evaluate(expressionToEval);
+          
+          let finalResult = result;
+          if (isDeg && isInv) {
+            finalResult = result * 180 / Math.PI;
+          }
+          
+          let formattedResult = finalResult.toString();
+          
+          if (formattedResult.length > 12 && !isNaN(finalResult)) {
+            formattedResult = Number(finalResult).toPrecision(10);
+          }
+          
+          currentExpression = formattedResult;
+          currentPreview = '0';
+          parenthesisOpen = false;
+          lastSqrtIndex = -1;
+          
+          updateScreen();
+          
+        } catch (error) {
+          console.error('Error en cálculo:', error);
+          currentPreview = 'Error';
+          updateScreen();
+          
+          setTimeout(() => {
+            currentPreview = '0';
+            currentExpression = '';
+            parenthesisOpen = false;
+            lastSqrtIndex = -1;
+            updateScreen();
+          }, 1500);
+        }
+      }
+      
+      // Manejar clics en botones
       function handleButtonClick(event) {
         const button = event.target.closest('.button');
         if (!button) return;
-        
-        // --- AÑADIDO: ACTIVAR VIBRACIÓN ---
-        vibrateDevice();
         
         button.style.transform = 'translateY(2px) scale(0.98)';
         setTimeout(() => {
@@ -1002,40 +783,11 @@
         }
       }
       
-      // Limpiar todo (sin cambios)
-      function clearAll() {
-        currentExpression = '';
-        currentPreview = '0';
-        parenthesisOpen = false;
-        lastSqrtIndex = -1;
-        
-        if (previewTimeout) {
-          clearTimeout(previewTimeout);
-          previewTimeout = null;
-        }
-        
-        updateScreen();
-      }
-      
-      // Manejar paréntesis (sin cambios)
-      function handleParenthesis() {
-        if (parenthesisOpen) {
-          addToExpression(')');
-          parenthesisOpen = false;
-        } else {
-          addToExpression('(');
-          parenthesisOpen = true;
-        }
-      }
-      
-      // ================================================
-      // FUNCIONES DE INTERFAZ (sin cambios)
-      // ================================================
-      
       // Mostrar/ocultar panel científico
       function toggleScientificPanel() {
         scientificButtons.classList.toggle('collapsed');
         
+        // Cambiar texto del botón
         if (scientificButtons.classList.contains('collapsed')) {
           toggleScientificBtn.innerHTML = '<span>Funciones científicas ︾</span>';
         } else {
@@ -1046,11 +798,14 @@
       // Actualizar visibilidad del panel científico según el tamaño de pantalla
       function updateScientificPanelVisibility() {
         if (window.innerWidth >= 768) {
+          // En pantallas grandes, mostrar siempre
           scientificButtons.classList.remove('collapsed');
           toggleScientificBtn.style.display = 'none';
         } else {
+          // En pantallas pequeñas, permitir mostrar/ocultar
           toggleScientificBtn.style.display = 'flex';
           
+          // Verificar el estado actual y establecer el texto correcto
           if (scientificButtons.classList.contains('collapsed')) {
             toggleScientificBtn.innerHTML = '<span>Funciones científicas ︾</span>';
           } else {
@@ -1059,7 +814,7 @@
         }
       }
       
-      // Manejar entrada por teclado (MODIFICADA para manejar comas)
+      // Manejar entrada por teclado
       function handleKeyboard(event) {
         const key = event.key;
         
@@ -1093,55 +848,11 @@
           addToExpression('π');
         } else if (key === 'e' || key === 'E') {
           addToExpression('e');
-        } else if (key === ',') {
-          // Ignoramos comas del teclado, ya que las añadimos automáticamente
-          event.preventDefault();
         }
       }
-      
-      // ================================================
-      // CONFIGURACIÓN DEL INTERRUPTOR DE VIBRACIÓN
-      // ================================================
-      
-      // Configurar el interruptor de vibración
-      const vibrationToggle = document.getElementById('vibrationToggle');
-      
-      // Cargar la preferencia guardada
-      function loadVibrationPreference() {
-        const savedPreference = localStorage.getItem('hapticFeedback');
-        if (savedPreference !== null) {
-          hapticFeedbackEnabled = savedPreference === 'true';
-          vibrationToggle.checked = hapticFeedbackEnabled;
-        }
-      }
-      
-      // Guardar la preferencia
-      function saveVibrationPreference() {
-        localStorage.setItem('hapticFeedback', hapticFeedbackEnabled);
-      }
-      
-      // Manejar cambio en el interruptor
-      vibrationToggle.addEventListener('change', function() {
-        hapticFeedbackEnabled = this.checked;
-        saveVibrationPreference();
-        
-        // Dar retroalimentación visual
-        if (hapticFeedbackEnabled) {
-          console.log('Vibración activada');
-        } else {
-          console.log('Vibración desactivada');
-        }
-      });
-      
-      // ================================================
-      // INICIALIZACIÓN
-      // ================================================
       
       // Inicializar
       function initialize() {
-        // Cargar preferencia de vibración
-        loadVibrationPreference();
-        
         // Agregar event listeners a los botones
         document.querySelectorAll('.button').forEach(button => {
           button.addEventListener('click', handleButtonClick);
