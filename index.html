@@ -804,11 +804,11 @@
           // En pantallas pequeñas, permitir mostrar/ocultar
           toggleScientificBtn.style.display = 'flex';
           
-          // Por defecto, expandido
-          if (!scientificButtons.classList.contains('collapsed')) {
-            toggleScientificBtn.innerHTML = '<span>Funciones científicas ︽</span>';
-          } else {
+          // Verificar el estado actual y establecer el texto correcto
+          if (scientificButtons.classList.contains('collapsed')) {
             toggleScientificBtn.innerHTML = '<span>Funciones científicas ︾</span>';
+          } else {
+            toggleScientificBtn.innerHTML = '<span>Funciones científicas ︽</span>';
           }
         }
       }
@@ -866,13 +866,10 @@
         // Manejar cambio de tamaño de ventana
         window.addEventListener('resize', updateScientificPanelVisibility);
         
-        // Inicializar visibilidad del panel - AHORA COMENZARÁ OCULTO
-if (window.innerWidth < 768) {
-    scientificButtons.classList.add('collapsed');
-    toggleScientificBtn.innerHTML = '<span>Funciones científicas ︾</span>';
-}
-updateScientificPanelVisibility();
-updateScreen();
+        // Inicializar visibilidad del panel
+        updateScientificPanelVisibility();
+        updateScreen();
+      }
       
       // Verificar si estamos en Telegram WebApp
       const isTelegramWebApp = window.Telegram && window.Telegram.WebApp;
